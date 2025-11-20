@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:w_allfit/HomeScreen.dart';
+import 'package:w_allfit/features/workout/presentation/screens/HomeScreen.dart';
 import 'package:w_allfit/b_navigation_bar.dart';
-import 'package:w_allfit/bloc/workout/workout_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
 import 'package:w_allfit/provider/session_provider.dart';
 
 void main() {

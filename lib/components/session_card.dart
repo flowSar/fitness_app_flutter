@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:w_allfit/bloc/workout/workout_bloc.dart";
-import "package:w_allfit/bloc/workout/workout_event.dart";
-import "package:w_allfit/bloc/workout/workout_state.dart";
+import "package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart";
+import "package:w_allfit/features/workout/presentation/bloc/workout_event.dart";
+import "package:w_allfit/features/workout/presentation/bloc/workout_state.dart";
 import "package:w_allfit/provider/session_provider.dart";
-import "package:w_allfit/screens/workout/workout_plan.dart";
-import "package:w_allfit/screens/workout/workout_session.dart";
+import "package:w_allfit/features/workout/presentation/screens/workout_plan.dart";
+import "package:w_allfit/features/workout/presentation/screens/workout_session.dart";
 import "package:w_allfit/services/database/FakeDatabase.dart";
 
 class SessionCard extends StatefulWidget {

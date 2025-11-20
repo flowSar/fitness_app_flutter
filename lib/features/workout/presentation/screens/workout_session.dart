@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
-import 'package:w_allfit/bloc/workout/workout_bloc.dart';
-import 'package:w_allfit/bloc/workout/workout_event.dart';
-import 'package:w_allfit/bloc/workout/workout_state.dart';
-import 'package:w_allfit/components/getting_ready.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_state.dart';
 import 'package:w_allfit/components/workout_counter.dart';
 import 'package:w_allfit/provider/session_provider.dart';
-import 'package:w_allfit/screens/workout/congratulation_screen.dart';
+import 'package:w_allfit/features/workout/presentation/screens/congratulation_screen.dart';
 
 class WorkoutSession extends StatefulWidget {
   final int id;

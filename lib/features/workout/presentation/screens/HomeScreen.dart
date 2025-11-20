@@ -1,8 +1,4 @@
-import "dart:ffi";
-
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
-import "package:w_allfit/screens/workout/workout_session.dart";
 import "package:w_allfit/components/session_card.dart";
 import "package:w_allfit/services/database/FakeDatabase.dart";
 import "package:w_allfit/services/database/database.dart";
