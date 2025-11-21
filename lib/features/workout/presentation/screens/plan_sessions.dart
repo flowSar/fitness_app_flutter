@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:w_allfit/core/services/database/FakeDatabase.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_event.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_state.dart';
+import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
+import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
+
+class PlanSessions extends StatefulWidget {
+  const PlanSessions({super.key});
+
+  @override
+  State<PlanSessions> createState() => _WorkoutSessionsState();
+}
+
+class _WorkoutSessionsState extends State<PlanSessions> {
+  @override
+  void initState() {
+    final planId = context.read<WorkoutProvider>().planId;
+    final sessionId = context.read<WorkoutProvider>().sessionId;
+    context.read<PlanSessionsBloc>().add(LoadPlanSessions(planId: planId));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final int planId = context.watch<WorkoutProvider>().planId;
+    return SafeArea(
+        child: Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              BlocBuilder<PlanSessionsBloc, PlanSessionsState>(
+                builder: (context, state) {
+                  if (state is PlanSessionsLoading) {
+                    final List<Map<String, Object>> sessions = state.sessions;
+                    final plan = state.plan;
+                    print('-----------sessions:${sessions.length}---------');
+                    return Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('${plan['image']}'),
+                                fit: BoxFit.cover),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 20, bottom: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${plan['name']}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 3),
+                                ),
+                                Text(
+                                  "${sessions.length} days left",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.sizeOf(context).height * 0.7,
+                          padding: EdgeInsets.only(bottom: 40),
+                          child: ListView.builder(
+                            itemCount: sessions.length,
+                            itemBuilder: (context, index) {
+                              return SessionCard(
+                                  day: index + 1,
+                                  sessionId: sessions[index]['id'] as int);
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                  return Text("");
+                },
+              )
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+}

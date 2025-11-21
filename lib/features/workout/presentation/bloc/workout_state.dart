@@ -12,6 +12,11 @@ class WorkoutInProgress extends WorkoutState {
       required this.sessionId});
 }
 
+class ProgramsLoading extends WorkoutState {
+  final List<Map<String, Object>> programs;
+  ProgramsLoading({required this.programs});
+}
+
 class SelectedWorkoutPlan extends WorkoutState {
   final List<Map<String, Object>> currentWorkoutPlan;
   SelectedWorkoutPlan({required this.currentWorkoutPlan});

@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import "package:w_allfit/components/session_card.dart";
-import "package:w_allfit/services/database/FakeDatabase.dart";
-import "package:w_allfit/services/database/database.dart";
+import "package:w_allfit/features/workout/presentation/components/session_card.dart";
 import "package:w_allfit/test_page.dart";
+import "../../../../core/services/database/FakeDatabase.dart";
+import "../../../../core/services/database/database.dart";
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});

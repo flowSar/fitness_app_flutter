@@ -3,10 +3,9 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_event.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_state.dart";
-import "package:w_allfit/provider/session_provider.dart";
 import "package:w_allfit/features/workout/presentation/screens/workout_plan.dart";
-import "package:w_allfit/features/workout/presentation/screens/workout_session.dart";
-import "package:w_allfit/services/database/FakeDatabase.dart";
+import "../../../../core/services/database/FakeDatabase.dart";
+import "../provider/workout_provider.dart";
 
 class SessionCard extends StatefulWidget {
   final int day;
@@ -28,7 +27,7 @@ class _SessionCardState extends State<SessionCard> {
             .read<WorkoutBloc>()
             .add(GetWorkoutPlanEvent(planId: widget.sessionId));
         // update session id
-        context.read<SessionProvider>().updateSessionId(widget.sessionId);
+        context.read<WorkoutProvider>().updateSessionId(widget.sessionId);
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => WorkoutPlan(
             id: widget.sessionId,

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_state.dart';
-import 'package:w_allfit/components/workout_counter.dart';
-import 'package:w_allfit/provider/session_provider.dart';
+import 'package:w_allfit/features/workout/presentation/components/workout_counter.dart';
 import 'package:w_allfit/features/workout/presentation/screens/congratulation_screen.dart';
+
+import '../provider/workout_provider.dart';
 
 class WorkoutSession extends StatefulWidget {
   final int id;
@@ -19,7 +20,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
 
   @override
   Widget build(BuildContext context) {
-    late int sessionId = context.watch<SessionProvider>().id;
+    late int sessionId = context.watch<WorkoutProvider>().sessionId;
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
@@ -56,7 +57,7 @@ class _WorkoutSessionState extends State<WorkoutSession> {
                               fit: BoxFit.cover,
                             ),
                             Text(
-                                "sessionid: ${context.watch<SessionProvider>().id}")
+                                "sessionid: ${context.watch<WorkoutProvider>().sessionId}")
                           ],
                         ),
                       ),

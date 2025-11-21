@@ -7,36 +7,72 @@ class FakeDatabase {
     }
   ];
 
-  static final plans = [
+  static final programs = [
     {
       "id": 1,
       "name": "Lose Fat",
       "description": "A 30-day fat-loss program with cardio-focused sessions.",
-      "sessions_number": 6
+      "sessions_number": 6,
+      "image": "assets/images/lose-weight.png",
+      "level": "beginner",
+      "duration": "30min"
     },
     {
       "id": 2,
       "name": "Build Muscle",
       "description": "A strength-focused hypertrophy program.",
-      "sessions_number": 6
+      "sessions_number": 15,
+      "image": "assets/images/legs.png",
+      "level": "beginner",
+      "duration": "30min"
     },
     {
       "id": 3,
       "name": "Full Body Strength",
       "description": "Functional strength and endurance training.",
-      "sessions_number": 6
+      "sessions_number": 6,
+      "image": "assets/images/lose-weight.png",
+      "level": "intermediate",
+      "duration": "30min"
     },
     {
       "id": 4,
       "name": "Core & Abs Shred",
       "description": "Core-focused routines to build stability and definition.",
-      "sessions_number": 6
+      "sessions_number": 6,
+      "image": "assets/images/legs.png",
+      "level": "intermediate",
+      "duration": "30min"
     },
     {
       "id": 5,
       "name": "Home Workout Challenge",
       "description": "No-equipment home training for overall fitness.",
-      "sessions_number": 6
+      "sessions_number": 6,
+      "image": "assets/images/lose-weight.png",
+      "level": "intermediate",
+      "duration": "30min"
+    },
+  ];
+
+  static final user_programs = [
+    {
+      "id": 1,
+      "name": "Lose Fat",
+      "description": "A 30-day fat-loss program with cardio-focused sessions.",
+      "sessions_number": 6,
+      "image": "assets/images/lose-weight.png",
+      "level": "beginner",
+      "duration": "30min"
+    },
+    {
+      "id": 2,
+      "name": "Build Muscle",
+      "description": "A strength-focused hypertrophy program.",
+      "sessions_number": 6,
+      "image": "assets/images/legs.png",
+      "level": "intermediate",
+      "duration": "30min"
     },
   ];
 
@@ -184,51 +220,16 @@ class FakeDatabase {
       "complete": false,
       'plan_id': 3,
       "progress": 0
+    },
+    {
+      "id": 6,
+      "name": "abs",
+      "day_number": 1,
+      "complete": false,
+      'plan_id': 3,
+      "progress": 0
     }
   ];
-
-  // static final List<Map<String, Object>> session_workout_plan = [
-  //   {
-  //     "id": 1,
-  //     "session_id": 1,
-  //     "exercise_id": 1,
-  //     'complete': false,
-  //     "sets": 0,
-  //     "reps": 0,
-  //     "duration_seconds": 30,
-  //     "rest": 20,
-  //   },
-  //   {
-  //     "id": 2,
-  //     "session_id": 1,
-  //     "exercise_id": 2,
-  //     'complete': false,
-  //     "sets": 0,
-  //     "reps": 0,
-  //     "duration_seconds": 30,
-  //     "rest": 20,
-  //   },
-  //   {
-  //     "id": 1,
-  //     "session_id": 1,
-  //     "exercise_id": 3,
-  //     'complete': false,
-  //     "sets": 0,
-  //     "reps": 0,
-  //     "duration_seconds": 30,
-  //     "rest": 20,
-  //   },
-  //   {
-  //     "id": 1,
-  //     "session_id": 1,
-  //     "exercise_id": 4,
-  //     'complete': false,
-  //     "sets": 0,
-  //     "reps": 0,
-  //     "duration_seconds": 30,
-  //     "rest": 20,
-  //   }
-  // ];
 
   static final List<Map<String, Object>> session_workout_plan = [
     for (int j = 1; j <= sessions.length; j++)
@@ -275,5 +276,13 @@ class FakeDatabase {
       "name": "Russian Twists",
       "image_url": "assets/gif/russian-twist.gif"
     },
+  ];
+
+  static final List<String> tags = [
+    'abs',
+    'arms',
+    'yoga',
+    'legs',
+    'lower body',
   ];
 }

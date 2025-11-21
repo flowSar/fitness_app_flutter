@@ -6,6 +6,8 @@ class StartWorkoutEvent extends WorkoutEvent {
   StartWorkoutEvent({required this.planId, required this.sessionId});
 }
 
+class LoadPrograms extends WorkoutEvent {}
+
 class GetWorkoutPlanEvent extends WorkoutEvent {
   final int planId;
   GetWorkoutPlanEvent({required this.planId});

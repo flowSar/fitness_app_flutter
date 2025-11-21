@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_state.dart';
-import 'package:w_allfit/provider/session_provider.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_getting_ready.dart';
-import 'package:w_allfit/services/database/FakeDatabase.dart';
+import '../../../../core/services/database/FakeDatabase.dart';
+import '../provider/workout_provider.dart';
 
 class WorkoutPlan extends StatefulWidget {
   final int id;
@@ -19,7 +19,7 @@ class WorkoutPlan extends StatefulWidget {
 class _WorkoutPlanState extends State<WorkoutPlan> {
   @override
   Widget build(BuildContext context) {
-    final int sessionId = context.read<SessionProvider>().sessionId;
+    final int sessionId = context.read<WorkoutProvider>().sessionId;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:w_allfit/features/workout/presentation/screens/HomeScreen.dart';
 import 'package:w_allfit/features/nutrition/presentation/nutrition_screen.dart';
 import 'package:w_allfit/features/settings/presentation/screens/settings_screen.dart';
+import 'package:w_allfit/features/workout/presentation/screens/workout_screen.dart';
 
 class BNavigationBar extends StatefulWidget {
   const BNavigationBar({super.key});
@@ -13,7 +13,8 @@ class BNavigationBar extends StatefulWidget {
 class _BNavigationBarState extends State<BNavigationBar> {
   late int screenIndex = 0;
   final screens = [
-    Homescreen(),
+    // Homescreen(),
+    WorkoutScreen(),
     NutritionScreen(),
     SettingsScreen(),
   ];

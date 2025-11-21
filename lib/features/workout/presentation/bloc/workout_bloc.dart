@@ -1,14 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_state.dart';
-import 'package:w_allfit/services/database/FakeDatabase.dart';
+import '../../../../core/services/database/FakeDatabase.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   WorkoutBloc() : super(InitialWorkoutStat()) {
+    on<LoadPrograms>(_loadPrograms);
     on<StartWorkoutEvent>(_startWorkout);
     on<NextExerciseEvent>(_nextWorkout);
     on<MarkExerciseCompleteEvent>(_markExerciseComplete);
     on<GetWorkoutPlanEvent>(_getWorkoutPlan);
+  }
+
+  void _loadPrograms(event, emit) {
+    final programs = FakeDatabase.user_programs;
+    emit(ProgramsLoading(programs: programs));
   }
 
   void _startWorkout(StartWorkoutEvent event, emit) {
