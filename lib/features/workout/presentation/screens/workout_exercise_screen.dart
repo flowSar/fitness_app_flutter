@@ -18,19 +18,28 @@ class WorkoutExerciseScreen extends StatefulWidget {
 }
 
 class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
-  late Timer _timer;
+  late Timer? _timer;
+  late int duration = 10;
   late double _progress = 1;
   late int count = 10;
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
-    startCountDown();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    final state = context.read<WorkoutSessionBloc>().state;
+    if (state is WorkoutExerciseInProgress) {
+      duration = state.sessionExercises['duration_seconds'] as int;
+      count = duration;
+      startCountDown();
+    }
+    // });
+
     super.initState();
   }
 
@@ -40,9 +49,9 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
         // if (count > 0) {
         count--;
         // }
-        _progress = count / 10;
+        _progress = count / duration;
         if (count <= 0) {
-          _timer.cancel();
+          _timer?.cancel();
           context.read<WorkoutSessionBloc>().add(NextWorkoutExercise());
           context.go("/workoutRest");
         }
@@ -73,12 +82,7 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
               child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
                 listener: (context, state) {
                   if (state is WorkoutComplete) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WorkoutCompleteScreen(),
-                      ),
-                    );
+                    context.go('/workoutComplete');
                   }
                 },
                 builder: (context, state) {
@@ -142,8 +146,8 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
                       TextButton(
                           onPressed: () {
                             setState(() {
-                              if (_timer.isActive) {
-                                _timer.cancel();
+                              if (_timer!.isActive) {
+                                _timer?.cancel();
                               } else {
                                 startCountDown();
                               }
@@ -151,10 +155,10 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
                           },
                           style: TextButton.styleFrom(
                               backgroundColor:
-                                  _timer.isActive ? Colors.red : Colors.green,
+                                  _timer!.isActive ? Colors.red : Colors.green,
                               fixedSize: Size(120, 45)),
                           child: Text(
-                            _timer.isActive ? "Pause" : "Resume",
+                            _timer!.isActive ? "Pause" : "Resume",
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           )),
                       TextButton(

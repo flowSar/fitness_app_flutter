@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plans_bloc.dart';
+import 'package:w_allfit/core/constants/plansType.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_event.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_state.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/workout_linear_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_plan_sessions.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -21,7 +25,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void initState() {
     context.read<UserPlansBloc>().add(LoadUserPlans());
     context.read<QuickStartWorkoutBloc>().add(LoadQuickStartWorkoutPlans());
-    context.read<PlansBloc>().add(LoadPopularPlans());
+    context
+        .read<PopularPlansBloc>()
+        .add(LoadPopularPlans(planType: PlanType.popular));
+    context
+        .read<BeginnerPlansBloc>()
+        .add(LoadBeginnerPlans(planType: PlanType.beginner));
+    context
+        .read<AdvancePlansBloc>()
+        .add(LoadAdvancePlans(planType: PlanType.advanced));
     super.initState();
   }
 
@@ -161,6 +173,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       height: 240,
                       width: MediaQuery.sizeOf(context).width,
                       child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
@@ -181,7 +194,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   return SizedBox();
                 },
               ),
+              SizedBox(
+                height: 10,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Popular Workouts',
@@ -190,16 +207,21 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
+                  Text('View more'),
                 ],
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
                 height: 100,
-                child: BlocBuilder<PlansBloc, PopularPlansState>(
+                child: BlocBuilder<PopularPlansBloc, PlansState>(
                   builder: (context, state) {
-                    if (state is PopularPlansLoading) {
-                      final List<Map<String, Object>> plans =
-                          state.popularPlans;
+                    if (state is PlansLoading &&
+                        state.planType == PlanType.popular) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state is PlansLoaded &&
+                        state.planType == PlanType.popular) {
+                      final List<Map<String, Object>> plans = state.plans;
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: plans.length,
@@ -216,7 +238,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   },
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'beginner Plans',
@@ -225,7 +251,82 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
+                  Text('View more'),
                 ],
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                height: 100,
+                child: BlocBuilder<BeginnerPlansBloc, PlansState>(
+                  builder: (context, state) {
+                    if (state is PlansLoading &&
+                        state.planType == PlanType.popular) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state is PlansLoaded &&
+                        state.planType == PlanType.beginner) {
+                      final List<Map<String, Object>> plans = state.plans;
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: plans.length > 3 ? 3 : plans.length,
+                        itemBuilder: (context, index) {
+                          return WorkoutLinearCard(
+                            sessionId: state.plansSessionsIds[index],
+                            plan: plans[index],
+                            w: 200,
+                          );
+                        },
+                      );
+                    }
+                    return SizedBox(
+                      child: Text("empty"),
+                    );
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Advanced Plans',
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  Text('View more'),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                height: 100,
+                child: BlocBuilder<AdvancePlansBloc, PlansState>(
+                  builder: (context, state) {
+                    if (state is PlansLoading &&
+                        state.planType == PlanType.advanced) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state is PlansLoaded &&
+                        state.planType == PlanType.advanced) {
+                      print("------------advanced ${state.planType}--------");
+                      final List<Map<String, Object>> plans = state.plans;
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: plans.length > 3 ? 3 : plans.length,
+                        itemBuilder: (context, index) {
+                          return WorkoutLinearCard(
+                            sessionId: state.plansSessionsIds[index],
+                            plan: plans[index],
+                            w: 200,
+                          );
+                        },
+                      );
+                    }
+                    return SizedBox(
+                      child: Text("empty"),
+                    );
+                  },
+                ),
               ),
             ],
           ),

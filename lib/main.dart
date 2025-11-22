@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:w_allfit/b_navigation_bar.dart';
 import 'package:w_allfit/core/router/routes.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
@@ -32,7 +33,13 @@ class _MyAppState extends State<MyApp> {
             create: (_) => UserPlansBloc(),
           ),
           BlocProvider(
-            create: (_) => PlansBloc(),
+            create: (_) => PopularPlansBloc(),
+          ),
+          BlocProvider(
+            create: (_) => BeginnerPlansBloc(),
+          ),
+          BlocProvider(
+            create: (_) => AdvancePlansBloc(),
           ),
           BlocProvider(
             create: (_) => QuickStartWorkoutBloc(),

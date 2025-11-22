@@ -6,8 +6,10 @@ import 'package:w_allfit/features/workout/presentation/screens/session_workout_p
 class WorkoutLinearCard extends StatelessWidget {
   final Map<String, Object> plan;
   final int sessionId;
+  final double? w;
+  final double? h;
   const WorkoutLinearCard(
-      {super.key, required this.plan, required this.sessionId});
+      {super.key, required this.plan, required this.sessionId, this.w, this.h});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,9 @@ class WorkoutLinearCard extends StatelessWidget {
             ));
       },
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.4,
-        height: 100,
-        margin: EdgeInsets.only(left: 4, right: 4),
+        width: this.w ?? MediaQuery.sizeOf(context).width * 0.4,
+        height: this.h ?? 100,
+        margin: EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('${plan['image']}'),

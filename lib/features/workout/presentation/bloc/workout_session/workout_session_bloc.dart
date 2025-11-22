@@ -13,14 +13,14 @@ class WorkoutSessionBloc
 
   void _startWorkingOut(StartWorkout event, emit) {
     final sessionId = event.sessionId;
-    final workoutExercises = FakeDatabase.session_workout_plan
+    final sessionExercises = FakeDatabase.session_workout_plan
         .where((plan) => plan['session_id'] == sessionId)
         .toList();
     final List<Map<String, Object>> exercises = FakeDatabase.exercises;
     late Map<String, Object> startExercise = exercises[0];
     int index = 0;
     // loop through session workout plan and find incomplete exercises
-    for (final exercise in workoutExercises) {
+    for (final exercise in sessionExercises) {
       //if the exercise is incomplete , get the exercise id and find it by index hch id id - 1.
 
       if (exercise['complete'] as bool == false) {
@@ -31,12 +31,18 @@ class WorkoutSessionBloc
       index++;
     }
     // if all exercises complete start from first exercise
-    if (index >= workoutExercises.length) {
+    if (index >= sessionExercises.length) {
       emit(WorkoutExerciseInProgress(
-          exercise: exercises[0], sessionId: sessionId, index: 0));
+          exercise: exercises[0],
+          sessionExercises: sessionExercises[0],
+          sessionId: sessionId,
+          index: 0));
     } else {
       emit(WorkoutExerciseInProgress(
-          exercise: startExercise, sessionId: sessionId, index: index));
+          exercise: startExercise,
+          sessionExercises: sessionExercises[index],
+          sessionId: sessionId,
+          index: index));
     }
   }
 
@@ -46,19 +52,25 @@ class WorkoutSessionBloc
     // get sessionId
     final sessionId = (state as WorkoutExerciseInProgress).sessionId;
     // get all workoutExercises for the current session
-    final workoutExercises = FakeDatabase.session_workout_plan
+    final sessionExercises = FakeDatabase.session_workout_plan
         .where((plan) => plan['session_id'] == sessionId)
         .toList();
-    if (nextIndex >= workoutExercises.length) {
+    if (nextIndex >= sessionExercises.length) {
       emit(WorkoutComplete());
     }
     // make previous exercise complete
-    workoutExercises[nextIndex - 1]['complete'] = true;
+    sessionExercises[nextIndex - 1]['complete'] = true;
     // get the next exercise
-    final exerciseId = workoutExercises[nextIndex]['exercise_id'] as int;
+    final exerciseId = sessionExercises[nextIndex]['exercise_id'] as int;
     final exercise = FakeDatabase.exercises[exerciseId - 1];
-    emit(WorkoutExerciseInProgress(
-        exercise: exercise, sessionId: sessionId, index: nextIndex));
+    emit(
+      WorkoutExerciseInProgress(
+        exercise: exercise,
+        sessionExercises: sessionExercises[nextIndex],
+        sessionId: sessionId,
+        index: nextIndex,
+      ),
+    );
   }
 
   void _updateWorkoutSessionProgress(UpdateWorkoutSessionProgress event, emit) {

@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
-import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_complete_screen.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_exercise_screen.dart';
 
 class WorkoutRestScreen extends StatefulWidget {
   const WorkoutRestScreen({super.key});
@@ -41,12 +37,7 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
         _progress = count / 10;
         if (count <= 0) {
           _timer.cancel();
-          context.push('/workoutExercise');
-          // Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => WorkoutExerciseScreen(),
-          //     ));
+          context.go('/workoutExercise');
         }
       });
     });
@@ -110,11 +101,7 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
               child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
                 listener: (context, state) {
                   if (state is WorkoutComplete) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WorkoutCompleteScreen(),
-                        ));
+                    context.go('/workoutComplete');
                   }
                 },
                 builder: (context, state) {
