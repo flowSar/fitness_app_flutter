@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:w_allfit/b_navigation_bar.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/popular_plans/popular_plans_bloc.dart';
+import 'package:w_allfit/core/router/routes.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/session_workout_plan_bloc.dart';
 
 import 'features/workout/presentation/provider/workout_provider.dart';
 
@@ -26,13 +29,19 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => WorkoutBloc(),
-          ),
-          BlocProvider(
             create: (_) => UserPlansBloc(),
           ),
           BlocProvider(
-            create: (_) => PopularPlansBloc(),
+            create: (_) => PlansBloc(),
+          ),
+          BlocProvider(
+            create: (_) => QuickStartWorkoutBloc(),
+          ),
+          BlocProvider(
+            create: (_) => SessionWorkoutPlanBloc(),
+          ),
+          BlocProvider(
+            create: (_) => WorkoutSessionBloc(),
           ),
           BlocProvider(
             create: (_) => PlanSessionsBloc(),
@@ -41,8 +50,8 @@ class _MyAppState extends State<MyApp> {
             create: (context) => WorkoutProvider(),
           ),
         ],
-        child: MaterialApp(
-          home: BNavigationBar(),
+        child: MaterialApp.router(
+          routerConfig: appRoutes,
         ));
   }
 }

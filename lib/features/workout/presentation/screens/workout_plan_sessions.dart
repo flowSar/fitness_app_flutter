@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/core/services/database/FakeDatabase.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_event.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_state.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
-class PlanSessions extends StatefulWidget {
-  const PlanSessions({super.key});
+class WorkoutPlanSessions extends StatefulWidget {
+  const WorkoutPlanSessions({super.key});
 
   @override
-  State<PlanSessions> createState() => _WorkoutSessionsState();
+  State<WorkoutPlanSessions> createState() => _WorkoutSessionsState();
 }
 
-class _WorkoutSessionsState extends State<PlanSessions> {
+class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
   @override
   void initState() {
     final planId = context.read<WorkoutProvider>().planId;
     final sessionId = context.read<WorkoutProvider>().sessionId;
     context.read<PlanSessionsBloc>().add(LoadPlanSessions(planId: planId));
+    context
+        .read<WorkoutSessionBloc>()
+        .add(UpdateWorkoutSessionProgress(sessionId: sessionId));
     super.initState();
   }
 
@@ -82,8 +83,10 @@ class _WorkoutSessionsState extends State<PlanSessions> {
                             itemCount: sessions.length,
                             itemBuilder: (context, index) {
                               return SessionCard(
-                                  day: index + 1,
-                                  sessionId: sessions[index]['id'] as int);
+                                progress: sessions[index]['progress'] as int,
+                                day: index + 1,
+                                sessionId: sessions[index]['id'] as int,
+                              );
                             },
                           ),
                         )

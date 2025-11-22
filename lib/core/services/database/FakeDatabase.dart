@@ -15,7 +15,8 @@ class FakeDatabase {
       "sessions_number": 6,
       "image": "assets/images/lose-weight.png",
       "level": "beginner",
-      "duration": "30min"
+      "duration": "30min",
+      "type": "program",
     },
     {
       "id": 2,
@@ -24,7 +25,8 @@ class FakeDatabase {
       "sessions_number": 15,
       "image": "assets/images/legs.png",
       "level": "beginner",
-      "duration": "30min"
+      "duration": "30min",
+      "type": "program",
     },
     {
       "id": 3,
@@ -33,7 +35,8 @@ class FakeDatabase {
       "sessions_number": 6,
       "image": "assets/images/lose-weight.png",
       "level": "intermediate",
-      "duration": "30min"
+      "duration": "30min",
+      "type": "program",
     },
     {
       "id": 4,
@@ -42,7 +45,8 @@ class FakeDatabase {
       "sessions_number": 6,
       "image": "assets/images/legs.png",
       "level": "intermediate",
-      "duration": "30min"
+      "duration": "30min",
+      "type": "program",
     },
     {
       "id": 5,
@@ -51,8 +55,59 @@ class FakeDatabase {
       "sessions_number": 6,
       "image": "assets/images/lose-weight.png",
       "level": "intermediate",
-      "duration": "30min"
+      "duration": "30min",
+      "type": "program",
     },
+    {
+      "id": 6,
+      "name": "Home Workout Challenge",
+      "description": "No-equipment home training for overall fitness.",
+      "sessions_number": 6,
+      "image": "assets/images/lose-weight.png",
+      "level": "intermediate",
+      "duration": "30min",
+      "type": "program",
+    },
+    {
+      "id": 7,
+      "name": "abs Workout",
+      "description": "No-equipment home training for overall fitness.",
+      "sessions_number": 6,
+      "image": "assets/images/abs-workout0.jpg",
+      "level": "beginner",
+      "duration": "30min",
+      "type": "quick",
+    },
+    {
+      "id": 8,
+      "name": "HIIT Workout",
+      "description": "No-equipment home training for overall fitness.",
+      "sessions_number": 6,
+      "image": "assets/images/Hiit-workout.jpg",
+      "level": "beginner",
+      "duration": "30min",
+      "type": "quick",
+    },
+    {
+      "id": 9,
+      "name": "Cardio",
+      "description": "No-equipment home training for overall fitness.",
+      "sessions_number": 6,
+      "image": "assets/images/cardio.jpg",
+      "level": "beginner",
+      "duration": "30min",
+      "type": "quick",
+    },
+    {
+      "id": 10,
+      "name": "Yoga Flow",
+      "description": "No-equipment home training for overall fitness.",
+      "sessions_number": 6,
+      "image": "assets/images/yoga.jpg",
+      "level": "beginner",
+      "duration": "30min",
+      "type": "quick",
+    }
   ];
 
   static final user_programs = [
@@ -61,19 +116,40 @@ class FakeDatabase {
       "name": "Lose Fat",
       "description": "A 30-day fat-loss program with cardio-focused sessions.",
       "sessions_number": 6,
-      "image": "assets/images/lose-weight.png",
+      "image": "assets/images/lose-weight.webp",
+      "duration": "6",
       "level": "beginner",
-      "duration": "30min"
+      // "duration": "30min"
     },
     {
       "id": 2,
       "name": "Build Muscle",
       "description": "A strength-focused hypertrophy program.",
-      "sessions_number": 6,
-      "image": "assets/images/legs.png",
+      "sessions_number": 7,
+      "image": "assets/images/legs.webp",
+      "duration": "7",
       "level": "intermediate",
-      "duration": "30min"
+      // "duration": "30min"
     },
+  ];
+
+  static final List<Map<String, Object>> quickStartWorkout = [
+    {
+      "id": 1,
+      "plan_id": 7,
+    },
+    {
+      "id": 2,
+      "plan_id": 8,
+    },
+    {
+      "id": 3,
+      "plan_id": 9,
+    },
+    {
+      "id": 4,
+      "plan_id": 10,
+    }
   ];
 
   static final List<Map<String, Object>> sessions = [
@@ -83,7 +159,8 @@ class FakeDatabase {
       "day_number": 1,
       "complete": false,
       'plan_id': 1,
-      "progress": 0
+      "progress": 0,
+      "duration": "6",
     },
     {
       "id": 2,
@@ -126,7 +203,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 1,
+      "id": 7,
       "name": "session 1",
       "day_number": 1,
       "complete": false,
@@ -134,7 +211,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 2,
+      "id": 8,
       "name": "session 1",
       "day_number": 2,
       "complete": false,
@@ -142,7 +219,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 3,
+      "id": 9,
       "name": "session 1",
       "day_number": 3,
       "complete": false,
@@ -150,7 +227,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 4,
+      "id": 10,
       "name": "session 1",
       "day_number": 4,
       "complete": false,
@@ -158,7 +235,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 5,
+      "id": 11,
       "name": "session 1",
       "day_number": 5,
       "complete": false,
@@ -166,7 +243,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 6,
+      "id": 12,
       "name": "session 1",
       "day_number": 6,
       "complete": false,
@@ -174,7 +251,15 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 1,
+      "id": 13,
+      "name": "session 1",
+      "day_number": 7,
+      "complete": false,
+      'plan_id': 2,
+      "progress": 0
+    },
+    {
+      "id": 14,
       "name": "session 1",
       "day_number": 1,
       "complete": false,
@@ -182,7 +267,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 2,
+      "id": 15,
       "name": "session 1",
       "day_number": 2,
       "complete": false,
@@ -190,7 +275,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 3,
+      "id": 16,
       "name": "session 1",
       "day_number": 3,
       "complete": false,
@@ -198,7 +283,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 4,
+      "id": 17,
       "name": "session 1",
       "day_number": 4,
       "complete": false,
@@ -206,7 +291,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 5,
+      "id": 18,
       "name": "session 1",
       "day_number": 5,
       "complete": false,
@@ -214,7 +299,7 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 6,
+      "id": 19,
       "name": "session 1",
       "day_number": 6,
       "complete": false,
@@ -222,11 +307,43 @@ class FakeDatabase {
       "progress": 0
     },
     {
-      "id": 6,
+      "id": 20,
       "name": "abs",
       "day_number": 1,
       "complete": false,
       'plan_id': 3,
+      "progress": 0
+    },
+    {
+      "id": 21,
+      "name": "abs",
+      "day_number": 1,
+      "complete": false,
+      'plan_id': 7,
+      "progress": 0
+    },
+    {
+      "id": 22,
+      "name": "abs",
+      "day_number": 1,
+      "complete": false,
+      'plan_id': 8,
+      "progress": 0
+    },
+    {
+      "id": 23,
+      "name": "abs",
+      "day_number": 1,
+      "complete": false,
+      'plan_id': 9,
+      "progress": 0
+    },
+    {
+      "id": 24,
+      "name": "abs",
+      "day_number": 1,
+      "complete": false,
+      'plan_id': 10,
       "progress": 0
     }
   ];

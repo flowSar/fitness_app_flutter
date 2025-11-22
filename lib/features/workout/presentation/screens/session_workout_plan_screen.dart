@@ -1,0 +1,182 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/session_workout_plan_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
+import '../../../../core/services/database/FakeDatabase.dart';
+import '../provider/workout_provider.dart';
+
+class SessionWorkoutPlanScreen extends StatefulWidget {
+  final int id;
+  const SessionWorkoutPlanScreen({super.key, required this.id});
+
+  @override
+  State<SessionWorkoutPlanScreen> createState() => _WorkoutPlanState();
+}
+
+class _WorkoutPlanState extends State<SessionWorkoutPlanScreen> {
+  late String level = '';
+  late String coverImage = '';
+
+  @override
+  void initState() {
+    final sessionId = context.read<WorkoutProvider>().sessionId;
+    final planId = context.read<WorkoutProvider>().planId;
+    context
+        .read<SessionWorkoutPlanBloc>()
+        .add(LoadSessionWorkoutPlan(planId: planId, sessionId: sessionId));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final int sessionId = context.read<WorkoutProvider>().sessionId;
+    return SafeArea(
+        child: Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.sizeOf(context).height * 0.24,
+              width: MediaQuery.sizeOf(context).width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(coverImage),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        '${level}',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text('level')
+                    ],
+                  ),
+                  Container(
+                    color: Colors.blueGrey,
+                    width: 1,
+                    height: 40,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        '=142',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text('kcal')
+                    ],
+                  ),
+                  Container(
+                    color: Colors.blueGrey,
+                    width: 1,
+                    height: 40,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        '11:52',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text('duration')
+                    ],
+                  )
+                ],
+              ),
+            ),
+            BlocConsumer<SessionWorkoutPlanBloc, SessionWorkoutPlanState>(
+              listener: (context, state) {
+                if (state is SessionWorkoutPlanLoading) {
+                  final plan = state.plan;
+                  setState(() {
+                    level = plan['level'] as String;
+                    coverImage = plan['image'] as String;
+                  });
+                  print('----------plan nmae: ${plan['level']}-------------');
+                }
+              },
+              builder: (context, state) {
+                if (state is SessionWorkoutPlanLoading) {
+                  final List<Map<String, Object>> workoutPlan =
+                      state.workoutPlan;
+
+                  return Container(
+                    color: Colors.white70,
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height * 0.6,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: ListView.builder(
+                      itemCount: workoutPlan.length,
+                      itemBuilder: (context, index) {
+                        final exerciseId =
+                            workoutPlan[index]['exercise_id'] as int;
+                        final exercises =
+                            FakeDatabase.exercises[exerciseId - 1];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${exercises['name']}",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blueGrey,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    "${exercises['image_url']}",
+                                    height: 150,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.center,
+                                  )
+                                ]),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                }
+
+                return Text("test");
+              },
+            )
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        width: 150,
+        height: 45,
+        child: FloatingActionButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkoutPrepareScreen(),
+                ));
+          },
+          child: Text("Start"),
+        ),
+      ),
+    ));
+  }
+}

@@ -1,16 +1,21 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:w_allfit/features/workout/presentation/bloc/workout_bloc.dart";
-import "package:w_allfit/features/workout/presentation/bloc/workout_event.dart";
-import "package:w_allfit/features/workout/presentation/bloc/workout_state.dart";
-import "package:w_allfit/features/workout/presentation/screens/workout_plan.dart";
+import "package:percent_indicator/circular_percent_indicator.dart";
+import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart";
+import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart";
+import "package:w_allfit/features/workout/presentation/screens/session_workout_plan_screen.dart";
 import "../../../../core/services/database/FakeDatabase.dart";
 import "../provider/workout_provider.dart";
 
 class SessionCard extends StatefulWidget {
   final int day;
   final int sessionId;
-  const SessionCard({super.key, required this.day, required this.sessionId});
+  final int progress;
+  const SessionCard(
+      {super.key,
+      required this.day,
+      required this.sessionId,
+      required this.progress});
 
   @override
   State<SessionCard> createState() => _SessionCardState();
@@ -19,36 +24,31 @@ class SessionCard extends StatefulWidget {
 class _SessionCardState extends State<SessionCard> {
   @override
   Widget build(BuildContext context) {
+    print("-----------progress${widget.progress}----------");
     final session = FakeDatabase.sessions[widget.sessionId - 1];
     late bool sessionComplete = session['complete'] as bool;
     return InkWell(
       onTap: () {
-        context
-            .read<WorkoutBloc>()
-            .add(GetWorkoutPlanEvent(planId: widget.sessionId));
         // update session id
         context.read<WorkoutProvider>().updateSessionId(widget.sessionId);
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => WorkoutPlan(
+          builder: (context) => SessionWorkoutPlanScreen(
             id: widget.sessionId,
           ),
         ));
       },
       child: Card(
         elevation: 4,
-        child: BlocConsumer<WorkoutBloc, WorkoutState>(
-          listener: (context, state) {
-            if (state is SessionComplete) {
-              setState(() {
-                sessionComplete = true;
-              });
-            }
-          },
+        child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
+          listener: (context, state) {},
           builder: (context, state) {
             return ListTile(
               title: Text(
-                'Day ${this.widget.day}',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                'Day ${widget.day}',
+                style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
               ),
               subtitle: Text('6 minute left'),
               trailing: sessionComplete
@@ -56,7 +56,12 @@ class _SessionCardState extends State<SessionCard> {
                       'Complete',
                       style: TextStyle(color: Colors.green),
                     )
-                  : Text('0%'),
+                  : CircularPercentIndicator(
+                      radius: 25,
+                      lineWidth: 4,
+                      percent: widget.progress.toDouble() / 100,
+                      center: Text('${widget.progress}%'),
+                    ),
             );
           },
         ),
