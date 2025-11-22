@@ -5,7 +5,7 @@ abstract class PlansState {}
 class PlansInitialState extends PlansState {}
 
 class PlansLoading extends PlansState {
-  final PlanType planType;
+  final PlanBlocType planType;
   final List<Map<String, Object>> plans;
   final List<int> plansSessionsIds;
   PlansLoading(
@@ -15,7 +15,7 @@ class PlansLoading extends PlansState {
 }
 
 class PlansLoaded extends PlansState {
-  final PlanType planType;
+  final PlanBlocType planType;
   final List<Map<String, Object>> plans;
   final List<int> plansSessionsIds;
   PlansLoaded(

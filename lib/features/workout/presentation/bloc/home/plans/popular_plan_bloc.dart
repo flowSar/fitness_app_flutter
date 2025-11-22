@@ -11,7 +11,7 @@ class PopularPlansBloc extends Bloc<PlansEvent, PlansState> {
 
   void _loadPopularPlans(LoadPopularPlans event, emit) {
     emit(PlansLoading(
-        planType: PlanType.popular, plans: [], plansSessionsIds: []));
+        planType: PlanBlocType.popular, plans: [], plansSessionsIds: []));
     final beginnerPlans = FakeDatabase.programs;
     final popularPlansIds = FakeDatabase.programs.map((plan) => plan['id']);
     final sessionsIds = FakeDatabase.sessions
@@ -20,7 +20,7 @@ class PopularPlansBloc extends Bloc<PlansEvent, PlansState> {
         .toList();
 
     emit(PlansLoaded(
-        planType: PlanType.popular,
+        planType: PlanBlocType.popular,
         plans: beginnerPlans,
         plansSessionsIds: sessionsIds.cast<int>()));
   }

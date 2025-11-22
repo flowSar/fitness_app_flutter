@@ -27,13 +27,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     context.read<QuickStartWorkoutBloc>().add(LoadQuickStartWorkoutPlans());
     context
         .read<PopularPlansBloc>()
-        .add(LoadPopularPlans(planType: PlanType.popular));
+        .add(LoadPopularPlans(planType: PlanBlocType.popular));
     context
         .read<BeginnerPlansBloc>()
-        .add(LoadBeginnerPlans(planType: PlanType.beginner));
+        .add(LoadBeginnerPlans(planType: PlanBlocType.beginner));
     context
         .read<AdvancePlansBloc>()
-        .add(LoadAdvancePlans(planType: PlanType.advanced));
+        .add(LoadAdvancePlans(planType: PlanBlocType.advanced));
     super.initState();
   }
 
@@ -216,11 +216,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: BlocBuilder<PopularPlansBloc, PlansState>(
                   builder: (context, state) {
                     if (state is PlansLoading &&
-                        state.planType == PlanType.popular) {
+                        state.planType == PlanBlocType.popular) {
                       return CircularProgressIndicator();
                     }
                     if (state is PlansLoaded &&
-                        state.planType == PlanType.popular) {
+                        state.planType == PlanBlocType.popular) {
                       final List<Map<String, Object>> plans = state.plans;
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -260,11 +260,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: BlocBuilder<BeginnerPlansBloc, PlansState>(
                   builder: (context, state) {
                     if (state is PlansLoading &&
-                        state.planType == PlanType.popular) {
+                        state.planType == PlanBlocType.popular) {
                       return CircularProgressIndicator();
                     }
                     if (state is PlansLoaded &&
-                        state.planType == PlanType.beginner) {
+                        state.planType == PlanBlocType.beginner) {
                       final List<Map<String, Object>> plans = state.plans;
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -303,11 +303,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: BlocBuilder<AdvancePlansBloc, PlansState>(
                   builder: (context, state) {
                     if (state is PlansLoading &&
-                        state.planType == PlanType.advanced) {
+                        state.planType == PlanBlocType.advanced) {
                       return CircularProgressIndicator();
                     }
                     if (state is PlansLoaded &&
-                        state.planType == PlanType.advanced) {
+                        state.planType == PlanBlocType.advanced) {
                       print("------------advanced ${state.planType}--------");
                       final List<Map<String, Object>> plans = state.plans;
                       return ListView.builder(

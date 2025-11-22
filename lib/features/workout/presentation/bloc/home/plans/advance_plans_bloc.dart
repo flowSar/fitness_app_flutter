@@ -10,7 +10,7 @@ class AdvancePlansBloc extends Bloc<PlansEvent, PlansState> {
   }
   void _loadAdvancePlans(LoadAdvancePlans event, emit) {
     emit(PlansLoading(
-        planType: PlanType.advanced, plans: [], plansSessionsIds: []));
+        planType: PlanBlocType.advanced, plans: [], plansSessionsIds: []));
     final beginnerPlans = FakeDatabase.programs
         .where((plan) => plan['level'] == 'Advance')
         .toList();
@@ -21,7 +21,7 @@ class AdvancePlansBloc extends Bloc<PlansEvent, PlansState> {
         .toList();
 
     emit(PlansLoaded(
-        planType: PlanType.advanced,
+        planType: PlanBlocType.advanced,
         plans: beginnerPlans,
         plansSessionsIds: sessionsIds.cast<int>()));
   }

@@ -359,7 +359,6 @@ class FakeDatabase {
           "sets": 3,
           "reps": 12,
           "duration_seconds": 5,
-          "rest": 20,
         }
   ];
 

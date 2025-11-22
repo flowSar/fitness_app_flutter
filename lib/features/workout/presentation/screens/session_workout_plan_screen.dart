@@ -103,7 +103,6 @@ class _WorkoutPlanState extends State<SessionWorkoutPlanScreen> {
                     level = plan['level'] as String;
                     coverImage = plan['image'] as String;
                   });
-                  print('----------plan nmae: ${plan['level']}-------------');
                 }
               },
               builder: (context, state) {
@@ -138,6 +137,7 @@ class _WorkoutPlanState extends State<SessionWorkoutPlanScreen> {
                             ),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Image.asset(
                                     "${exercises['image_url']}",
@@ -145,7 +145,14 @@ class _WorkoutPlanState extends State<SessionWorkoutPlanScreen> {
                                     width: 200,
                                     fit: BoxFit.cover,
                                     alignment: Alignment.center,
-                                  )
+                                  ),
+                                  Text(
+                                    '30 s',
+                                    style: TextStyle(
+                                        color: Colors.orange,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ]),
                           ],
                         );
