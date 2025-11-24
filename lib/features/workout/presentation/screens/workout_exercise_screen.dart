@@ -1,14 +1,12 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
-import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_complete_screen.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_rest_screen.dart';
 
 class WorkoutExerciseScreen extends StatefulWidget {
   const WorkoutExerciseScreen({super.key});
@@ -22,6 +20,7 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
   late int duration = 10;
   late double _progress = 1;
   late int count = 10;
+  final player = AudioPlayer();
 
   @override
   void dispose() {
@@ -50,8 +49,12 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
         count--;
         // }
         _progress = count / duration;
+        if (count == 4) {
+          playCountDown();
+        }
         if (count <= 0) {
           _timer?.cancel();
+          player.pause();
           context.read<WorkoutSessionBloc>().add(NextWorkoutExercise());
           context.go("/workoutRest");
         }
@@ -59,10 +62,16 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
     });
   }
 
+  void playCountDown() async {
+    await player.play(AssetSource('sounds/clock-countdown.wav'));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
         child: Scaffold(
+      backgroundColor: isDark ? Colors.white : Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),

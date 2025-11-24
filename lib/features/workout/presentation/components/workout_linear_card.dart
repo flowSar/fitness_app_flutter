@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
-import 'package:w_allfit/features/workout/presentation/screens/session_workout_plan_screen.dart';
+import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 
 class WorkoutLinearCard extends StatelessWidget {
   final Map<String, Object> plan;
@@ -20,7 +20,7 @@ class WorkoutLinearCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SessionWorkoutPlanScreen(id: sessionId),
+              builder: (context) => WorkoutPlanSessionScreen(id: sessionId),
             ));
       },
       child: Container(
@@ -45,6 +45,13 @@ class WorkoutLinearCard extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
+                    shadows: [
+                      Shadow(
+                          offset: Offset(2, 2), // move shadow right & down
+                          blurRadius: 4, // how blurry the shadow is
+                          color: Colors.black54 // shadow color
+                          )
+                    ],
                     fontWeight: FontWeight.bold),
               ),
             ],

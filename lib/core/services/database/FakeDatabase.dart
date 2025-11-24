@@ -1,4 +1,5 @@
 class FakeDatabase {
+  static bool darkMode = false;
   static final Users = [
     {
       "name": "brahim",
@@ -13,7 +14,7 @@ class FakeDatabase {
       "name": "Lose Fat",
       "description": "A 30-day fat-loss program with cardio-focused sessions.",
       "sessions_number": 6,
-      "image": "assets/images/lose-weight.png",
+      "image": "assets/images/lose-weight.webp",
       "level": "beginner",
       "duration": "30min",
       "type": "program",
@@ -23,7 +24,7 @@ class FakeDatabase {
       "name": "Build Muscle",
       "description": "A strength-focused hypertrophy program.",
       "sessions_number": 15,
-      "image": "assets/images/legs.png",
+      "image": "assets/images/legs.webp",
       "level": "beginner",
       "duration": "30min",
       "type": "program",
@@ -401,4 +402,59 @@ class FakeDatabase {
     'legs',
     'lower body',
   ];
+
+  static final Map<String, List<Map<String, Object>>> nutritionPlans = {
+    "breakfasts": [
+      {
+        "name": "Eggs",
+        "image": "assets/images/egges.jpg",
+        "description": "High in protein and perfect for a quick breakfast."
+      },
+      {
+        "name": "Carrot and sultana mini pancakes recipe",
+        "image":
+            "assets/images/Carrot-and-sultana-mini-pancakes_tVmBZci.width-320.jpg",
+        "description": "Sweet, healthy pancakes with carrots and sultanas."
+      },
+      {
+        "name": "Baked tomatoes on toast recipe",
+        "image": "assets/images/Baked-tomatos-on-toast_14srP1t.width-320.jpg",
+        "description": "A simple and tasty vegetarian breakfast."
+      },
+      {
+        "name": "Banana and apricot bagels recipe",
+        "image":
+            "assets/images/Banana-and-apricot-bagels_he8yBxu.width-320.jpg",
+        "description": "Delicious bagels with banana and apricot topping."
+      }
+    ],
+    "lunches": [
+      {
+        "name": "Cheesy veggie wedges recipe",
+        "image": "assets/images/Cheesy_veggie_wedges.width-320.png",
+        "description": "Crispy wedges loaded with cheesy goodness."
+      },
+      {
+        "name": "Cheats' pizza calzone recipe",
+        "image": "assets/images/2.-Cheats-Pizza-Calzone.width-320.jpg",
+        "description": "Quick and easy calzone with your favorite toppings."
+      },
+      {
+        "name": "Chicken and tomato jacket potato recipe",
+        "image": "assets/images/Chicken__tomato_jacket_potato.width-320.png",
+        "description": "Hearty potato with chicken and tomato sauce."
+      },
+      {
+        "name": "Chicken pizza naan recipe",
+        "image": "assets/images/Chicken_pizza_naan_gTs3oNh.width-320.png",
+        "description": "Tasty naan topped with chicken and cheese."
+      },
+      {
+        "name": "Couscous with chicken and peas recipe",
+        "image":
+            "assets/images/4.-Couscous-with-chicken-and-peas.width-320.jpg",
+        "description": "Light couscous salad with chicken and peas."
+      }
+    ]
+  };
 }

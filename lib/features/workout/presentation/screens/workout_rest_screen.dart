@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 
@@ -17,6 +19,7 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
   late final Timer _timer;
   late double _progress = 1;
   late int count = 10;
+  final player = AudioPlayer();
 
   @override
   void dispose() {
@@ -35,18 +38,28 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
       setState(() {
         count--;
         _progress = count / 10;
+        if (count == 4) {
+          playCountDown();
+        }
         if (count <= 0) {
           _timer.cancel();
+          player.pause();
           context.go('/workoutExercise');
         }
       });
     });
   }
 
+  void playCountDown() async {
+    await player.play(AssetSource('sounds/clock-countdown.wav'));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
         child: Scaffold(
+      backgroundColor: isDark ? Colors.white : Colors.white,
       body: Container(
         width: double.infinity,
         height: double.infinity,

@@ -20,6 +20,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
   ];
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
         child: Scaffold(
       body: screens[screenIndex],
@@ -31,8 +32,8 @@ class _BNavigationBarState extends State<BNavigationBar> {
               screenIndex = index;
             });
           },
-          selectedItemColor: Colors.red,
-          unselectedItemColor: Colors.deepPurple,
+          selectedItemColor: isDark ? Colors.white : Colors.red,
+          unselectedItemColor: isDark ? Colors.green : Colors.deepPurple,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Training'),
             BottomNavigationBarItem(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:w_allfit/core/router/routes.dart';
+import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
@@ -10,11 +11,44 @@ import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user
 import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/session_workout_plan_bloc.dart';
-
 import 'features/workout/presentation/provider/workout_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => UserPlansBloc(),
+      ),
+      BlocProvider(
+        create: (_) => PopularPlansBloc(),
+      ),
+      BlocProvider(
+        create: (_) => BeginnerPlansBloc(),
+      ),
+      BlocProvider(
+        create: (_) => AdvancePlansBloc(),
+      ),
+      BlocProvider(
+        create: (_) => QuickStartWorkoutBloc(),
+      ),
+      BlocProvider(
+        create: (_) => SessionWorkoutPlanBloc(),
+      ),
+      BlocProvider(
+        create: (_) => WorkoutSessionBloc(),
+      ),
+      BlocProvider(
+        create: (_) => PlanSessionsBloc(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => WorkoutProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => SettingsProvider(),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -25,40 +59,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // final themeMode = context.watch<SettingsProvider>().themeMode;
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => UserPlansBloc(),
-          ),
-          BlocProvider(
-            create: (_) => PopularPlansBloc(),
-          ),
-          BlocProvider(
-            create: (_) => BeginnerPlansBloc(),
-          ),
-          BlocProvider(
-            create: (_) => AdvancePlansBloc(),
-          ),
-          BlocProvider(
-            create: (_) => QuickStartWorkoutBloc(),
-          ),
-          BlocProvider(
-            create: (_) => SessionWorkoutPlanBloc(),
-          ),
-          BlocProvider(
-            create: (_) => WorkoutSessionBloc(),
-          ),
-          BlocProvider(
-            create: (_) => PlanSessionsBloc(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => WorkoutProvider(),
-          ),
-        ],
-        child: MaterialApp.router(
-          routerConfig: appRoutes,
-        ));
+    // final settings = Provider.of<SettingsProvider>(context);
+    final settings = Provider.of<SettingsProvider>(context);
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      themeMode: settings.themeMode,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      routerConfig: appRoutes,
+    );
   }
 }

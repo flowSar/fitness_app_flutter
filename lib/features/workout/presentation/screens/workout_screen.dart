@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -39,6 +40,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
@@ -69,15 +71,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text(
                     'Your Plans',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: isDark ? Colors.white : Colors.grey[800],
                         fontSize: 16,
                         fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
+
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 6),
                 height: 170,
+                width: MediaQuery.sizeOf(context).width,
                 child: BlocBuilder<UserPlansBloc, UserPlansState>(
                   builder: (context, state) {
                     if (state is UserPlansLoading) {
@@ -86,22 +90,20 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     if (state is UserPlansLoading) {
                       final List<Map<String, Object>> programs =
                           state.userPlans;
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                      return CarouselSlider.builder(
                         itemCount: programs.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, index, realIndex) {
                           final String name = programs[index]['name'] as String;
                           final int programId = programs[index]['id'] as int;
 
                           return Container(
-                            width: MediaQuery.sizeOf(context).width * 0.86,
-                            height: 170,
-                            margin: EdgeInsets.only(left: 4, right: 4),
+                            width: MediaQuery.sizeOf(context).width,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image:
-                                      AssetImage('${programs[index]['image']}'),
-                                  fit: BoxFit.cover),
+                                image:
+                                    AssetImage('${programs[index]['image']}'),
+                                fit: BoxFit.cover,
+                              ),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Padding(
@@ -111,9 +113,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    '${name}',
+                                    name,
                                     style: TextStyle(
                                         color: Colors.white,
+                                        shadows: [
+                                          Shadow(
+                                              offset: Offset(2,
+                                                  2), // move shadow right & down
+                                              blurRadius:
+                                                  4, // how blurry the shadow is
+                                              color:
+                                                  Colors.black54 // shadow color
+                                              )
+                                        ],
                                         fontSize: 28,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -142,6 +154,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             ),
                           );
                         },
+                        options: CarouselOptions(
+                          height: 200,
+                          // enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                        ),
                       );
                     }
                     return SizedBox(
@@ -156,7 +175,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text(
                     'Quick Start',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: isDark ? Colors.white : Colors.grey[800],
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
@@ -203,7 +222,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text(
                     'Popular Workouts',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: isDark ? Colors.white : Colors.grey[800],
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
@@ -213,6 +232,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
                 height: 100,
+                width: MediaQuery.sizeOf(context).width,
                 child: BlocBuilder<PopularPlansBloc, PlansState>(
                   builder: (context, state) {
                     if (state is PlansLoading &&
@@ -222,14 +242,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     if (state is PlansLoaded &&
                         state.planType == PlanBlocType.popular) {
                       final List<Map<String, Object>> plans = state.plans;
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                      return CarouselSlider.builder(
                         itemCount: plans.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, index, realIndex) {
                           return WorkoutLinearCard(
                               sessionId: state.plansSessionsIds[index],
                               plan: plans[index]);
                         },
+                        options: CarouselOptions(
+                            viewportFraction: 0.4, enlargeCenterPage: true),
                       );
                     }
                     return SizedBox(
@@ -247,7 +268,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text(
                     'beginner Plans',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: isDark ? Colors.white : Colors.grey[800],
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
@@ -257,6 +278,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
                 height: 100,
+                width: MediaQuery.sizeOf(context).width,
                 child: BlocBuilder<BeginnerPlansBloc, PlansState>(
                   builder: (context, state) {
                     if (state is PlansLoading &&
@@ -266,17 +288,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     if (state is PlansLoaded &&
                         state.planType == PlanBlocType.beginner) {
                       final List<Map<String, Object>> plans = state.plans;
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: plans.length > 3 ? 3 : plans.length,
-                        itemBuilder: (context, index) {
+                      return CarouselSlider.builder(
+                        itemCount: plans.length,
+                        itemBuilder: (context, index, realIndex) {
                           return WorkoutLinearCard(
-                            sessionId: state.plansSessionsIds[index],
-                            plan: plans[index],
-                            w: 200,
-                          );
+                              sessionId: state.plansSessionsIds[index],
+                              plan: plans[index]);
                         },
+                        options: CarouselOptions(
+                            viewportFraction: 0.4, enlargeCenterPage: true),
                       );
+                      ;
                     }
                     return SizedBox(
                       child: Text("empty"),
@@ -290,7 +312,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text(
                     'Advanced Plans',
                     style: TextStyle(
-                        color: Colors.grey[800],
+                        color: isDark ? Colors.white : Colors.grey[800],
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
@@ -300,6 +322,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
                 height: 100,
+                width: MediaQuery.sizeOf(context).width,
                 child: BlocBuilder<AdvancePlansBloc, PlansState>(
                   builder: (context, state) {
                     if (state is PlansLoading &&
@@ -310,16 +333,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         state.planType == PlanBlocType.advanced) {
                       print("------------advanced ${state.planType}--------");
                       final List<Map<String, Object>> plans = state.plans;
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: plans.length > 3 ? 3 : plans.length,
-                        itemBuilder: (context, index) {
+                      return CarouselSlider.builder(
+                        itemCount: plans.length,
+                        itemBuilder: (context, index, realIndex) {
                           return WorkoutLinearCard(
-                            sessionId: state.plansSessionsIds[index],
-                            plan: plans[index],
-                            w: 200,
-                          );
+                              sessionId: state.plansSessionsIds[index],
+                              plan: plans[index]);
                         },
+                        options: CarouselOptions(
+                            viewportFraction: 0.4, enlargeCenterPage: true),
                       );
                     }
                     return SizedBox(

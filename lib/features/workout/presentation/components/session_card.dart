@@ -3,7 +3,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:percent_indicator/circular_percent_indicator.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart";
-import "package:w_allfit/features/workout/presentation/screens/session_workout_plan_screen.dart";
+import "package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart";
 import "../../../../core/services/database/FakeDatabase.dart";
 import "../provider/workout_provider.dart";
 
@@ -32,7 +32,7 @@ class _SessionCardState extends State<SessionCard> {
         // update session id
         context.read<WorkoutProvider>().updateSessionId(widget.sessionId);
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SessionWorkoutPlanScreen(
+          builder: (context) => WorkoutPlanSessionScreen(
             id: widget.sessionId,
           ),
         ));

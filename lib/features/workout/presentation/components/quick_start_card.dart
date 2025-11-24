@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
-import 'package:w_allfit/features/workout/presentation/screens/session_workout_plan_screen.dart';
+import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 
 class QuickStartCard extends StatefulWidget {
   final Map<String, Object> plan;
@@ -25,7 +25,7 @@ class _QuickStartCardState extends State<QuickStartCard> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  SessionWorkoutPlanScreen(id: widget.sessionId),
+                  WorkoutPlanSessionScreen(id: widget.sessionId),
             ));
       },
       child: Material(
