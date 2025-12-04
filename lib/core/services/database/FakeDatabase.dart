@@ -359,7 +359,7 @@ class FakeDatabase {
           "complete": false,
           "sets": 3,
           "reps": 12,
-          "duration_seconds": 5,
+          "duration_seconds": 10,
         }
   ];
 

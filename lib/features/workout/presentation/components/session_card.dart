@@ -24,7 +24,6 @@ class SessionCard extends StatefulWidget {
 class _SessionCardState extends State<SessionCard> {
   @override
   Widget build(BuildContext context) {
-    print("-----------progress${widget.progress}----------");
     final session = FakeDatabase.sessions[widget.sessionId - 1];
     late bool sessionComplete = session['complete'] as bool;
     return InkWell(

@@ -48,12 +48,12 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
       setState(() {
         count--;
         _progress = count / 10;
-        if (count == 4) {
+        if (count == 3) {
           playCountDown();
         }
         if (count <= 0) {
           _timer.cancel();
-          player.pause();
+
           context.go('/workoutExercise');
         }
       });
@@ -64,99 +64,104 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
     await player.play(AssetSource('sounds/clock-countdown.wav'));
   }
 
-  // void playCountDown() async {
-  //   await player.play(AssetSource('/sounds/clock-countdown.wav'));
-  // }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return SafeArea(
-        child: Scaffold(
-      backgroundColor: isDark ? Colors.white : Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.white, Colors.white60],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        player.pause();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Hello world"),
+          duration: Duration(seconds: 3),
+        ));
+      },
+      child: SafeArea(
+          child: Scaffold(
+        backgroundColor: isDark ? Colors.white : Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                spacing: 4,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Get Ready!",
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: 140,
-                    height: 140,
-                    child: CircularProgressIndicator(
-                      value: _progress,
-                      color: Colors.blueGrey,
-                      backgroundColor: Colors.black12,
-                      strokeWidth: 8,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.white, Colors.white60],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  spacing: 4,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Get Ready!",
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "00:${count < 10 ? '0${count}' : '${count}'}",
-                    style: TextStyle(
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: 140,
+                      height: 140,
+                      child: CircularProgressIndicator(
+                        value: _progress,
                         color: Colors.blueGrey,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+                        backgroundColor: Colors.black12,
+                        strokeWidth: 8,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "00:${count < 10 ? '0${count}' : '${count}'}",
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: BlocBuilder<WorkoutSessionBloc, WorkoutSessionState>(
-                builder: (context, state) {
-                  if (state is WorkoutExerciseInProgress) {
-                    return Column(
-                      children: [
-                        Text(
-                          "${state.exercise['name']}",
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
+              Expanded(
+                child: BlocBuilder<WorkoutSessionBloc, WorkoutSessionState>(
+                  builder: (context, state) {
+                    if (state is WorkoutExerciseInProgress) {
+                      return Column(
+                        children: [
+                          Text(
+                            "${state.exercise['name']}",
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Image.asset(
-                          '${state.exercise['image_url']}',
-                          width: 300,
-                          height: 300,
-                        ),
-                      ],
-                    );
-                  }
-                  return Text("lodign exercises failed");
-                },
+                          Image.asset(
+                            '${state.exercise['image_url']}',
+                            width: 300,
+                            height: 300,
+                          ),
+                        ],
+                      );
+                    }
+                    return Text("lodign exercises failed");
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

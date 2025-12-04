@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:w_allfit/core/constants/plansType.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/qui
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/workout_linear_card.dart';
+import 'package:w_allfit/features/workout/presentation/components/workout_plan_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -25,6 +27,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   void initState() {
     context.read<UserPlansBloc>().add(LoadUserPlans());
+
     context.read<QuickStartWorkoutBloc>().add(LoadQuickStartWorkoutPlans());
     context
         .read<PopularPlansBloc>()
@@ -35,6 +38,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     context
         .read<AdvancePlansBloc>()
         .add(LoadAdvancePlans(planType: PlanBlocType.advanced));
+
     super.initState();
   }
 
@@ -84,10 +88,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 width: MediaQuery.sizeOf(context).width,
                 child: BlocBuilder<UserPlansBloc, UserPlansState>(
                   builder: (context, state) {
-                    if (state is UserPlansLoading) {
-                      print('----------------------------');
-                    }
-                    if (state is UserPlansLoading) {
+                    if (state is UserPlansLoaded) {
                       final List<Map<String, Object>> programs =
                           state.userPlans;
                       return CarouselSlider.builder(
@@ -95,19 +96,21 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         itemBuilder: (context, index, realIndex) {
                           final String name = programs[index]['name'] as String;
                           final int programId = programs[index]['id'] as int;
+                          final String planImage =
+                              programs[index]['image'] as String;
 
                           return Container(
                             width: MediaQuery.sizeOf(context).width,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image:
-                                    AssetImage('${programs[index]['image']}'),
+                                image: AssetImage(planImage),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.only(left: 20, bottom: 20),
+                              padding: EdgeInsets.only(
+                                  left: 20, bottom: 10, right: 20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -130,29 +133,44 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   TextButton(
-                                      style: TextButton.styleFrom(
-                                          fixedSize: Size(120, 40),
-                                          backgroundColor: Colors.deepOrange,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(16))),
-                                      onPressed: () {
-                                        context
-                                            .read<WorkoutProvider>()
-                                            .updatePlanId(programId);
-                                        context.push('/workoutPlanSessions');
-                                      },
-                                      child: Text(
-                                        "start",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                    style: TextButton.styleFrom(
+                                        fixedSize: Size(120, 40),
+                                        backgroundColor: Colors.deepOrange,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16))),
+                                    onPressed: () {
+                                      context
+                                          .read<WorkoutProvider>()
+                                          .updatePlanId(programId);
+                                      context.push('/workoutPlanSessions');
+                                    },
+                                    child: Text(
+                                      "start",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  LinearPercentIndicator(
+                                    percent: 0.5,
+                                    backgroundColor: Colors.grey,
+                                    lineHeight: 8,
+                                    progressBorderColor: Colors.grey,
+                                    barRadius: Radius.circular(20),
+                                  ),
                                 ],
                               ),
                             ),
                           );
+                          // return WorkoutPlanCard(
+                          //     planImage: programs[index]['image'] as String,
+                          //     name: name,
+                          //     programId: programId);
                         },
                         options: CarouselOptions(
                           height: 200,
@@ -163,6 +181,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         ),
                       );
                     }
+                    // if (state is UserPlansLoading) {
+                    //
+                    // }
                     return SizedBox(
                       child: Text("empty"),
                     );

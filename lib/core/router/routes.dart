@@ -1,19 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/b_navigation_bar.dart';
+import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
 import 'package:w_allfit/features/nutrition/presentation/view_more_nutrition.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_complete_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_exercise_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_plan_sessions.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_rest_screen.dart';
+import 'package:w_allfit/welcome_screen.dart';
 
 final GoRouter appRoutes = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => BNavigationBar(),
+      // builder: (context, state) => WelcomeScreen(),
+      builder: (context, state) => FutureBuilder<bool>(
+        future: hasSeenWelcomeScreen(), // Check if welcome screen is needed
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasData && snapshot.data == false) {
+            return WelcomeScreen(); // Show welcome screen if not seen yet
+          } else {
+            return BNavigationBar(); // Otherwise, go to the main home screen
+          }
+        },
+      ),
+
+      // builder: (context, state) => WelcomeScreen(),
       routes: [
+        GoRoute(
+          path: "/workoutScreen",
+          builder: (context, state) => BNavigationBar(),
+        ),
         GoRoute(
           path: '/workoutPlanSessions',
           builder: (context, state) => WorkoutPlanSessions(),

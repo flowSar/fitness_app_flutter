@@ -54,7 +54,7 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
         }
         if (count <= 0) {
           _timer?.cancel();
-          player.pause();
+
           context.read<WorkoutSessionBloc>().add(NextWorkoutExercise());
           context.go("/workoutRest");
         }
@@ -69,129 +69,137 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return SafeArea(
-        child: Scaffold(
-      backgroundColor: isDark ? Colors.white : Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.white, Colors.white60],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        player.pause();
+      },
+      child: SafeArea(
+          child: Scaffold(
+        backgroundColor: isDark ? Colors.white : Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
-                listener: (context, state) {
-                  if (state is WorkoutComplete) {
-                    context.go('/workoutComplete');
-                  }
-                },
-                builder: (context, state) {
-                  if (state is WorkoutExerciseInProgress) {
-                    return Column(
-                      children: [
-                        Text(
-                          "${state.exercise['name']}",
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.white, Colors.white60],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
+                  listener: (context, state) {
+                    if (state is WorkoutComplete) {
+                      context.go('/workoutComplete');
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is WorkoutExerciseInProgress) {
+                      return Column(
+                        children: [
+                          Text(
+                            "${state.exercise['name']}",
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Image.asset(
-                          '${state.exercise['image_url']}',
-                          width: 300,
-                          height: 300,
-                        ),
-                      ],
-                    );
-                  }
-                  return Text("lodign exercises failed");
-                },
+                          Image.asset(
+                            '${state.exercise['image_url']}',
+                            width: 300,
+                            height: 300,
+                          ),
+                        ],
+                      );
+                    }
+                    return Text("lodign exercises failed");
+                  },
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                spacing: 4,
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: CircularProgressIndicator(
-                      value: _progress,
-                      color: Colors.blueGrey,
-                      backgroundColor: Colors.black12,
-                      strokeWidth: 8,
+              Expanded(
+                child: Column(
+                  spacing: 4,
+                  children: [
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "00:${count < 10 ? '0${count}' : '${count}'}",
-                    style: TextStyle(
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CircularProgressIndicator(
+                        value: _progress,
                         color: Colors.blueGrey,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    spacing: 30,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              if (_timer!.isActive) {
-                                _timer?.cancel();
-                              } else {
-                                startCountDown();
-                              }
-                            });
-                          },
-                          style: TextButton.styleFrom(
-                              backgroundColor:
-                                  _timer!.isActive ? Colors.red : Colors.green,
-                              fixedSize: Size(120, 45)),
-                          child: Text(
-                            _timer!.isActive ? "Pause" : "Resume",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          )),
-                      TextButton(
-                          onPressed: () {
-                            context
-                                .read<WorkoutSessionBloc>()
-                                .add(NextWorkoutExercise());
-                            context.push('/workoutRest');
-                          },
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.grey,
-                              fixedSize: Size(120, 45)),
-                          child: Text(
-                            "Next",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          )),
-                    ],
-                  )
-                ],
+                        backgroundColor: Colors.black12,
+                        strokeWidth: 8,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "00:${count < 10 ? '0${count}' : '${count}'}",
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      spacing: 30,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                if (_timer!.isActive) {
+                                  _timer?.cancel();
+                                } else {
+                                  startCountDown();
+                                }
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                                backgroundColor: _timer!.isActive
+                                    ? Colors.red
+                                    : Colors.green,
+                                fixedSize: Size(120, 45)),
+                            child: Text(
+                              _timer!.isActive ? "Pause" : "Resume",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              context
+                                  .read<WorkoutSessionBloc>()
+                                  .add(NextWorkoutExercise());
+                              context.push('/workoutRest');
+                            },
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey,
+                                fixedSize: Size(120, 45)),
+                            child: Text(
+                              "Next",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            )),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

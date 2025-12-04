@@ -16,7 +16,9 @@ class WorkoutExerciseInProgress extends WorkoutSessionState {
 
 class WorkoutComplete extends WorkoutSessionState {}
 
-class WorkoutSessionProgress extends WorkoutSessionState {
+class WorkoutSessionLoading extends WorkoutSessionState {}
+
+class WorkoutSessionLoaded extends WorkoutSessionState {
   final double progress;
-  WorkoutSessionProgress({required this.progress});
+  WorkoutSessionLoaded({required this.progress});
 }

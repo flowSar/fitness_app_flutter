@@ -9,9 +9,15 @@ class Person {
   }
 }
 
+class Brahim extends Person {
+  Brahim({required dynamic name, required dynamic age})
+      : super(name: name, age: age);
+}
+
 void main() {
   late String name = "khalid";
   String name2 = name;
   name2 = 'yassin';
   print(name);
+  final b = Brahim(name: "khalid", age: 4);
 }

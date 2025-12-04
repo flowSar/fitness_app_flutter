@@ -78,6 +78,7 @@ class WorkoutSessionBloc
     final workoutExercises = FakeDatabase.session_workout_plan
         .where((plan) => plan['session_id'] == sessionId)
         .toList();
+
     final int length = workoutExercises.length;
     late int completeExercises = 0;
     for (final exercise in workoutExercises) {
@@ -89,8 +90,36 @@ class WorkoutSessionBloc
     print('----------------progress ${progress}-----------');
     final session = FakeDatabase.sessions
         .where((session) => session['id'] == sessionId)
-        .toList()[0];
-    session['progress'] = progress.round();
-    emit(WorkoutSessionProgress(progress: progress));
+        .toList();
+    if (session.isNotEmpty) {
+      session[0]['progress'] = progress.round();
+    }
+
+    // if progress 100 I need to mark session as complete
+    if (progress == 100) {
+      _markSessionComplete(sessionId);
+    }
+    emit(WorkoutSessionLoaded(progress: progress));
+  }
+
+  void _markSessionComplete(int sessionId) {
+    final sessions = FakeDatabase.sessions
+        .where((session) => session['id'] == sessionId)
+        .toList();
+
+    sessions[0]['complete'] = true;
+  }
+
+  bool _isWorkoutSessionPlanComplete(int sessionId, planId) {
+    final workoutSessionPlan = FakeDatabase.session_workout_plan
+        .where((plan) => plan['session_id'] == sessionId)
+        .toList();
+
+    for (final exercise in workoutSessionPlan) {
+      if (exercise['complete'] as bool == false) {
+        return false;
+      }
+    }
+    return true;
   }
 }

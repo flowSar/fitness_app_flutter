@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/session_workout_plan_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/workout_session_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
 import '../../../../core/services/database/FakeDatabase.dart';
 import '../provider/workout_provider.dart';
@@ -23,7 +23,7 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
     final sessionId = context.read<WorkoutProvider>().sessionId;
     final planId = context.read<WorkoutProvider>().planId;
     context
-        .read<SessionWorkoutPlanBloc>()
+        .read<WorkoutSessionPlanBloc>()
         .add(LoadSessionWorkoutPlan(planId: planId, sessionId: sessionId));
     super.initState();
   }
@@ -58,7 +58,7 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
                   Column(
                     children: [
                       Text(
-                        '${level}',
+                        level,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -98,7 +98,7 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
                 ],
               ),
             ),
-            BlocConsumer<SessionWorkoutPlanBloc, SessionWorkoutPlanState>(
+            BlocConsumer<WorkoutSessionPlanBloc, SessionWorkoutPlanState>(
               listener: (context, state) {
                 if (state is SessionWorkoutPlanLoading) {
                   final plan = state.plan;
@@ -113,11 +113,14 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
                   final List<Map<String, Object>> workoutPlan =
                       state.workoutPlan;
 
+                  final int duration =
+                      workoutPlan[0]['duration_seconds'] as int;
                   return Container(
-                    color: Colors.white70,
+                    // color: isDark ? Colors.black87 : Colors.white,
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height * 0.6,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.only(
+                        right: 20, left: 20, top: 10, bottom: 100),
                     child: ListView.builder(
                       itemCount: workoutPlan.length,
                       itemBuilder: (context, index) {
@@ -150,7 +153,7 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
                                     alignment: Alignment.center,
                                   ),
                                   Text(
-                                    '30 s',
+                                    '$duration s',
                                     style: TextStyle(
                                         color: Colors.orange,
                                         fontSize: 16,
@@ -163,7 +166,6 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
                     ),
                   );
                 }
-
                 return Text("test");
               },
             )

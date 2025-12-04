@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
+import 'package:w_allfit/components/full_screen_loading.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_slate.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
@@ -27,7 +29,6 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
 
   @override
   Widget build(BuildContext context) {
-    final int planId = context.watch<WorkoutProvider>().planId;
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -38,9 +39,12 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
               BlocBuilder<PlanSessionsBloc, PlanSessionsState>(
                 builder: (context, state) {
                   if (state is PlanSessionsLoading) {
-                    final List<Map<String, Object>> sessions = state.sessions;
+                    return FullScreenLoading();
+                  }
+                  if (state is PlanSessionsLoaded) {
+                    final List<Map<String, Object>> sessions =
+                        state.planSessions;
                     final plan = state.plan;
-                    print('-----------sessions:${sessions.length}---------');
                     return Column(
                       children: [
                         Container(
@@ -93,7 +97,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                       ],
                     );
                   }
-                  return Text("");
+                  return Text("failed");
                 },
               )
             ],

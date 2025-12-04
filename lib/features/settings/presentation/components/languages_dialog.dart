@@ -28,14 +28,22 @@ class LanguagesDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("French"),
+                RichText(
+                    text: TextSpan(text: "French", children: [
+                  TextSpan(
+                      text: " (coming soon)", style: TextStyle(fontSize: 12))
+                ])),
                 Checkbox(value: false, onChanged: (value) {})
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Arabic"),
+                RichText(
+                    text: TextSpan(text: "Arabic", children: [
+                  TextSpan(
+                      text: " (coming soon)", style: TextStyle(fontSize: 12))
+                ])),
                 Checkbox(value: false, onChanged: (value) {})
               ],
             ),

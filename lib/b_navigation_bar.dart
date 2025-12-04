@@ -33,7 +33,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
             });
           },
           selectedItemColor: isDark ? Colors.white : Colors.red,
-          unselectedItemColor: isDark ? Colors.green : Colors.deepPurple,
+          unselectedItemColor: isDark ? Colors.grey : Colors.deepPurple,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Training'),
             BottomNavigationBarItem(

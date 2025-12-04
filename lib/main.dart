@@ -8,9 +8,9 @@ import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/sessions/sessions_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/session_workout_plan_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/workout_session_plan_bloc.dart';
 import 'features/workout/presentation/provider/workout_provider.dart';
 
 void main() {
@@ -32,7 +32,7 @@ void main() {
         create: (_) => QuickStartWorkoutBloc(),
       ),
       BlocProvider(
-        create: (_) => SessionWorkoutPlanBloc(),
+        create: (_) => WorkoutSessionPlanBloc(),
       ),
       BlocProvider(
         create: (_) => WorkoutSessionBloc(),
