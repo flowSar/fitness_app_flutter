@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:w_allfit/core/constants/plansType.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_event.dart';
@@ -38,7 +41,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     context
         .read<AdvancePlansBloc>()
         .add(LoadAdvancePlans(planType: PlanBlocType.advanced));
-
+    context.read<AuthBloc>().add(CheckAuthState());
     super.initState();
   }
 
@@ -56,18 +59,26 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
-                child: Column(
-                  children: [
-                    Text(
-                      'Hello, Sarah!',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'let\'s workout today',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ],
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state is Authenticated) {
+                      return Column(
+                        children: [
+                          Text(
+                            'Hello, ${state.user?.name}!',
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'let\'s workout today',
+                            style: TextStyle(color: Colors.grey[500]),
+                          ),
+                        ],
+                      );
+                    }
+
+                    return Text('Guest');
+                  },
                 ),
               ),
               Row(
