@@ -181,10 +181,17 @@ class NutritionScreen extends StatelessWidget {
                 ),
               ),
               TextButton(
-                  onPressed: () {
-                    context.push("/workoutComplete");
-                  },
-                  child: Text('open Modal')),
+                onPressed: () {
+                  context.push("/signUp");
+                },
+                child: Text('open Modal'),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.push("/testPage");
+                },
+                child: Text('test page'),
+              ),
             ],
           ),
         ),

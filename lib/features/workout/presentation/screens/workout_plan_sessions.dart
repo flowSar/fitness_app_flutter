@@ -5,6 +5,7 @@ import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_s
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
+import 'package:w_allfit/features/workout/presentation/components/progress_bar_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
@@ -52,11 +53,13 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                           height: 200,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage('${plan['image']}'),
-                                fit: BoxFit.cover),
+                              image: AssetImage('${plan['image']}'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.only(left: 20, bottom: 20),
+                            padding: EdgeInsets.only(
+                                left: 20, bottom: 20, right: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -64,18 +67,30 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                                 Text(
                                   '${plan['name']}',
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 3),
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 3,
+                                    shadows: [
+                                      Shadow(
+                                          color: Colors.black,
+                                          offset: Offset(2, 2))
+                                    ],
+                                  ),
                                 ),
                                 Text(
                                   "${sessions.length} days left",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w400),
-                                )
+                                      fontWeight: FontWeight.w400,
+                                      shadows: [
+                                        Shadow(
+                                            color: Colors.black,
+                                            offset: Offset(1, 1))
+                                      ]),
+                                ),
+                                ProgressBarCard(progress: 0.3),
                               ],
                             ),
                           ),

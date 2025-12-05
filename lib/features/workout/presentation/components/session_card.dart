@@ -26,6 +26,7 @@ class _SessionCardState extends State<SessionCard> {
   Widget build(BuildContext context) {
     final session = FakeDatabase.sessions[widget.sessionId - 1];
     late bool sessionComplete = session['complete'] as bool;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: () {
         // update session id
@@ -45,7 +46,7 @@ class _SessionCardState extends State<SessionCard> {
               title: Text(
                 'Day ${widget.day}',
                 style: TextStyle(
-                    color: Colors.blueGrey,
+                    color: isDark ? Colors.white : Colors.blueGrey,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),

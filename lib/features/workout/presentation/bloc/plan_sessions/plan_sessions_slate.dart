@@ -16,3 +16,8 @@ class PlanSessionsLoadingFailed extends PlanSessionsState {
 }
 
 class SessionComplete extends PlanSessionsState {}
+
+class PlanProgress extends PlanSessionsState {
+  final double progress;
+  PlanProgress({required this.progress});
+}

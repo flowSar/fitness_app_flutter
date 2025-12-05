@@ -37,7 +37,7 @@ class WorkoutCompleteScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  context.go("/");
+                  context.go("/workoutScreen");
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: isDark ? Colors.white : Colors.grey.shade300,

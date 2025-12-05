@@ -9,3 +9,5 @@ class MarkSessionComplete extends PlanSessionsEvent {
   final int sessionId;
   MarkSessionComplete({required this.sessionId});
 }
+
+class LoadPlanProgress extends PlanSessionsEvent {}

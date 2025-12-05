@@ -43,6 +43,8 @@ dependencies:
   carousel_slider: ^5.1.1
   audioplayers: ^6.5.1
   shared_preferences: ^2.5.3
+  http: ^1.6.0
+  get_it: ^9.2.0
 
 dev_dependencies:
   flutter_test:

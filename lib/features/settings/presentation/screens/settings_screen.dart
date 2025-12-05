@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/settings/presentation/components/languages_dialog.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
 
@@ -37,6 +41,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SizedBox(
                   height: 10,
+                ),
+                Text(
+                  "Account",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                BlocConsumer<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state is Authenticated) {
+                      if (state.isAuthenticated) {
+                        return ListTile(
+                          title: Text('${state.user?.name}'),
+                          subtitle: Text('${state.user?.email}'),
+                          trailing: TextButton(
+                              onPressed: () {
+                                context.read<AuthBloc>().add(LogOutEvent());
+                              },
+                              child: Text('Log Out')),
+                        );
+                      } else {
+                        return TextButton(
+                            onPressed: () {}, child: Text('Log In'));
+                      }
+                    }
+                    return Text('Loding user account..');
+                  },
+                  listener: (context, state) {
+                    if (state is LogOutSuccess) {
+                      context.go('/workoutScreen');
+                    }
+                  },
                 ),
                 Text(
                   "Appearance",

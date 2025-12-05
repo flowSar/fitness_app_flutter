@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
+import 'package:w_allfit/features/workout/presentation/components/progress_bar_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
 class WorkoutPlanCard extends StatelessWidget {
@@ -64,14 +65,7 @@ class WorkoutPlanCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 10,
-            ),
-            LinearPercentIndicator(
-              percent: 0.5,
-              backgroundColor: Colors.grey,
-              lineHeight: 8,
-              progressBorderColor: Colors.grey,
-              barRadius: Radius.circular(20),
+              height: 6,
             ),
           ],
         ),

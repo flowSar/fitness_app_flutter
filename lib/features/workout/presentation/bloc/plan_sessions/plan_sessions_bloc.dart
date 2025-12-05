@@ -50,4 +50,6 @@ class PlanSessionsBloc extends Bloc<SessionsEvent, PlanSessionsState> {
         sessions.where((session) => session['id'] == sessionId).toList()[0];
     session['complete'] = true;
   }
+
+  void _loadPlanProgress() {}
 }
