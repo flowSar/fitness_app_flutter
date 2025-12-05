@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/core/constants/functions.dart';
+import 'package:w_allfit/features/auth/data/models/user_model.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
+import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/auth/presentation/components/text_form_input.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -80,7 +85,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black),
                       onPressed: () {
-                        _formKey.currentState?.validate();
+                        final result = _formKey.currentState?.validate();
+                        if (result == true) {
+                          final user = UserModel(
+                            name: _nameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
+                          context.read<AuthBloc>().add(SignUpEvent(user: user));
+                        }
                       },
                       child: Text(
                         'Sign Up',
@@ -107,7 +120,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       )
                     ],
-                  )
+                  ),
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is SignUpSucess) {
+                        context.go('/signIn');
+                      }
+                      if (state is SignUpFailed) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(state.error),
+                          duration: Duration(seconds: 3),
+                        ));
+                      }
+                    },
+                    child: SizedBox.shrink(),
+                  ),
                 ],
               ),
             ),

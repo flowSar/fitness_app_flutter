@@ -44,8 +44,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _signUp(SignUpEvent event, emit) async {
+    emit(SignUpLoading());
     final UserModel user = event.user;
-    final newUser = await registerUseCase(user);
+    final result = await registerUseCase(user);
+    if (!result.isSuccess) {
+      emit(SignUpFailed(error: '${result.error}'));
+    }
+    emit(SignUpSucess(user: UserModel.fromEntity(result.data!)));
   }
 
   void _checkAuthSate(event, emit) async {

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 abstract class AuthRemoteDatasource {
-  Future<Result<UserModel>> register(UserModel user);
+  Future<Map<String, dynamic>> register(UserModel user);
   Future<Map<String, dynamic>> login(String email, String password);
   Future<Map<String, dynamic>> logout(String token);
   Future<Map<String, dynamic>> isUserAuthenticated(String token);
@@ -48,9 +48,24 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   }
 
   @override
-  Future<Result<UserModel>> register(UserModel user) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> register(UserModel user) async {
+    final url = Uri.parse('${serverApiUrl}/register');
+    final response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: jsonEncode({
+          'name': user.name,
+          'email': user.email,
+          'password': user.password
+        }));
+    if (response.statusCode != 200) {
+      throw Exception('Register failed ${response.body}');
+    }
+    final data = jsonDecode(response.body)['data'];
+    print('register data: ${data}');
+    return data;
   }
 
   @override

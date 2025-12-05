@@ -30,8 +30,14 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Result<UserEntity>> register(UserEntity user) async {
-    // TODO: implement register
-    throw UnimplementedError();
+    try {
+      final data =
+          await authRemoteDatasource.register(UserModel.fromEntity(user));
+      return Result.success(UserModel.fromJson(data['user'], data['token']));
+    } catch (e) {
+      print('register failed: ${e.toString()}');
+      return Result.failure(e.toString());
+    }
   }
 
   @override
