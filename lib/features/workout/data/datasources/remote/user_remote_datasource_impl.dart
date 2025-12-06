@@ -28,4 +28,22 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
 
     return List<Map<String, dynamic>>.from(data);
   }
+
+  @override
+  Future<List<Map<String, dynamic>>> getuserPlanSessions(
+      String token, String planId) async {
+    final url = Uri.parse('$serverApiUrl/user/plans/$planId/sessions');
+    final response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      'authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode != 200) {
+      throw Exception('load plan sessions failed: ${response.body}');
+    }
+
+    final data = jsonDecode(response.body)['data'];
+
+    return List<Map<String, dynamic>>.from(data);
+  }
 }

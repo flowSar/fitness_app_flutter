@@ -6,7 +6,7 @@ class WorkoutExerciseInProgress extends WorkoutSessionState {
   final Map<String, Object> exercise;
   final Map<String, Object> sessionExercises;
   final int index;
-  final int sessionId;
+  final String sessionId;
   WorkoutExerciseInProgress(
       {required this.exercise,
       required this.sessionExercises,

@@ -101,17 +101,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   builder: (context, state) {
                     if (state is UserPlansLoaded) {
                       final List<PlanModel> plans = state.userPlans;
+
                       return CarouselSlider.builder(
                         itemCount: plans.length,
                         itemBuilder: (context, index, realIndex) {
-                          final String name = plans[index].name;
-                          final programId = plans[index].id;
-                          final String planImage = plans[index].image;
-
                           return WorkoutPlanCard(
-                              planImage: plans[index].image,
-                              name: name,
-                              programId: programId);
+                            plan: plans[index],
+                          );
                         },
                         options: CarouselOptions(
                           height: 200,
@@ -132,7 +128,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       );
                     }
                     return SizedBox(
-                      child: Text("empty"),
+                      width: MediaQuery.sizeOf(context).width * 0.9,
+                      height: 120,
+                      child: Text("Select New Plan"),
                     );
                   },
                 ),
@@ -149,38 +147,38 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   ),
                 ],
               ),
-              BlocBuilder<QuickStartWorkoutBloc, QuickStartWorkoutState>(
-                builder: (context, state) {
-                  if (state is QuickStartWorkoutLoading) {
-                    print(
-                        "-------------this should run${state.sessionsIds}-------");
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 6),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      height: 240,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          mainAxisExtent: 110,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: state.quickStartWorkoutPlans.length,
-                        itemBuilder: (context, index) {
-                          return QuickStartCard(
-                            sessionId: state.sessionsIds[index],
-                            plan: state.quickStartWorkoutPlans[index],
-                          );
-                        },
-                      ),
-                    );
-                  }
-                  return SizedBox();
-                },
-              ),
+              // BlocBuilder<QuickStartWorkoutBloc, QuickStartWorkoutState>(
+              //   builder: (context, state) {
+              //     if (state is QuickStartWorkoutLoading) {
+              //       print(
+              //           "-------------this should run${state.sessionsIds}-------");
+              //       return Container(
+              //         margin: EdgeInsets.symmetric(vertical: 6),
+              //         padding: EdgeInsets.symmetric(horizontal: 10),
+              //         height: 240,
+              //         width: MediaQuery.sizeOf(context).width,
+              //         child: GridView.builder(
+              //           physics: NeverScrollableScrollPhysics(),
+              //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //             crossAxisCount: 2,
+              //             crossAxisSpacing: 10,
+              //             mainAxisSpacing: 10,
+              //             mainAxisExtent: 110,
+              //             childAspectRatio: 1,
+              //           ),
+              //           itemCount: state.quickStartWorkoutPlans.length,
+              //           itemBuilder: (context, index) {
+              //             return QuickStartCard(
+              //               sessionId: '',
+              //               plan: state.quickStartWorkoutPlans[index],
+              //             );
+              //           },
+              //         ),
+              //       );
+              //     }
+              //     return SizedBox();
+              //   },
+              // ),
               SizedBox(
                 height: 10,
               ),
@@ -197,36 +195,35 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text('View more'),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-                height: 100,
-                width: MediaQuery.sizeOf(context).width,
-                child: BlocBuilder<PopularPlansBloc, PlansState>(
-                  builder: (context, state) {
-                    if (state is PlansLoading &&
-                        state.planType == PlanBlocType.popular) {
-                      return CircularProgressIndicator();
-                    }
-                    if (state is PlansLoaded &&
-                        state.planType == PlanBlocType.popular) {
-                      final List<Map<String, Object>> plans = state.plans;
-                      return CarouselSlider.builder(
-                        itemCount: plans.length,
-                        itemBuilder: (context, index, realIndex) {
-                          return WorkoutLinearCard(
-                              sessionId: state.plansSessionsIds[index],
-                              plan: plans[index]);
-                        },
-                        options: CarouselOptions(
-                            viewportFraction: 0.4, enlargeCenterPage: true),
-                      );
-                    }
-                    return SizedBox(
-                      child: Text("empty"),
-                    );
-                  },
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+              //   height: 100,
+              //   width: MediaQuery.sizeOf(context).width,
+              //   child: BlocBuilder<PopularPlansBloc, PlansState>(
+              //     builder: (context, state) {
+              //       if (state is PlansLoading &&
+              //           state.planType == PlanBlocType.popular) {
+              //         return CircularProgressIndicator();
+              //       }
+              //       if (state is PlansLoaded &&
+              //           state.planType == PlanBlocType.popular) {
+              //         final List<Map<String, Object>> plans = state.plans;
+              //         return CarouselSlider.builder(
+              //           itemCount: plans.length,
+              //           itemBuilder: (context, index, realIndex) {
+              //             return WorkoutLinearCard(
+              //                 sessionId: '', plan: plans[index]);
+              //           },
+              //           options: CarouselOptions(
+              //               viewportFraction: 0.4, enlargeCenterPage: true),
+              //         );
+              //       }
+              //       return SizedBox(
+              //         child: Text("empty"),
+              //       );
+              //     },
+              //   ),
+              // ),
               SizedBox(
                 height: 10,
               ),
@@ -243,37 +240,36 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text('View more'),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-                height: 100,
-                width: MediaQuery.sizeOf(context).width,
-                child: BlocBuilder<BeginnerPlansBloc, PlansState>(
-                  builder: (context, state) {
-                    if (state is PlansLoading &&
-                        state.planType == PlanBlocType.popular) {
-                      return CircularProgressIndicator();
-                    }
-                    if (state is PlansLoaded &&
-                        state.planType == PlanBlocType.beginner) {
-                      final List<Map<String, Object>> plans = state.plans;
-                      return CarouselSlider.builder(
-                        itemCount: plans.length,
-                        itemBuilder: (context, index, realIndex) {
-                          return WorkoutLinearCard(
-                              sessionId: state.plansSessionsIds[index],
-                              plan: plans[index]);
-                        },
-                        options: CarouselOptions(
-                            viewportFraction: 0.4, enlargeCenterPage: true),
-                      );
-                      ;
-                    }
-                    return SizedBox(
-                      child: Text("empty"),
-                    );
-                  },
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+              //   height: 100,
+              //   width: MediaQuery.sizeOf(context).width,
+              //   child: BlocBuilder<BeginnerPlansBloc, PlansState>(
+              //     builder: (context, state) {
+              //       if (state is PlansLoading &&
+              //           state.planType == PlanBlocType.popular) {
+              //         return CircularProgressIndicator();
+              //       }
+              //       if (state is PlansLoaded &&
+              //           state.planType == PlanBlocType.beginner) {
+              //         final List<Map<String, Object>> plans = state.plans;
+              //         return CarouselSlider.builder(
+              //           itemCount: plans.length,
+              //           itemBuilder: (context, index, realIndex) {
+              //             return WorkoutLinearCard(
+              //                 sessionId: '', plan: plans[index]);
+              //           },
+              //           options: CarouselOptions(
+              //               viewportFraction: 0.4, enlargeCenterPage: true),
+              //         );
+              //         ;
+              //       }
+              //       return SizedBox(
+              //         child: Text("empty"),
+              //       );
+              //     },
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -287,37 +283,36 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   Text('View more'),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
-                height: 100,
-                width: MediaQuery.sizeOf(context).width,
-                child: BlocBuilder<AdvancePlansBloc, PlansState>(
-                  builder: (context, state) {
-                    if (state is PlansLoading &&
-                        state.planType == PlanBlocType.advanced) {
-                      return CircularProgressIndicator();
-                    }
-                    if (state is PlansLoaded &&
-                        state.planType == PlanBlocType.advanced) {
-                      print("------------advanced ${state.planType}--------");
-                      final List<Map<String, Object>> plans = state.plans;
-                      return CarouselSlider.builder(
-                        itemCount: plans.length,
-                        itemBuilder: (context, index, realIndex) {
-                          return WorkoutLinearCard(
-                              sessionId: state.plansSessionsIds[index],
-                              plan: plans[index]);
-                        },
-                        options: CarouselOptions(
-                            viewportFraction: 0.4, enlargeCenterPage: true),
-                      );
-                    }
-                    return SizedBox(
-                      child: Text("empty"),
-                    );
-                  },
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+              //   height: 100,
+              //   width: MediaQuery.sizeOf(context).width,
+              //   child: BlocBuilder<AdvancePlansBloc, PlansState>(
+              //     builder: (context, state) {
+              //       if (state is PlansLoading &&
+              //           state.planType == PlanBlocType.advanced) {
+              //         return CircularProgressIndicator();
+              //       }
+              //       if (state is PlansLoaded &&
+              //           state.planType == PlanBlocType.advanced) {
+              //         print("------------advanced ${state.planType}--------");
+              //         final List<Map<String, Object>> plans = state.plans;
+              //         return CarouselSlider.builder(
+              //           itemCount: plans.length,
+              //           itemBuilder: (context, index, realIndex) {
+              //             return WorkoutLinearCard(
+              //                 sessionId: '', plan: plans[index]);
+              //           },
+              //           options: CarouselOptions(
+              //               viewportFraction: 0.4, enlargeCenterPage: true),
+              //         );
+              //       }
+              //       return SizedBox(
+              //         child: Text("empty"),
+              //       );
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),

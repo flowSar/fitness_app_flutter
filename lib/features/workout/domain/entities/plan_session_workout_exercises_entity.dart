@@ -4,7 +4,7 @@ import 'package:w_allfit/features/workout/domain/entities/session_entity.dart';
 
 class PlanSessionWorkoutExercises {
   final PlanEntity plan;
-  final Session session;
+  final SessionEntity session;
   final List<Exercise> exercises;
   PlanSessionWorkoutExercises(
       {required this.plan, required this.session, required this.exercises});

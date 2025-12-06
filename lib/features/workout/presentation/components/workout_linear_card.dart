@@ -5,7 +5,7 @@ import 'package:w_allfit/features/workout/presentation/screens/workout_plan_sess
 
 class WorkoutLinearCard extends StatelessWidget {
   final Map<String, Object> plan;
-  final int sessionId;
+  final String sessionId;
   final double? w;
   final double? h;
   const WorkoutLinearCard(
@@ -15,7 +15,7 @@ class WorkoutLinearCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<WorkoutProvider>().updatePlanId(plan['id'] as int);
+        context.read<WorkoutProvider>().updatePlanId(plan['id'].toString());
         context.read<WorkoutProvider>().updateSessionId(sessionId);
         Navigator.push(
             context,

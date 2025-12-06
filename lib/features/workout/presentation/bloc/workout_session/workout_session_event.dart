@@ -1,7 +1,7 @@
 abstract class WorkoutSessionEvent {}
 
 class StartWorkout extends WorkoutSessionEvent {
-  final int sessionId;
+  final String sessionId;
   final int index;
   StartWorkout({required this.index, required this.sessionId});
 }

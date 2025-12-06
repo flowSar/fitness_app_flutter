@@ -1,14 +1,14 @@
-class Session {
+class SessionEntity {
   final String id;
-  final int dayNumber;
+  final String name;
   final bool complete;
-  final int progress;
-  final int duration;
+  final double progress;
+  final double duration;
   final String planId;
 
-  Session({
+  SessionEntity({
     required this.id,
-    required this.dayNumber,
+    required this.name,
     required this.complete,
     required this.progress,
     required this.duration,

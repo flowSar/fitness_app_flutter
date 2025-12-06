@@ -1,3 +1,5 @@
+import 'package:w_allfit/features/workout/data/models/session_model.dart';
+
 abstract class PlanSessionsState {}
 
 class PlanSessionsInitialState extends PlanSessionsState {}
@@ -5,9 +7,9 @@ class PlanSessionsInitialState extends PlanSessionsState {}
 class PlanSessionsLoading extends PlanSessionsState {}
 
 class PlanSessionsLoaded extends PlanSessionsState {
-  final List<Map<String, Object>> planSessions;
-  final Map<String, Object> plan;
-  PlanSessionsLoaded({required this.plan, required this.planSessions});
+  final List<SessionModel> planSessions;
+
+  PlanSessionsLoaded({required this.planSessions});
 }
 
 class PlanSessionsLoadingFailed extends PlanSessionsState {

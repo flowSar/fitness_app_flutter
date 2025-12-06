@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 
 class QuickStartCard extends StatefulWidget {
   final Map<String, Object> plan;
-  final int sessionId;
+  final String sessionId;
   const QuickStartCard(
       {super.key, required this.plan, required this.sessionId});
 
@@ -19,7 +18,9 @@ class _QuickStartCardState extends State<QuickStartCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<WorkoutProvider>().updatePlanId(widget.plan['id'] as int);
+        context
+            .read<WorkoutProvider>()
+            .updatePlanId(widget.plan['id'].toString());
         context.read<WorkoutProvider>().updateSessionId(widget.sessionId);
         Navigator.push(
             context,

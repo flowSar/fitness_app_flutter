@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:percent_indicator/flutter_percent_indicator.dart';
-import 'package:w_allfit/features/workout/presentation/components/progress_bar_card.dart';
+import 'package:w_allfit/features/workout/data/models/plan_model.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
 class WorkoutPlanCard extends StatelessWidget {
-  final String planImage;
-  final String name;
-  final String programId;
-  const WorkoutPlanCard(
-      {super.key,
-      required this.planImage,
-      required this.name,
-      required this.programId});
+  final PlanModel plan;
+  const WorkoutPlanCard({super.key, required this.plan});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +14,7 @@ class WorkoutPlanCard extends StatelessWidget {
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(planImage),
+          image: NetworkImage(plan.image),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(16),
@@ -33,7 +26,7 @@ class WorkoutPlanCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              name,
+              plan.name,
               style: TextStyle(
                   color: Colors.white,
                   shadows: [
@@ -53,7 +46,7 @@ class WorkoutPlanCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16))),
               onPressed: () {
-                // context.read<WorkoutProvider>().updatePlanId(programId);
+                context.read<WorkoutProvider>().updateSelectedPlan(plan);
                 context.push('/workoutPlanSessions');
               },
               child: Text(

@@ -4,8 +4,8 @@ import 'package:w_allfit/core/services/database/FakeDatabase.dart';
 abstract class SessionWorkoutPlanEvent {}
 
 class LoadSessionWorkoutPlan extends SessionWorkoutPlanEvent {
-  final int planId;
-  final int sessionId;
+  final String planId;
+  final String sessionId;
   LoadSessionWorkoutPlan({required this.planId, required this.sessionId});
 }
 
@@ -28,8 +28,8 @@ class WorkoutSessionPlanBloc
   }
 
   void _loadWorkoutSessionPlan(LoadSessionWorkoutPlan event, emit) {
-    final int sessionId = event.sessionId;
-    final int planId = event.planId;
+    final String sessionId = event.sessionId;
+    final String planId = event.planId;
 
     final plan =
         FakeDatabase.programs.where((plan) => plan['id'] == planId).toList()[0];

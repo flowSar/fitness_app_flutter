@@ -42,7 +42,7 @@ void main() {
         create: (_) => WorkoutSessionBloc(),
       ),
       BlocProvider(
-        create: (_) => PlanSessionsBloc(),
+        create: (_) => sl<PlanSessionsBloc>(),
       ),
       ChangeNotifierProvider(
         create: (context) => WorkoutProvider(),

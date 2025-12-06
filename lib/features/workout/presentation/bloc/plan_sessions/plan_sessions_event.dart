@@ -1,8 +1,8 @@
 abstract class PlanSessionsEvent {}
 
 class LoadPlanSessions extends PlanSessionsEvent {
-  final int PlanId;
-  LoadPlanSessions({required this.PlanId});
+  final String planId;
+  LoadPlanSessions({required this.planId});
 }
 
 class MarkSessionComplete extends PlanSessionsEvent {

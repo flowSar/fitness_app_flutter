@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/workout_session_plan_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
 import '../../../../core/services/database/FakeDatabase.dart';
 import '../provider/workout_provider.dart';
 
 class WorkoutPlanSessionScreen extends StatefulWidget {
-  final int id;
+  final String id;
   const WorkoutPlanSessionScreen({super.key, required this.id});
 
   @override
@@ -30,7 +29,7 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final int sessionId = context.read<WorkoutProvider>().sessionId;
+    final String sessionId = context.read<WorkoutProvider>().sessionId;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
         child: Scaffold(

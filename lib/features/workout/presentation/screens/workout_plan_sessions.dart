@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/components/full_screen_loading.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_slate.dart';
+import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/session_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_event.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_slate.dart';
 import 'package:w_allfit/features/workout/presentation/components/progress_bar_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
@@ -17,14 +18,18 @@ class WorkoutPlanSessions extends StatefulWidget {
 }
 
 class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
+  late PlanModel plan;
   @override
   void initState() {
-    final planId = context.read<WorkoutProvider>().planId;
-    final sessionId = context.read<WorkoutProvider>().sessionId;
+    // final sessionId = context.read<WorkoutProvider>().sessionId;
+
+    // context
+    //     .read<WorkoutSessionBloc>()
+    //     .add(UpdateWorkoutSessionProgress(sessionId: sessionId));
+    plan = context.read<WorkoutProvider>().selectedPlan;
+    final planId = plan.id;
     context.read<PlanSessionsBloc>().add(LoadPlanSessions(planId: planId));
-    context
-        .read<WorkoutSessionBloc>()
-        .add(UpdateWorkoutSessionProgress(sessionId: sessionId));
+
     super.initState();
   }
 
@@ -40,12 +45,25 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
               BlocBuilder<PlanSessionsBloc, PlanSessionsState>(
                 builder: (context, state) {
                   if (state is PlanSessionsLoading) {
-                    return FullScreenLoading();
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                   if (state is PlanSessionsLoaded) {
-                    final List<Map<String, Object>> sessions =
-                        state.planSessions;
-                    final plan = state.plan;
+                    final List<SessionModel> sessions = state.planSessions;
+                    // return Text(plan.image);
                     return Column(
                       children: [
                         Container(
@@ -53,7 +71,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                           height: 200,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('${plan['image']}'),
+                              image: NetworkImage(plan.image),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -65,7 +83,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  '${plan['name']}',
+                                  plan.name,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 30,
@@ -90,7 +108,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                                             offset: Offset(1, 1))
                                       ]),
                                 ),
-                                ProgressBarCard(progress: 0.3),
+                                // ProgressBarCard(progress: 0.3),
                               ],
                             ),
                           ),
@@ -102,9 +120,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                             itemCount: sessions.length,
                             itemBuilder: (context, index) {
                               return SessionCard(
-                                progress: sessions[index]['progress'] as int,
-                                day: index + 1,
-                                sessionId: sessions[index]['id'] as int,
+                                session: sessions[index],
                               );
                             },
                           ),
@@ -112,7 +128,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                       ],
                     );
                   }
-                  return Text("failed");
+                  return Text("Loading failed");
                 },
               )
             ],
