@@ -1,9 +1,11 @@
 import 'package:w_allfit/core/result.dart';
 import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_datasource.dart';
 import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
 import 'package:w_allfit/features/workout/data/models/session_model.dart';
 import 'package:w_allfit/features/workout/domain/entities/plan_entity.dart';
 import 'package:w_allfit/features/workout/domain/entities/session_entity.dart';
+import 'package:w_allfit/features/workout/domain/entities/session_exercise_entity.dart';
 import 'package:w_allfit/features/workout/domain/repositories/user_plan_repository.dart';
 
 class UserPlanRepositoryImpl extends UserPlanRepository {
@@ -31,10 +33,10 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
     try {
       final List<Map<String, dynamic>> data =
           await userRemoteDataSource.getuserPlanSessions(token, planId);
-      print('data: $data');
+
       final List<SessionModel> plans =
           data.map((elem) => SessionModel.fromJson(elem)).toList();
-      print('data: $plans');
+
       return Result.success(plans);
     } catch (e) {
       print('loding user plans failed ${e.toString()}');
@@ -43,15 +45,48 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
   }
 
   @override
-  Future<void> getUserPlanSessionWorkoutExercises(
-      String userId, String planId, String sessionId) {
-    // TODO: implement getUserPlanSessionWorkoutExercises
+  Future<void> insertUserPlan(String userId, String planId) {
+    // TODO: implement insertUserPlan
     throw UnimplementedError();
   }
 
   @override
-  Future<void> insertUserPlan(String userId, String planId) {
-    // TODO: implement insertUserPlan
+  Future<Result<List<SessionExerciseEntity>>> getUserPlanSessionExercises(
+      String token, String sessionId) async {
+    try {
+      final List<Map<String, dynamic>> data = await userRemoteDataSource
+          .getUserPlanSessionExercises(token, sessionId);
+
+      final List<SessionExerciseModel> plans =
+          data.map((elem) => SessionExerciseModel.fromJson(elem)).toList();
+
+      return Result.success(plans);
+    } catch (e) {
+      print('loding user plans failed ${e.toString()}');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<SessionExerciseEntity>> markUserPlansessionExerciseComplete(
+      String token, String sessionExerciseId) async {
+    try {
+      final Map<String, dynamic> data = await userRemoteDataSource
+          .markUserPlansessionExerciseComplete(token, sessionExerciseId);
+      print('updateddata: $data');
+      final SessionExerciseModel plan = SessionExerciseModel.fromJson(data);
+      print('updateddata: $plan');
+      return Result.success(plan);
+    } catch (e) {
+      print('markt exercise comlete failed ${e.toString()}');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<SessionEntity>> markUserPlansessionComplete(
+      String token, String sessionId) {
+    // TODO: implement markUserPlansessionComplete
     throw UnimplementedError();
   }
 }

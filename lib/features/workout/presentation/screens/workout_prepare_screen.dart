@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
@@ -38,9 +35,9 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
     final sessionId = context.read<WorkoutProvider>().sessionId;
 
     // Trigger your BLoC event one time
-    context
-        .read<WorkoutSessionBloc>()
-        .add(StartWorkout(sessionId: sessionId, index: 0));
+    // context
+    //     .read<WorkoutSessionBloc>()
+    //     .add(StartWorkout(sessionId: sessionId, index: 0));
   }
 
   void startCountDown() {
@@ -139,15 +136,16 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
                       return Column(
                         children: [
                           Text(
-                            "${state.exercise['name']}",
+                            state.exercise.exercise.name,
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Image.asset(
-                            '${state.exercise['image_url']}',
+                          Image.network(
+                            state.exercise.exercise.image
+                                .replaceAll('mp4', 'gif'),
                             width: 300,
                             height: 300,
                           ),

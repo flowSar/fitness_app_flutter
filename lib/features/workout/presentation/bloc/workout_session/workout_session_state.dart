@@ -1,17 +1,17 @@
+import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
+
 abstract class WorkoutSessionState {}
 
 class WorkoutSessionInitialState extends WorkoutSessionState {}
 
+class WorkoutExerciseInProgressLoading extends WorkoutSessionState {}
+
 class WorkoutExerciseInProgress extends WorkoutSessionState {
-  final Map<String, Object> exercise;
-  final Map<String, Object> sessionExercises;
+  final SessionExerciseModel exercise;
+  final List<SessionExerciseModel> workoutPlan;
   final int index;
-  final String sessionId;
   WorkoutExerciseInProgress(
-      {required this.exercise,
-      required this.sessionExercises,
-      required this.index,
-      required this.sessionId});
+      {required this.exercise, required this.index, required this.workoutPlan});
 }
 
 class WorkoutComplete extends WorkoutSessionState {}

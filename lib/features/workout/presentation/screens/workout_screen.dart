@@ -9,14 +9,11 @@ import 'package:w_allfit/features/workout/data/models/plan_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_event.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_state.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_state.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
-import 'package:w_allfit/features/workout/presentation/components/workout_linear_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/workout_plan_card.dart';
 
 class WorkoutScreen extends StatefulWidget {

@@ -36,10 +36,10 @@ void main() {
         create: (_) => QuickStartWorkoutBloc(),
       ),
       BlocProvider(
-        create: (_) => WorkoutSessionPlanBloc(),
+        create: (_) => sl<WorkoutSessionPlanBloc>(),
       ),
       BlocProvider(
-        create: (_) => WorkoutSessionBloc(),
+        create: (_) => sl<WorkoutSessionBloc>(),
       ),
       BlocProvider(
         create: (_) => sl<PlanSessionsBloc>(),

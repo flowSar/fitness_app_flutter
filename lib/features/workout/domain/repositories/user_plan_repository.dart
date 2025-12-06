@@ -1,6 +1,7 @@
 import 'package:w_allfit/core/result.dart';
 import 'package:w_allfit/features/workout/domain/entities/plan_entity.dart';
 import 'package:w_allfit/features/workout/domain/entities/session_entity.dart';
+import 'package:w_allfit/features/workout/domain/entities/session_exercise_entity.dart';
 
 abstract class UserPlanRepository {
   Future<void> insertUserPlan(String userId, String planId);
@@ -10,6 +11,11 @@ abstract class UserPlanRepository {
   Future<Result<List<SessionEntity>>> getUserPlanSessions(
       String token, String planId);
 
-  Future<void> getUserPlanSessionWorkoutExercises(
-      String userId, String planId, String sessionId);
+  Future<Result<List<SessionExerciseEntity>>> getUserPlanSessionExercises(
+      String token, String sessionId);
+
+  Future<Result<SessionExerciseEntity>> markUserPlansessionExerciseComplete(
+      String token, String sessionExerciseId);
+  Future<Result<SessionEntity>> markUserPlansessionComplete(
+      String token, String sessionId);
 }

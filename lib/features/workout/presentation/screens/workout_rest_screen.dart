@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 
@@ -137,15 +135,16 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
                               ),
                             ),
                             Text(
-                              "${state.exercise['name']}",
+                              state.exercise.exercise.name,
                               style: TextStyle(
                                 color: Colors.blueGrey,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Image.asset(
-                              '${state.exercise['image_url']}',
+                            Image.network(
+                              state.exercise.exercise.image
+                                  .replaceAll('mp4', 'gif'),
                               width: 270,
                               height: 270,
                             ),

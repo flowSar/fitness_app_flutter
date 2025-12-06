@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
@@ -33,7 +33,7 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     final state = context.read<WorkoutSessionBloc>().state;
     if (state is WorkoutExerciseInProgress) {
-      duration = state.sessionExercises['duration_seconds'] as int;
+      // duration = state.sessionExercises['duration_seconds'] as int;
       count = duration;
       startCountDown();
     }
@@ -100,18 +100,19 @@ class _WorkoutExerciseScreenState extends State<WorkoutExerciseScreen> {
                   },
                   builder: (context, state) {
                     if (state is WorkoutExerciseInProgress) {
+                      final SessionExerciseModel exercise = state.exercise;
                       return Column(
                         children: [
                           Text(
-                            "${state.exercise['name']}",
+                            exercise.exercise.name,
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Image.asset(
-                            '${state.exercise['image_url']}',
+                          Image.network(
+                            exercise.exercise.image.replaceAll('mp4', 'gif'),
                             width: 300,
                             height: 300,
                           ),

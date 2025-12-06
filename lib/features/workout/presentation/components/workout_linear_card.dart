@@ -17,11 +17,11 @@ class WorkoutLinearCard extends StatelessWidget {
       onTap: () {
         context.read<WorkoutProvider>().updatePlanId(plan['id'].toString());
         context.read<WorkoutProvider>().updateSessionId(sessionId);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WorkoutPlanSessionScreen(id: sessionId),
-            ));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => WorkoutPlanSessionScreen(id: sessionId),
+        //     ));
       },
       child: Container(
         width: this.w ?? MediaQuery.sizeOf(context).width * 0.4,

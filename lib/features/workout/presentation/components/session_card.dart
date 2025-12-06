@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:go_router/go_router.dart";
 import "package:percent_indicator/flutter_percent_indicator.dart";
 import "package:w_allfit/features/workout/data/models/session_model.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart";
@@ -22,11 +23,7 @@ class _SessionCardState extends State<SessionCard> {
       onTap: () {
         // update session id
         context.read<WorkoutProvider>().updateSessionId(widget.session.id);
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => WorkoutPlanSessionScreen(
-        //     id: widget.sessionId,
-        //   ),
-        // ));
+        context.push('/workoutPlanSession');
       },
       child: Card(
         elevation: 4,

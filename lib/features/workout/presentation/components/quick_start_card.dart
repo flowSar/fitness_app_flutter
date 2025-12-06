@@ -22,12 +22,12 @@ class _QuickStartCardState extends State<QuickStartCard> {
             .read<WorkoutProvider>()
             .updatePlanId(widget.plan['id'].toString());
         context.read<WorkoutProvider>().updateSessionId(widget.sessionId);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  WorkoutPlanSessionScreen(id: widget.sessionId),
-            ));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) =>
+        //           WorkoutPlanSessionScreen(id: widget.sessionId),
+        //     ));
       },
       child: Material(
         elevation: 4,

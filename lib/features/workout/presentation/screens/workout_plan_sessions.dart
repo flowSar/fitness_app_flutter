@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/components/full_screen_loading.dart';
 import 'package:w_allfit/features/workout/data/models/plan_model.dart';
 import 'package:w_allfit/features/workout/data/models/session_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_slate.dart';
-import 'package:w_allfit/features/workout/presentation/components/progress_bar_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 

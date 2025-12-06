@@ -12,6 +12,7 @@ import 'package:w_allfit/features/auth/presentation/screens/sign_up_screen.dart'
 import 'package:w_allfit/features/nutrition/presentation/view_more_nutrition.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_complete_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_exercise_screen.dart';
+import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_plan_sessions.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_rest_screen.dart';
@@ -57,6 +58,10 @@ final GoRouter appRoutes = GoRouter(
         GoRoute(
           path: '/workoutPlanSessions',
           builder: (context, state) => WorkoutPlanSessions(),
+        ),
+        GoRoute(
+          path: '/workoutPlanSession',
+          builder: (context, state) => WorkoutPlanSessionScreen(),
         ),
         GoRoute(
           path: '/workoutExercise',
