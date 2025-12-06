@@ -5,7 +5,7 @@ class InsertPlan {
   final WorkoutRepository workoutRepository;
   InsertPlan({required this.workoutRepository});
 
-  Future<void> call(Plan plan) {
+  Future<void> call(PlanEntity plan) {
     return workoutRepository.insertPlan(plan);
   }
 }

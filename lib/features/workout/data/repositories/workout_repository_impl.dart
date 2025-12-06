@@ -19,7 +19,7 @@ class WorkoutRepositoryImpl implements WorkoutRepository {
   }
 
   @override
-  Future<List<Plan>> getPlans() {
+  Future<List<PlanEntity>> getPlans() {
     // TODO: implement getPlans
     throw UnimplementedError();
   }
@@ -31,7 +31,7 @@ class WorkoutRepositoryImpl implements WorkoutRepository {
   }
 
   @override
-  Future<void> insertPlan(Plan plan) {
+  Future<void> insertPlan(PlanEntity plan) {
     // TODO: implement insertPlan
     throw UnimplementedError();
   }

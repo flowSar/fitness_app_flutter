@@ -1,7 +1,7 @@
-import 'package:w_allfit/features/workout/domain/repositories/user_repository.dart';
+import 'package:w_allfit/features/workout/domain/repositories/user_plan_repository.dart';
 
 class InsertUserPlan {
-  final UserRepository userRepository;
+  final UserPlanRepository userRepository;
   InsertUserPlan({required this.userRepository});
 
   Future<void> call(String userId, String planId) async {

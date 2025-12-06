@@ -1,45 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/core/services/database/FakeDatabase.dart';
-
-abstract class UserPlansState {
-  List<Map<String, Object>> get userPlans => [];
-}
-
-class UserPlansInitialState extends UserPlansState {}
-
-class UserPlanProgressLoaded extends UserPlansState {
-  @override
-  final List<Map<String, Object>> userPlans;
-  final int progress;
-  UserPlanProgressLoaded({required this.userPlans, required this.progress});
-}
-
-class UserPlansLoading extends UserPlansState {}
-
-class UserPlansLoaded extends UserPlansState {
-  final List<Map<String, Object>> userPlans;
-
-  UserPlansLoaded({required this.userPlans});
-}
-
-abstract class UserPlansEvent {}
-
-class LoadUserPlans extends UserPlansEvent {}
-
-class LoadUserPlanProgress extends UserPlansEvent {
-  final int planId;
-  LoadUserPlanProgress({required this.planId});
-}
+import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
+import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/domain/usecases/user_plans_usecase.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_event.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_state.dart';
 
 class UserPlansBloc extends Bloc<UserPlansEvent, UserPlansState> {
-  UserPlansBloc() : super(UserPlansInitialState()) {
+  final UserPlansUsecase userPlansUsecase;
+  UserPlansBloc({required this.userPlansUsecase})
+      : super(UserPlansInitialState()) {
     on<LoadUserPlans>(_loadUserPlans);
     // on<LoadUserPlanProgress>(_loadUserPlanProgress);
   }
 
-  void _loadUserPlans(event, emit) {
-    final userPlans = FakeDatabase.user_programs;
-    emit(UserPlansLoaded(userPlans: userPlans));
+  void _loadUserPlans(event, emit) async {
+    emit(UserPlansLoading());
+    final token = await hasToken();
+    if (token == null) {
+      emit(UserPlansLoadingFailed(error: 'token missing'));
+    } else {
+      final result = await userPlansUsecase(token);
+      if (!result.isSuccess || result.data == null) {
+        emit(UserPlansLoadingFailed(error: '${result.error}'));
+      }
+      emit(
+        UserPlansLoaded(
+          userPlans:
+              result.data!.map((item) => PlanModel.fromEntity(item)).toList(),
+        ),
+      );
+    }
   }
 
   // void _loadUserPlanProgress(LoadUserPlanProgress event, emit) {

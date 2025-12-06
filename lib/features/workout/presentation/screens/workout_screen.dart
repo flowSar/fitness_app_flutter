@@ -1,23 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:w_allfit/core/constants/plansType.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
+import 'package:w_allfit/features/workout/data/models/plan_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_state.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_event.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_state.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/workout_linear_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/workout_plan_card.dart';
-import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -100,18 +100,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: BlocBuilder<UserPlansBloc, UserPlansState>(
                   builder: (context, state) {
                     if (state is UserPlansLoaded) {
-                      final List<Map<String, Object>> programs =
-                          state.userPlans;
+                      final List<PlanModel> plans = state.userPlans;
                       return CarouselSlider.builder(
-                        itemCount: programs.length,
+                        itemCount: plans.length,
                         itemBuilder: (context, index, realIndex) {
-                          final String name = programs[index]['name'] as String;
-                          final int programId = programs[index]['id'] as int;
-                          final String planImage =
-                              programs[index]['image'] as String;
+                          final String name = plans[index].name;
+                          final programId = plans[index].id;
+                          final String planImage = plans[index].image;
 
                           return WorkoutPlanCard(
-                              planImage: programs[index]['image'] as String,
+                              planImage: plans[index].image,
                               name: name,
                               programId: programId);
                         },
@@ -124,9 +122,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         ),
                       );
                     }
-                    // if (state is UserPlansLoading) {
-                    //
-                    // }
+                    if (state is UserPlansLoading) {
+                      return Center(
+                        child: SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
                     return SizedBox(
                       child: Text("empty"),
                     );

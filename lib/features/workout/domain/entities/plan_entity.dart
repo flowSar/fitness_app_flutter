@@ -1,6 +1,4 @@
-import 'package:w_allfit/core/constants/plansType.dart';
-
-class Plan {
+class PlanEntity {
   final String id;
   final String name;
   final String description;
@@ -9,16 +7,19 @@ class Plan {
   final String? video;
   final int duration;
   final int sessionsNumber;
-  final PlanType type;
+  final bool complete;
+  final double progress;
 
-  Plan(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.level,
-      required this.image,
-      required this.video,
-      required this.duration,
-      required this.sessionsNumber,
-      required this.type});
+  PlanEntity({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.level,
+    required this.image,
+    required this.video,
+    required this.duration,
+    required this.sessionsNumber,
+    required this.complete,
+    required this.progress,
+  });
 }

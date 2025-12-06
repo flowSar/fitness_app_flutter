@@ -4,14 +4,14 @@ import 'package:w_allfit/features/workout/domain/entities/plan_session_workout_e
 import 'package:w_allfit/features/workout/domain/entities/sessions_plan_entity.dart';
 
 abstract class WorkoutRepository {
-  Future<List<Plan>> getPlans();
+  Future<List<PlanEntity>> getPlans();
 
   Future<List<PlanSessions>> getPlanSessions(String planId);
 
   Future<PlanSessionWorkoutExercises> getPlanSessionWorkoutExercises(
       String planId, String sessionId);
 
-  Future<void> insertPlan(Plan plan);
+  Future<void> insertPlan(PlanEntity plan);
 
   Future<void> insertExercise(Exercise exercise);
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:w_allfit/core/di/auth_injector.dart';
 import 'package:w_allfit/core/router/routes.dart';
-import 'package:w_allfit/dependencies_injection.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
@@ -21,7 +21,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       BlocProvider(
-        create: (_) => UserPlansBloc(),
+        create: (_) => sl<UserPlansBloc>(),
       ),
       BlocProvider(
         create: (_) => PopularPlansBloc(),

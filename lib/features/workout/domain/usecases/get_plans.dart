@@ -5,7 +5,7 @@ class GetPlans {
   final WorkoutRepository workoutRepository;
   GetPlans({required this.workoutRepository});
 
-  Future<List<Plan>> call() async {
+  Future<List<PlanEntity>> call() async {
     return workoutRepository.getPlans();
   }
 }

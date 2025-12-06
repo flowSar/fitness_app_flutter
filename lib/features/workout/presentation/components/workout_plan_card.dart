@@ -8,7 +8,7 @@ import 'package:w_allfit/features/workout/presentation/provider/workout_provider
 class WorkoutPlanCard extends StatelessWidget {
   final String planImage;
   final String name;
-  final int programId;
+  final String programId;
   const WorkoutPlanCard(
       {super.key,
       required this.planImage,
@@ -21,7 +21,7 @@ class WorkoutPlanCard extends StatelessWidget {
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(planImage),
+          image: NetworkImage(planImage),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(16),
@@ -53,7 +53,7 @@ class WorkoutPlanCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16))),
               onPressed: () {
-                context.read<WorkoutProvider>().updatePlanId(programId);
+                // context.read<WorkoutProvider>().updatePlanId(programId);
                 context.push('/workoutPlanSessions');
               },
               child: Text(
