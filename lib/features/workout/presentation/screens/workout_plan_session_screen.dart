@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
@@ -20,7 +20,7 @@ class WorkoutPlanSessionScreen extends StatefulWidget {
 class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
   late String level = '';
   late String coverImage = '';
-  late PlanModel? plan;
+  late UserPlanModel? plan;
 
   @override
   void initState() {

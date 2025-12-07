@@ -5,6 +5,7 @@ import 'package:w_allfit/core/di/auth_injector.dart';
 import 'package:w_allfit/core/router/routes.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
+import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
@@ -44,6 +45,7 @@ void main() {
       BlocProvider(
         create: (_) => sl<PlanSessionsBloc>(),
       ),
+      BlocProvider(create: (_) => sl<WorkoutPlansBloc>()),
       ChangeNotifierProvider(
         create: (context) => WorkoutProvider(),
       ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
 class WorkoutPlanCard extends StatelessWidget {
-  final PlanModel plan;
+  final UserPlanModel plan;
   const WorkoutPlanCard({super.key, required this.plan});
 
   @override
@@ -36,7 +36,7 @@ class WorkoutPlanCard extends StatelessWidget {
                         color: Colors.black54 // shadow color
                         )
                   ],
-                  fontSize: 28,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold),
             ),
             TextButton(

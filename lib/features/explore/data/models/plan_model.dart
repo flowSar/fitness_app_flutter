@@ -1,5 +1,5 @@
-import 'package:w_allfit/core/constants/plansType.dart';
-import 'package:w_allfit/features/workout/domain/entities/plan_entity.dart';
+import 'package:w_allfit/core/domain/entities/plan_entity.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 
 class PlanModel extends PlanEntity {
   PlanModel({
@@ -11,8 +11,6 @@ class PlanModel extends PlanEntity {
     required super.video,
     required super.duration,
     required super.sessionsNumber,
-    required super.complete,
-    required super.progress,
   });
 
   factory PlanModel.fromEntity(PlanEntity plan) {
@@ -25,8 +23,6 @@ class PlanModel extends PlanEntity {
       video: plan.video,
       duration: plan.duration,
       sessionsNumber: plan.sessionsNumber,
-      complete: plan.complete,
-      progress: plan.progress,
     );
   }
   factory PlanModel.fromJson(Map<String, dynamic> json) {
@@ -39,8 +35,19 @@ class PlanModel extends PlanEntity {
       video: json['video'] ?? '',
       duration: json['duration'] ?? 0,
       sessionsNumber: json['sessions_number'] ?? 1,
-      complete: json['complete'] ?? false,
-      progress: (json['progress'] as num).toDouble(),
+    );
+  }
+
+  factory PlanModel.fromUserPlanModel(UserPlanModel userPlanModel) {
+    return PlanModel(
+      id: userPlanModel.id,
+      name: userPlanModel.name,
+      description: userPlanModel.description,
+      level: userPlanModel.level,
+      image: userPlanModel.image,
+      video: userPlanModel.video,
+      duration: userPlanModel.duration,
+      sessionsNumber: userPlanModel.sessionsNumber,
     );
   }
 }

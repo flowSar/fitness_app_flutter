@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/workout/data/models/session_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_slate.dart';
+import 'package:w_allfit/features/workout/presentation/components/progress_bar_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/session_card.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
@@ -16,7 +17,7 @@ class WorkoutPlanSessions extends StatefulWidget {
 }
 
 class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
-  late PlanModel plan;
+  late UserPlanModel plan;
   @override
   void initState() {
     // final sessionId = context.read<WorkoutProvider>().sessionId;
@@ -61,6 +62,11 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                   }
                   if (state is PlanSessionsLoaded) {
                     final List<SessionModel> sessions = state.planSessions;
+                    final completedSessions = sessions
+                        .where((session) => session.complete)
+                        .toList()
+                        .length;
+                    final leftSessions = sessions.length - completedSessions;
                     // return Text(plan.image);
                     return Column(
                       children: [
@@ -95,7 +101,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                                   ),
                                 ),
                                 Text(
-                                  "${sessions.length} days left",
+                                  "$leftSessions days left",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -106,7 +112,7 @@ class _WorkoutSessionsState extends State<WorkoutPlanSessions> {
                                             offset: Offset(1, 1))
                                       ]),
                                 ),
-                                // ProgressBarCard(progress: 0.3),
+                                ProgressBarCard(progress: plan.progress!),
                               ],
                             ),
                           ),

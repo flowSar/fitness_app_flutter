@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:percent_indicator/flutter_percent_indicator.dart";
+import "package:w_allfit/core/utils/functions.dart";
 import "package:w_allfit/features/workout/data/models/session_model.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart";
 import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart";
@@ -19,6 +20,9 @@ class _SessionCardState extends State<SessionCard> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final progress = roundToHalf(widget.session.progress) == 100
+        ? 100
+        : roundToHalf(widget.session.progress);
     return InkWell(
       onTap: () {
         // update session id
@@ -49,9 +53,9 @@ class _SessionCardState extends State<SessionCard> {
                   CircularPercentIndicator(
                       radius: 25,
                       lineWidth: 4,
-                      percent: widget.session.progress,
+                      percent: widget.session.progress / 100,
                       center: Text(
-                        '${widget.session.progress}%',
+                        '$progress%',
                       ),
                     ),
             );

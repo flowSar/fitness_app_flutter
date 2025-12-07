@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:w_allfit/core/utils/functions.dart';
 
 class ProgressBarCard extends StatelessWidget {
   final double progress;
@@ -15,11 +16,11 @@ class ProgressBarCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Progress',
+            'Progress ${roundToHalf(progress)}%',
             style: TextStyle(fontWeight: FontWeight.w500),
           ),
           LinearProgressIndicator(
-            value: progress,
+            value: progress / 100,
             color: Colors.redAccent,
             minHeight: 8,
             borderRadius: BorderRadius.circular(8),

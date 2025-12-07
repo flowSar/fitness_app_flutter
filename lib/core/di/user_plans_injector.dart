@@ -3,6 +3,7 @@ import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_da
 import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_datasource_impl.dart';
 import 'package:w_allfit/features/workout/data/repositories/user_plan_repository_impl.dart';
 import 'package:w_allfit/features/workout/domain/repositories/user_plan_repository.dart';
+import 'package:w_allfit/features/workout/domain/usecases/add_user_plan_usecase.dart';
 import 'package:w_allfit/features/workout/domain/usecases/get_user_plan_session_exercises.dart';
 import 'package:w_allfit/features/workout/domain/usecases/get_user_plan_sessions.dart';
 import 'package:w_allfit/features/workout/domain/usecases/mark_user_plan_session_exercise_complete.dart';
@@ -36,6 +37,10 @@ void userWorkoutPlansInit() {
     ),
   );
 
+  sl.registerSingleton<AddUserPlanUsecase>(AddUserPlanUsecase(
+    userRepository: sl<UserPlanRepository>(),
+  ));
+
   sl.registerSingleton<GetUserPlanSessionExercises>(
     GetUserPlanSessionExercises(
       userPlanRepository: sl<UserPlanRepository>(),
@@ -54,6 +59,7 @@ void userWorkoutPlansInit() {
   sl.registerFactory<UserPlansBloc>(
     () => UserPlansBloc(
       userPlansUsecase: sl<UserPlansUsecase>(),
+      addUserPlanUsecase: sl<AddUserPlanUsecase>(),
     ),
   );
 

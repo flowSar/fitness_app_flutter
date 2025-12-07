@@ -3,15 +3,9 @@ import 'dart:convert';
 import 'package:w_allfit/core/constants/constants.dart';
 import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_datasource.dart';
 import 'package:http/http.dart' as http;
+import 'package:w_allfit/features/workout/domain/usecases/add_user_plan_usecase.dart';
 
 class UserRemoteDataSourceImpl extends UserRemoteDataSource {
-  @override
-  Future<Map<String, dynamic>> createUserWorkoutPlans(
-      String token, String planId) async {
-    // TODO: implement getUserWorkoutPlans
-    throw UnimplementedError();
-  }
-
   @override
   Future<List<Map<String, dynamic>>> getUserWorkoutPlans(String token) async {
     final url = Uri.parse('$serverApiUrl/user/plans');
@@ -104,6 +98,21 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
 
     final data = jsonDecode(response.body)['data'];
 
+    return data;
+  }
+
+  @override
+  Future<Map<String, dynamic>> addUserPlan(String token, String planId) async {
+    final url = Uri.parse('$serverApiUrl/user/plans/$planId/create');
+    final response = await http.post(url, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    if (response.statusCode != 201) {
+      final message = jsonDecode(response.body)['message'];
+      throw Exception('user plan creation failed $message');
+    }
+    final data = jsonDecode(response.body)['data'];
     return data;
   }
 }

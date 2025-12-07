@@ -1,4 +1,4 @@
-import 'package:w_allfit/features/workout/domain/entities/plan_entity.dart';
+import 'package:w_allfit/core/domain/entities/plan_entity.dart';
 import 'package:w_allfit/features/workout/domain/repositories/workout_repository.dart';
 
 class GetPlans {

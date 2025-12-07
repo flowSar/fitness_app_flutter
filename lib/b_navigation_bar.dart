@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:w_allfit/features/explore/presentation/screens/explore_screen.dart';
 import 'package:w_allfit/features/nutrition/presentation/nutrition_screen.dart';
 import 'package:w_allfit/features/settings/presentation/screens/settings_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_screen.dart';
@@ -13,8 +14,8 @@ class BNavigationBar extends StatefulWidget {
 class _BNavigationBarState extends State<BNavigationBar> {
   late int screenIndex = 0;
   final screens = [
-    // Homescreen(),
     WorkoutScreen(),
+    ExploreScreen(),
     NutritionScreen(),
     SettingsScreen(),
   ];
@@ -34,8 +35,11 @@ class _BNavigationBarState extends State<BNavigationBar> {
           },
           selectedItemColor: isDark ? Colors.white : Colors.red,
           unselectedItemColor: isDark ? Colors.grey : Colors.deepPurple,
+          showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Training'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.explore), label: 'Explore'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.food_bank), label: 'nutrition'),
             BottomNavigationBarItem(

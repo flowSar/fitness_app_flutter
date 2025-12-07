@@ -40,38 +40,22 @@ class _TestPageState extends State<TestPage> {
         child: SingleChildScrollView(
             child: Column(
           children: [
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(CheckAuthState());
-              },
-              child: Text('check auth'),
-            ),
-            BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                if (state is AuthFailed) {
-                  return Text('auth failed: ${state.error}');
-                }
-                if (state is Authenticated) {
-                  if (state.isAuthenticated) {
-                    return Text('auth');
-                  }
-                  return Text('unauthenticated');
-                }
-                if (state is LogOutSuccess) {
-                  return Text('log out success');
-                }
-                if (state is LogOutFailed) {
-                  return Text('log out failed ${state.error}');
-                }
-                return Text('loading...');
-              },
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(LogOutEvent());
-              },
-              child: Text('Logout'),
-            ),
+            Container(
+              width: MediaQuery.sizeOf(context).width * 0.9,
+              padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add),
+                  Text('Add New Workout Plan'),
+                ],
+              ),
+            )
           ],
         )),
       ),

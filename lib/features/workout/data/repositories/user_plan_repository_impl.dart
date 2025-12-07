@@ -1,9 +1,9 @@
 import 'package:w_allfit/core/result.dart';
 import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_datasource.dart';
-import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
 import 'package:w_allfit/features/workout/data/models/session_model.dart';
-import 'package:w_allfit/features/workout/domain/entities/plan_entity.dart';
+import 'package:w_allfit/core/domain/entities/plan_entity.dart';
 import 'package:w_allfit/features/workout/domain/entities/session_entity.dart';
 import 'package:w_allfit/features/workout/domain/entities/session_exercise_entity.dart';
 import 'package:w_allfit/features/workout/domain/repositories/user_plan_repository.dart';
@@ -17,8 +17,8 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
       final List<Map<String, dynamic>> data =
           await userRemoteDataSource.getUserWorkoutPlans(token);
       print('data: $data');
-      final List<PlanModel> plans =
-          data.map((elem) => PlanModel.fromJson(elem)).toList();
+      final List<UserPlanModel> plans =
+          data.map((elem) => UserPlanModel.fromJson(elem)).toList();
       print('data: $plans');
       return Result.success(plans);
     } catch (e) {
@@ -42,12 +42,6 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
       print('loding user plans failed ${e.toString()}');
       return Result.failure(e.toString());
     }
-  }
-
-  @override
-  Future<void> insertUserPlan(String userId, String planId) {
-    // TODO: implement insertUserPlan
-    throw UnimplementedError();
   }
 
   @override
@@ -88,5 +82,19 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
       String token, String sessionId) {
     // TODO: implement markUserPlansessionComplete
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<PlanEntity>> adduserPlan(String token, String planId) async {
+    try {
+      final data = await userRemoteDataSource.addUserPlan(token, planId);
+      print('userr created plan $data');
+      final plan = UserPlanModel.fromJson(data);
+
+      return Result.success(plan);
+    } catch (e) {
+      print('add User plan failed $token ${e.toString()}');
+      return Result.failure(e.toString());
+    }
   }
 }

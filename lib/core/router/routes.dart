@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/b_navigation_bar.dart';
+import 'package:w_allfit/core/constants/constants.dart';
+import 'package:w_allfit/features/explore/presentation/screens/workout_plans_list_screen.dart';
 import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
@@ -99,6 +101,18 @@ final GoRouter appRoutes = GoRouter(
           path: '/testPage',
           builder: (context, state) => TestPage(),
         ),
+        GoRoute(
+          path: 'workoutPlanslist',
+          builder: (context, state) {
+            final ScreenType? screenType = state.extra as ScreenType;
+            if (screenType == null) {
+              return WorkoutPlansListScreen();
+            }
+            return WorkoutPlansListScreen(
+              screenType: screenType,
+            );
+          },
+        )
       ],
     ),
   ],

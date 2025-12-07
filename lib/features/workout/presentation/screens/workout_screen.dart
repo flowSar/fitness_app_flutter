@@ -1,11 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:w_allfit/components/add_workout_plan_card.dart';
 import 'package:w_allfit/core/constants/plansType.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
-import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_event.dart';
@@ -45,6 +46,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final List<Widget> wokroutPlancrdStack = [];
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
@@ -79,6 +82,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Your Plans',
@@ -87,6 +91,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         fontSize: 16,
                         fontWeight: FontWeight.w700),
                   ),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      spacing: 2,
+                      children: [
+                        Text('View All'),
+                        Icon(Icons.view_list),
+                      ],
+                    ),
+                  )
                 ],
               ),
 
@@ -97,18 +111,23 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: BlocBuilder<UserPlansBloc, UserPlansState>(
                   builder: (context, state) {
                     if (state is UserPlansLoaded) {
-                      final List<PlanModel> plans = state.userPlans;
+                      final List<UserPlanModel> plans = state.userPlans;
 
                       return CarouselSlider.builder(
-                        itemCount: plans.length,
+                        itemCount: plans.length + 1,
                         itemBuilder: (context, index, realIndex) {
-                          return WorkoutPlanCard(
-                            plan: plans[index],
-                          );
+                          if (index >= plans.length) {
+                            wokroutPlancrdStack.add(AddWorkoutPlanCard());
+                          } else {
+                            wokroutPlancrdStack.add(WorkoutPlanCard(
+                              plan: plans[index],
+                            ));
+                          }
+                          return wokroutPlancrdStack[index];
                         },
                         options: CarouselOptions(
                           height: 200,
-                          // enableInfiniteScroll: false,
+                          enableInfiniteScroll: false,
                           enlargeCenterPage: true,
                           aspectRatio: 16 / 9,
                           viewportFraction: 0.8,
@@ -133,6 +152,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 ),
               ),
               // quick start workout
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   Text(
@@ -189,7 +211,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
-                  Text('View more'),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      spacing: 2,
+                      children: [
+                        Text('View More'),
+                        Icon(Icons.view_list),
+                      ],
+                    ),
+                  )
                 ],
               ),
               // Container(
@@ -234,7 +265,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
-                  Text('View more'),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      spacing: 2,
+                      children: [
+                        Text('View More'),
+                        Icon(Icons.view_list),
+                      ],
+                    ),
+                  )
                 ],
               ),
               // Container(
@@ -277,7 +317,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
                   ),
-                  Text('View more'),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      spacing: 2,
+                      children: [
+                        Text('View More'),
+                        Icon(Icons.view_list),
+                      ],
+                    ),
+                  )
                 ],
               ),
               // Container(

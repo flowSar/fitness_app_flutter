@@ -7,8 +7,8 @@ class PlanEntity {
   final String? video;
   final int duration;
   final int sessionsNumber;
-  final bool complete;
-  final double progress;
+  final bool? complete;
+  final double? progress;
 
   PlanEntity({
     required this.id,
@@ -19,7 +19,7 @@ class PlanEntity {
     required this.video,
     required this.duration,
     required this.sessionsNumber,
-    required this.complete,
-    required this.progress,
+    this.complete,
+    this.progress,
   });
 }

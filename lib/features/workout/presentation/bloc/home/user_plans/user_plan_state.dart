@@ -1,7 +1,7 @@
-import 'package:w_allfit/features/workout/data/models/plan_model.dart';
+import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
 
 abstract class UserPlansState {
-  List<PlanModel> get userPlans => [];
+  List<UserPlanModel> get userPlans => [];
 }
 
 class UserPlansInitialState extends UserPlansState {}
@@ -10,13 +10,13 @@ class UserPlansLoading extends UserPlansState {}
 
 class UserPlanProgressLoaded extends UserPlansState {
   @override
-  final List<PlanModel> userPlans;
+  final List<UserPlanModel> userPlans;
   final int progress;
   UserPlanProgressLoaded({required this.userPlans, required this.progress});
 }
 
 class UserPlansLoaded extends UserPlansState {
-  final List<PlanModel> userPlans;
+  final List<UserPlanModel> userPlans;
 
   UserPlansLoaded({required this.userPlans});
 }
@@ -24,4 +24,13 @@ class UserPlansLoaded extends UserPlansState {
 class UserPlansLoadingFailed extends UserPlansState {
   final String error;
   UserPlansLoadingFailed({required this.error});
+}
+
+class UserPlanAdding extends UserPlansState {}
+
+class UserPlanAddedSuccess extends UserPlansState {}
+
+class UserPlanAddedFailure extends UserPlansState {
+  final String error;
+  UserPlanAddedFailure(this.error);
 }
