@@ -1,17 +1,17 @@
 import 'package:get_it/get_it.dart';
-import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_datasource.dart';
-import 'package:w_allfit/features/workout/data/datasources/remote/user_remote_datasource_impl.dart';
-import 'package:w_allfit/features/workout/data/repositories/user_plan_repository_impl.dart';
-import 'package:w_allfit/features/workout/domain/repositories/user_plan_repository.dart';
-import 'package:w_allfit/features/workout/domain/usecases/add_user_plan_usecase.dart';
-import 'package:w_allfit/features/workout/domain/usecases/get_user_plan_session_exercises.dart';
-import 'package:w_allfit/features/workout/domain/usecases/get_user_plan_sessions.dart';
-import 'package:w_allfit/features/workout/domain/usecases/mark_user_plan_session_exercise_complete.dart';
-import 'package:w_allfit/features/workout/domain/usecases/user_plans_usecase.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/workout_session_plan_bloc.dart';
+import 'package:w_allfit/features/user_workout/data/datasources/remote/user_remote_datasource.dart';
+import 'package:w_allfit/features/user_workout/data/datasources/remote/user_remote_datasource_impl.dart';
+import 'package:w_allfit/features/user_workout/data/repositories/user_plan_repository_impl.dart';
+import 'package:w_allfit/features/user_workout/domain/repositories/user_plan_repository.dart';
+import 'package:w_allfit/features/user_workout/domain/usecases/add_user_plan_usecase.dart';
+import 'package:w_allfit/features/user_workout/domain/usecases/get_user_plan_session_exercises.dart';
+import 'package:w_allfit/features/user_workout/domain/usecases/get_user_plan_sessions.dart';
+import 'package:w_allfit/features/user_workout/domain/usecases/get_user_plans_usecase.dart';
+import 'package:w_allfit/features/user_workout/domain/usecases/mark_user_plan_session_exercise_complete.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/plan_sessions/user_plan_sessions_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plans_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session_plan/user_workout_session_plan_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -31,8 +31,8 @@ void userWorkoutPlansInit() {
 
   // use case register
 
-  sl.registerSingleton<UserPlansUsecase>(
-    UserPlansUsecase(
+  sl.registerSingleton<GetUserPlansUsecase>(
+    GetUserPlansUsecase(
       userRepository: sl<UserPlanRepository>(),
     ),
   );
@@ -58,24 +58,24 @@ void userWorkoutPlansInit() {
 
   sl.registerFactory<UserPlansBloc>(
     () => UserPlansBloc(
-      userPlansUsecase: sl<UserPlansUsecase>(),
+      getUserPlansUsecase: sl<GetUserPlansUsecase>(),
       addUserPlanUsecase: sl<AddUserPlanUsecase>(),
     ),
   );
 
-  sl.registerFactory<PlanSessionsBloc>(
-    () => PlanSessionsBloc(
+  sl.registerFactory<UserPlanSessionsBloc>(
+    () => UserPlanSessionsBloc(
       getUserPlanSessions: sl<GetUserPlanSessions>(),
     ),
   );
 
-  sl.registerFactory<WorkoutSessionPlanBloc>(
-    () => WorkoutSessionPlanBloc(
+  sl.registerFactory<UserWorkoutSessionPlanBloc>(
+    () => UserWorkoutSessionPlanBloc(
       getUserPlanSessionExercises: sl<GetUserPlanSessionExercises>(),
     ),
   );
 
-  sl.registerFactory<WorkoutSessionBloc>(() => WorkoutSessionBloc(
+  sl.registerFactory<UserWorkoutSessionBloc>(() => UserWorkoutSessionBloc(
       markUserPlanSessionExerciseComplete:
           sl<MarkUserPlanSessionExerciseComplete>()));
 }

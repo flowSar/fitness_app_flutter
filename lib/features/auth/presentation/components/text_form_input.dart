@@ -5,17 +5,22 @@ class TextFormInput extends StatelessWidget {
   final String label;
   final String placeHolder;
   final String? Function(String?) validate;
-  const TextFormInput({
-    super.key,
-    required this.nameController,
-    required this.label,
-    required this.placeHolder,
-    required this.validate,
-  });
+  final TextInputType type;
+  final bool obscureText;
+  const TextFormInput(
+      {super.key,
+      required this.nameController,
+      required this.label,
+      required this.placeHolder,
+      required this.validate,
+      required this.type,
+      this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: type,
+      obscureText: obscureText,
       controller: nameController,
       validator: validate,
       decoration: InputDecoration(

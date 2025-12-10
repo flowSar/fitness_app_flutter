@@ -7,7 +7,7 @@ class GetAllWorkoutPlansUsecase {
 
   GetAllWorkoutPlansUsecase({required this.workoutPlansRepository});
 
-  Future<Result<List<PlanEntity>>> call() {
-    return workoutPlansRepository.getAllWorkoutPlans();
+  Future<Result<List<PlanEntity>>> call(String query) {
+    return workoutPlansRepository.getAllWorkoutPlans(query);
   }
 }

@@ -12,7 +12,8 @@ class WorkoutPlansLoadingfailed extends WorkoutPlansState {
 }
 
 class WorkoutPlansLoaded extends WorkoutPlansState {
+  final List<PlanModel> workoutPrograms;
   final List<PlanModel> workoutPlans;
-
-  WorkoutPlansLoaded({required this.workoutPlans});
+  WorkoutPlansLoaded(
+      {required this.workoutPrograms, required this.workoutPlans});
 }

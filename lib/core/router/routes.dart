@@ -4,18 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/b_navigation_bar.dart';
 import 'package:w_allfit/core/constants/constants.dart';
+import 'package:w_allfit/core/constants/plansType.dart';
 import 'package:w_allfit/features/explore/presentation/screens/workout_plans_list_screen.dart';
-import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:w_allfit/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:w_allfit/features/nutrition/presentation/view_more_nutrition.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_complete_screen.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_exercise_screen.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_plan_session_screen.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_plan_sessions.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_prepare_screen.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_rest_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_complete_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_exercise_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_plan_sessions.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_rest_screen.dart';
 import 'package:w_allfit/test_page.dart';
@@ -58,28 +62,48 @@ final GoRouter appRoutes = GoRouter(
           },
         ),
         GoRoute(
-          path: '/workoutPlanSessions',
-          builder: (context, state) => WorkoutPlanSessions(),
+          path: '/userWorkoutPlanSessions',
+          builder: (context, state) => UserWorkoutPlanSessions(),
         ),
         GoRoute(
           path: '/workoutPlanSession',
           builder: (context, state) => WorkoutPlanSessionScreen(),
         ),
         GoRoute(
+          path: '/userWorkoutPlanSession',
+          builder: (context, state) => UserWorkoutPlanSessionScreen(),
+        ),
+        GoRoute(
           path: '/workoutExercise',
           builder: (context, state) => WorkoutExerciseScreen(),
+        ),
+        GoRoute(
+          path: '/userWorkoutExercise',
+          builder: (context, state) => UserWorkoutExerciseScreen(),
         ),
         GoRoute(
           path: '/workoutRest',
           builder: (context, state) => WorkoutRestScreen(),
         ),
         GoRoute(
+          path: '/userWorkoutRest',
+          builder: (context, state) => UserWorkoutRestScreen(),
+        ),
+        GoRoute(
           path: '/workoutComplete',
           builder: (context, state) => WorkoutCompleteScreen(),
         ),
         GoRoute(
+          path: '/userWorkoutComplete',
+          builder: (context, state) => UserWorkoutCompleteScreen(),
+        ),
+        GoRoute(
           path: "/workoutPrepare",
           builder: (context, state) => WorkoutPrepareScreen(),
+        ),
+        GoRoute(
+          path: "/userWorkoutPrepare",
+          builder: (context, state) => UserWorkoutPrepareScreen(),
         ),
         GoRoute(
           path: '/viewMoreNutrition',
@@ -104,12 +128,15 @@ final GoRouter appRoutes = GoRouter(
         GoRoute(
           path: 'workoutPlanslist',
           builder: (context, state) {
-            final ScreenType? screenType = state.extra as ScreenType;
-            if (screenType == null) {
+            final extra = state.extra as Map<String, dynamic>?;
+
+            if (extra == null) {
               return WorkoutPlansListScreen();
             }
+
             return WorkoutPlansListScreen(
-              screenType: screenType,
+              screenType: extra['screentype'] as ScreenType,
+              planType: extra['plantype'] as PlanType,
             );
           },
         )

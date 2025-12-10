@@ -6,8 +6,9 @@ import 'package:http/http.dart' as http;
 
 class WorkoutPlansRemoteDataSourceImpl extends WorkoutPlansRemoteDataSource {
   @override
-  Future<List<Map<String, dynamic>>> getAllWorkoutPlans() async {
-    final url = Uri.parse('$serverApiUrl/plans');
+  Future<List<Map<String, dynamic>>> getAllWorkoutPlans(String query) async {
+    final url = Uri.parse('$serverApiUrl/plans?$query');
+
     final result = await http.get(url, headers: {
       'Accept': 'application/json',
     });
@@ -17,6 +18,7 @@ class WorkoutPlansRemoteDataSourceImpl extends WorkoutPlansRemoteDataSource {
       throw Exception('loading plans failed: $errroMesage');
     }
     final data = jsonDecode(result.body)['data'];
+    print('url---------------${url} $data');
     return List<Map<String, dynamic>>.from(data);
   }
 }

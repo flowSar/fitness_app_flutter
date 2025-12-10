@@ -10,9 +10,9 @@ class WorkoutPlansRepositoryImpl extends WorkoutPlansRepository {
   WorkoutPlansRepositoryImpl({required this.workoutPlansRemoteDataSource});
 
   @override
-  Future<Result<List<PlanEntity>>> getAllWorkoutPlans() async {
+  Future<Result<List<PlanEntity>>> getAllWorkoutPlans(String query) async {
     try {
-      final data = await workoutPlansRemoteDataSource.getAllWorkoutPlans();
+      final data = await workoutPlansRemoteDataSource.getAllWorkoutPlans(query);
       final List<PlanModel> workoutPlans =
           data.map((jsonPlan) => PlanModel.fromJson(jsonPlan)).toList();
       print('workoutPlans not user: ${workoutPlans}');

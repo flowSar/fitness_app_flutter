@@ -76,6 +76,7 @@ class _SignUpScreenState extends State<SignInScreen> {
                         : SizedBox(),
                     TextFormInput(
                       nameController: _emailController,
+                      type: TextInputType.emailAddress,
                       label: 'Email',
                       placeHolder: 'Enter Your Email',
                       validate: (value) => !isValidEmail(value!)
@@ -84,6 +85,8 @@ class _SignUpScreenState extends State<SignInScreen> {
                     ),
                     TextFormInput(
                       nameController: _passwordController,
+                      type: TextInputType.text,
+                      obscureText: true,
                       label: 'Password',
                       placeHolder: 'Enter Your Password',
                       validate: (value) =>

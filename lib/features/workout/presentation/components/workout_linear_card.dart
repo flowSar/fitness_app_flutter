@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 
 class WorkoutLinearCard extends StatelessWidget {
@@ -15,47 +14,70 @@ class WorkoutLinearCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<WorkoutProvider>().updatePlanId(plan['id'].toString());
-        context.read<WorkoutProvider>().updateSessionId(sessionId);
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => WorkoutPlanSessionScreen(id: sessionId),
-        //     ));
+        // context.read<WorkoutProvider>().updatePlanId(plan['id'].toString());
+        // context.read<WorkoutProvider>().updateSessionId(sessionId);
       },
       child: Container(
         width: this.w ?? MediaQuery.sizeOf(context).width * 0.4,
         height: this.h ?? 100,
-        margin: EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
+        margin: const EdgeInsets.all(4),
+        clipBehavior: Clip.hardEdge, // ensures borderRadius clips children
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('${plan['image']}'),
-            fit: BoxFit.cover,
-          ),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Padding(
-          padding: EdgeInsets.only(left: 20, bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                '${plan['name']}',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    shadows: [
-                      Shadow(
-                          offset: Offset(2, 2), // move shadow right & down
-                          blurRadius: 4, // how blurry the shadow is
-                          color: Colors.black54 // shadow color
-                          )
-                    ],
-                    fontWeight: FontWeight.bold),
+        child: Stack(
+          children: [
+            // --- Background Image ---
+            Positioned.fill(
+              child: Image.asset(
+                '${plan['image']}',
+                fit: BoxFit.cover,
               ),
-            ],
-          ),
+            ),
+
+            // --- Gradient Overlay ---
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [
+                      Colors.yellow.shade600.withOpacity(0.8),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // --- Text ---
+            Positioned(
+              left: 20,
+              bottom: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '${plan['name']}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          offset: Offset(2, 2),
+                          blurRadius: 4,
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

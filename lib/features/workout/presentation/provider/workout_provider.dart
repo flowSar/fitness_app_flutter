@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
+import 'package:w_allfit/features/explore/data/models/plan_model.dart';
 
 class WorkoutProvider extends ChangeNotifier {
   late String _sessionId = '';
   late String _planId = '';
-  late UserPlanModel _plan;
+  late PlanModel _plan;
   late int _quickStartPlanId = 0;
 
   void updateSessionId(String newSessionId) {
@@ -12,7 +12,7 @@ class WorkoutProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSelectedPlan(UserPlanModel newPlan) {
+  void updateSelectedPlan(PlanModel newPlan) {
     _plan = newPlan;
     notifyListeners();
   }
@@ -33,5 +33,5 @@ class WorkoutProvider extends ChangeNotifier {
 
   int get quickStartPlanId => _quickStartPlanId;
 
-  UserPlanModel get selectedPlan => _plan;
+  PlanModel get selectedPlan => _plan;
 }

@@ -1,76 +1,62 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
-import 'package:w_allfit/features/workout/domain/usecases/mark_user_plan_session_exercise_complete.dart';
+import 'package:w_allfit/features/workout/data/models/exercise_model.dart';
+import 'package:w_allfit/features/workout/domain/usecases/get_plan_session_exercises_usecase.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 
 class WorkoutSessionBloc
     extends Bloc<WorkoutSessionEvent, WorkoutSessionState> {
-  final MarkUserPlanSessionExerciseComplete markUserPlanSessionExerciseComplete;
-  WorkoutSessionBloc({required this.markUserPlanSessionExerciseComplete})
+  final GetPlanSessionExercisesUsecase getPlanSessionExercisesUsecase;
+  WorkoutSessionBloc({required this.getPlanSessionExercisesUsecase})
       : super(WorkoutSessionInitialState()) {
     on<StartWorkout>(_startWorkingOut);
     on<NextWorkoutExercise>(_nextWorkoutExercise);
-    on<UpdateWorkoutSessionProgress>(_updateWorkoutSessionProgress);
+    on<LoadWorkoutSession>(_loadWorkoutSessionPlan);
   }
 
   void _startWorkingOut(StartWorkout event, emit) {
-    final workoutPlan = event.workoutPlan;
+    final exercises = event.exercises;
     emit(WorkoutExerciseInProgressLoading());
-    late int index = 0;
-    for (final exercise in workoutPlan) {
-      if (exercise.complete == false) {
-        break;
-      }
-      index++;
-    }
-    if (index >= workoutPlan.length) {
-      index = 0;
-    }
+
     emit(WorkoutExerciseInProgress(
-        workoutPlan: workoutPlan, exercise: workoutPlan[index], index: index));
+        exercises: exercises, exercise: exercises[0], index: 0));
   }
 
   void _nextWorkoutExercise(NextWorkoutExercise event, emit) {
     // get index + 1 = nextIndex
     final nextIndex = (state as WorkoutExerciseInProgress).index + 1;
     // get sessionId
-    final workoutPlan = (state as WorkoutExerciseInProgress).workoutPlan;
+    final exercises = (state as WorkoutExerciseInProgress).exercises;
 
-    _markSessionComplete(workoutPlan[nextIndex - 1].id);
-
-    if (nextIndex >= workoutPlan.length) {
+    if (nextIndex >= exercises.length) {
       emit(WorkoutComplete());
     }
 
-    final exercise = workoutPlan[nextIndex];
+    final exercise = exercises[nextIndex];
     emit(
       WorkoutExerciseInProgress(
+        exercises: exercises,
         exercise: exercise,
-        workoutPlan: workoutPlan,
         index: nextIndex,
       ),
     );
   }
 
-  void _updateWorkoutSessionProgress(UpdateWorkoutSessionProgress event, emit) {
-    final int sessionId = event.sessionId;
-  }
-
-  void _markSessionComplete(String exerciseSessionId) async {
+  void _loadWorkoutSessionPlan(LoadWorkoutSession event, emit) async {
+    emit(WorkoutSessionLoading());
+    final String planId = event.planId;
     final String? token = await hasToken();
-    if (token != null) {
-      final result =
-          await markUserPlanSessionExerciseComplete(token, exerciseSessionId);
-      if (result.isSuccess) {
-        print('exercise marked complete successfully');
-      } else {
-        print('exercise marked complete failed');
-      }
+    if (token == null) {
+      emit(WorkoutSessionLoadingFailed(error: 'token is missing'));
     }
-  }
 
-  bool _isWorkoutSessionPlanComplete(int sessionId, planId) {
-    return true;
+    final result = await getPlanSessionExercisesUsecase(token!, planId);
+    if (!result.isSuccess || result.data == null) {
+      emit(WorkoutSessionLoadingFailed(error: '${result.error}'));
+    }
+    final exercises =
+        result.data?.map((elem) => ExerciseModel.fromEntity(elem)).toList();
+    emit(WorkoutSessionLoaded(exercises: exercises!));
   }
 }

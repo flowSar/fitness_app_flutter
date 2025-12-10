@@ -9,6 +9,7 @@ class PlanEntity {
   final int sessionsNumber;
   final bool? complete;
   final double? progress;
+  final String type;
 
   PlanEntity({
     required this.id,
@@ -21,5 +22,6 @@ class PlanEntity {
     required this.sessionsNumber,
     this.complete,
     this.progress,
+    required this.type,
   });
 }

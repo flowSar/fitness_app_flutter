@@ -7,15 +7,17 @@ import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/plan_sessions/user_plan_sessions_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plans_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session_plan/user_workout_session_plan_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/provider/user_workout_provider.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/plan_sessions/plan_sessions_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session_plan/workout_session_plan_bloc.dart';
-import 'features/workout/presentation/provider/workout_provider.dart';
+import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
 void main() {
   initializeDependencies();
@@ -37,15 +39,19 @@ void main() {
         create: (_) => QuickStartWorkoutBloc(),
       ),
       BlocProvider(
-        create: (_) => sl<WorkoutSessionPlanBloc>(),
+        create: (_) => sl<UserWorkoutSessionPlanBloc>(),
       ),
       BlocProvider(
-        create: (_) => sl<WorkoutSessionBloc>(),
+        create: (_) => sl<UserWorkoutSessionBloc>(),
       ),
       BlocProvider(
-        create: (_) => sl<PlanSessionsBloc>(),
+        create: (_) => sl<UserPlanSessionsBloc>(),
       ),
       BlocProvider(create: (_) => sl<WorkoutPlansBloc>()),
+      BlocProvider(create: (_) => sl<WorkoutSessionBloc>()),
+      ChangeNotifierProvider(
+        create: (context) => UserWorkoutProvider(),
+      ),
       ChangeNotifierProvider(
         create: (context) => WorkoutProvider(),
       ),

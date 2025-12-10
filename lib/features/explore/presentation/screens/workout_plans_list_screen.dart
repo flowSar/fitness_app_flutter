@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/components/workout_plan_explore_card.dart';
 import 'package:w_allfit/core/constants/constants.dart';
+import 'package:w_allfit/core/constants/plansType.dart';
 import 'package:w_allfit/features/explore/data/models/plan_model.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_event.dart';
@@ -9,8 +10,11 @@ import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_state.
 
 class WorkoutPlansListScreen extends StatefulWidget {
   final ScreenType? screenType;
+  final PlanType? planType;
   const WorkoutPlansListScreen(
-      {super.key, this.screenType = ScreenType.display});
+      {super.key,
+      this.screenType = ScreenType.display,
+      this.planType = PlanType.program});
 
   @override
   State<WorkoutPlansListScreen> createState() => _MyWidgetState();
@@ -55,8 +59,23 @@ class _MyWidgetState extends State<WorkoutPlansListScreen> {
                 Expanded(
                     child: BlocBuilder<WorkoutPlansBloc, WorkoutPlansState>(
                   builder: (context, state) {
+                    if (state is WorkoutPlansLoading) {
+                      return Center(
+                        child: SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
                     if (state is WorkoutPlansLoaded) {
-                      final List<PlanModel> workoutPlans = state.workoutPlans;
+                      late List<PlanModel> workoutPlans = [];
+                      if (widget.planType == PlanType.program) {
+                        workoutPlans = state.workoutPrograms;
+                      } else {
+                        workoutPlans = state.workoutPlans;
+                      }
+
                       return ListView.builder(
                         itemCount: workoutPlans.length,
                         itemBuilder: (context, index) {
@@ -72,7 +91,7 @@ class _MyWidgetState extends State<WorkoutPlansListScreen> {
                         },
                       );
                     }
-                    return Text('failed');
+                    return Text('empty');
                   },
                 )),
               ],

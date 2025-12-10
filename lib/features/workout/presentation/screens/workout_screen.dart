@@ -2,19 +2,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/components/add_workout_plan_card.dart';
-import 'package:w_allfit/core/constants/plansType.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
-import 'package:w_allfit/features/workout/data/models/user_plan_model.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/advance_plans_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/beginner_pans_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/plans_event.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_plan_bloc.dart';
+import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
+import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_event.dart';
+import 'package:w_allfit/features/user_workout/data/models/user_plan_model.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plan_event.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plan_state.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_event.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plan_state.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/home/user_plans/user_plans_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
 import 'package:w_allfit/features/workout/presentation/components/workout_plan_card.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -29,17 +26,18 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void initState() {
     context.read<UserPlansBloc>().add(LoadUserPlans());
 
-    context.read<QuickStartWorkoutBloc>().add(LoadQuickStartWorkoutPlans());
-    context
-        .read<PopularPlansBloc>()
-        .add(LoadPopularPlans(planType: PlanBlocType.popular));
-    context
-        .read<BeginnerPlansBloc>()
-        .add(LoadBeginnerPlans(planType: PlanBlocType.beginner));
-    context
-        .read<AdvancePlansBloc>()
-        .add(LoadAdvancePlans(planType: PlanBlocType.advanced));
-    context.read<AuthBloc>().add(CheckAuthState());
+    context.read<WorkoutPlansBloc>().add(LoadWorkoutPlans());
+
+    // context
+    //     .read<PopularPlansBloc>()
+    //     .add(LoadPopularPlans(planType: PlanBlocType.popular));
+    // context
+    //     .read<BeginnerPlansBloc>()
+    //     .add(LoadBeginnerPlans(planType: PlanBlocType.beginner));
+    // context
+    //     .read<AdvancePlansBloc>()
+    //     .add(LoadAdvancePlans(planType: PlanBlocType.advanced));
+    // context.read<AuthBloc>().add(CheckAuthState());
     super.initState();
   }
 
@@ -47,7 +45,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final List<Widget> wokroutPlancrdStack = [];
+    late List<Widget> wokroutPlancrdStack = [];
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
@@ -112,7 +110,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   builder: (context, state) {
                     if (state is UserPlansLoaded) {
                       final List<UserPlanModel> plans = state.userPlans;
-
+                      wokroutPlancrdStack = [];
                       return CarouselSlider.builder(
                         itemCount: plans.length + 1,
                         itemBuilder: (context, index, realIndex) {
@@ -143,11 +141,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         ),
                       );
                     }
-                    return SizedBox(
-                      width: MediaQuery.sizeOf(context).width * 0.9,
-                      height: 120,
-                      child: Text("Select New Plan"),
-                    );
+                    return SizedBox.shrink();
                   },
                 ),
               ),
@@ -166,38 +160,35 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   ),
                 ],
               ),
-              // BlocBuilder<QuickStartWorkoutBloc, QuickStartWorkoutState>(
-              //   builder: (context, state) {
-              //     if (state is QuickStartWorkoutLoading) {
-              //       print(
-              //           "-------------this should run${state.sessionsIds}-------");
-              //       return Container(
-              //         margin: EdgeInsets.symmetric(vertical: 6),
-              //         padding: EdgeInsets.symmetric(horizontal: 10),
-              //         height: 240,
-              //         width: MediaQuery.sizeOf(context).width,
-              //         child: GridView.builder(
-              //           physics: NeverScrollableScrollPhysics(),
-              //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //             crossAxisCount: 2,
-              //             crossAxisSpacing: 10,
-              //             mainAxisSpacing: 10,
-              //             mainAxisExtent: 110,
-              //             childAspectRatio: 1,
-              //           ),
-              //           itemCount: state.quickStartWorkoutPlans.length,
-              //           itemBuilder: (context, index) {
-              //             return QuickStartCard(
-              //               sessionId: '',
-              //               plan: state.quickStartWorkoutPlans[index],
-              //             );
-              //           },
-              //         ),
-              //       );
-              //     }
-              //     return SizedBox();
-              //   },
-              // ),
+              BlocBuilder<QuickStartWorkoutBloc, QuickStartWorkoutState>(
+                builder: (context, state) {
+                  if (state is QuickStartWorkoutLoaded) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 6),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      height: 240,
+                      width: MediaQuery.sizeOf(context).width,
+                      child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          mainAxisExtent: 110,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: state.workoutPlans.length,
+                        itemBuilder: (context, index) {
+                          return QuickStartCard(
+                            plan: state.workoutPlans[index],
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  return SizedBox();
+                },
+              ),
               SizedBox(
                 height: 10,
               ),

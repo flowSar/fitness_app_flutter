@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/core/constants/constants.dart';
+import 'package:w_allfit/core/constants/plansType.dart';
 
 class AddWorkoutPlanCard extends StatelessWidget {
   const AddWorkoutPlanCard({super.key});
@@ -9,7 +10,10 @@ class AddWorkoutPlanCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push('/workoutPlanslist', extra: ScreenType.select);
+        context.push('/workoutPlanslist', extra: {
+          'screentype': ScreenType.select,
+          'plantype': PlanType.program,
+        });
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width * 0.9,

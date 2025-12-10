@@ -180,18 +180,18 @@ class NutritionScreen extends StatelessWidget {
                   enlargeFactor: 0.20,
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  context.push("/signUp");
-                },
-                child: Text('open Modal'),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.push("/testPage");
-                },
-                child: Text('test page'),
-              ),
+              // TextButton(
+              //   onPressed: () {
+              //     context.push("/signUp");
+              //   },
+              //   child: Text('open Modal'),
+              // ),
+              // TextButton(
+              //   onPressed: () {
+              //     context.push("/testPage");
+              //   },
+              //   child: Text('test page'),
+              // ),
             ],
           ),
         ),

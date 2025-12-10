@@ -3,7 +3,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:w_allfit/features/explore/data/models/plan_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
+import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
 
@@ -19,25 +21,23 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
   late double _progress = 1;
   late int count = 10;
   final player = AudioPlayer();
+  late PlanModel? plan;
 
   @override
   void dispose() {
     _timer.cancel();
+    player.pause();
     super.dispose();
   }
 
   @override
   void initState() {
     startCountDown();
-
+    plan = context.read<WorkoutProvider>().selectedPlan;
+    context
+        .read<WorkoutSessionBloc>()
+        .add(LoadWorkoutSession(planId: plan!.id));
     super.initState();
-    // Get the sessionId once without listening
-    final sessionId = context.read<WorkoutProvider>().sessionId;
-
-    // Trigger your BLoC event one time
-    // context
-    //     .read<WorkoutSessionBloc>()
-    //     .add(StartWorkout(sessionId: sessionId, index: 0));
   }
 
   void startCountDown() {
@@ -45,7 +45,7 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
       setState(() {
         count--;
         _progress = count / 10;
-        if (count == 3) {
+        if (count == 4) {
           playCountDown();
         }
         if (count <= 0) {
@@ -67,11 +67,10 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
 
     return PopScope(
       onPopInvokedWithResult: (didPop, _) {
-        player.pause();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Hello world"),
-          duration: Duration(seconds: 3),
-        ));
+        plan = context.read<WorkoutProvider>().selectedPlan;
+        context
+            .read<WorkoutSessionBloc>()
+            .add(LoadWorkoutSession(planId: plan!.id));
       },
       child: SafeArea(
           child: Scaffold(
@@ -130,13 +129,21 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
                 ),
               ),
               Expanded(
-                child: BlocBuilder<WorkoutSessionBloc, WorkoutSessionState>(
+                child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
+                  listener: (context, state) {
+                    if (state is WorkoutSessionLoaded) {
+                      context.read<WorkoutSessionBloc>().add(StartWorkout(
+                            index: 0,
+                            exercises: state.exercises,
+                          ));
+                    }
+                  },
                   builder: (context, state) {
                     if (state is WorkoutExerciseInProgress) {
                       return Column(
                         children: [
                           Text(
-                            state.exercise.exercise.name,
+                            state.exercise.name,
                             style: TextStyle(
                               color: Colors.blueGrey,
                               fontSize: 30,
@@ -144,8 +151,7 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
                             ),
                           ),
                           Image.network(
-                            state.exercise.exercise.image
-                                .replaceAll('mp4', 'gif'),
+                            state.exercise.image.replaceAll('mp4', 'gif'),
                             width: 300,
                             height: 300,
                           ),

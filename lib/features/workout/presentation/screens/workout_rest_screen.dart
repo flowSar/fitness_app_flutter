@@ -36,13 +36,13 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
       setState(() {
         count--;
         _progress = count / 10;
-        if (count == 3) {
+        if (count == 4) {
           playCountDown();
         }
         if (count <= 0) {
           _timer.cancel();
-
-          context.go('/workoutExercise');
+          Future.delayed(Duration(seconds: 1));
+          context.push('/workoutExercise');
         }
       });
     });
@@ -135,7 +135,7 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
                               ),
                             ),
                             Text(
-                              state.exercise.exercise.name,
+                              state.exercise.name,
                               style: TextStyle(
                                 color: Colors.blueGrey,
                                 fontSize: 16,
@@ -143,8 +143,7 @@ class _WorkoutRestScreenState extends State<WorkoutRestScreen> {
                               ),
                             ),
                             Image.network(
-                              state.exercise.exercise.image
-                                  .replaceAll('mp4', 'gif'),
+                              state.exercise.image.replaceAll('mp4', 'gif'),
                               width: 270,
                               height: 270,
                             ),

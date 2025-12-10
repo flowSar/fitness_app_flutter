@@ -14,13 +14,17 @@ class WorkoutPlansBloc extends Bloc<WorkoutPlansEvent, WorkoutPlansState> {
   void _loadWorkoutPlans(LoadWorkoutPlans event, emit) async {
     emit(WorkoutPlansLoading());
 
-    final result = await getAllWorkoutPlansUsecase();
-    if (!result.isSuccess) {
+    final result = await getAllWorkoutPlansUsecase('type=multi_session');
+    final result2 = await getAllWorkoutPlansUsecase('type=single_session');
+    if (!result.isSuccess || result2.isSuccess) {
       emit(WorkoutPlansLoadingfailed(error: '${result.error}'));
     }
-    final workoutPlans =
+    final workoutPrograms =
         result.data?.map((plan) => PlanModel.fromEntity(plan)).toList();
+    final workoutPlans =
+        result2.data?.map((plan) => PlanModel.fromEntity(plan)).toList();
 
-    emit(WorkoutPlansLoaded(workoutPlans: workoutPlans!));
+    emit(WorkoutPlansLoaded(
+        workoutPrograms: workoutPrograms!, workoutPlans: workoutPlans!));
   }
 }

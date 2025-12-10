@@ -3,10 +3,10 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:percent_indicator/flutter_percent_indicator.dart";
 import "package:w_allfit/core/utils/functions.dart";
+import "package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_bloc.dart";
+import "package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_state.dart";
+import "package:w_allfit/features/user_workout/presentation/provider/user_workout_provider.dart";
 import "package:w_allfit/features/workout/data/models/session_model.dart";
-import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart";
-import "package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart";
-import "package:w_allfit/features/workout/presentation/provider/workout_provider.dart";
 
 class SessionCard extends StatefulWidget {
   final SessionModel session;
@@ -26,12 +26,12 @@ class _SessionCardState extends State<SessionCard> {
     return InkWell(
       onTap: () {
         // update session id
-        context.read<WorkoutProvider>().updateSessionId(widget.session.id);
-        context.push('/workoutPlanSession');
+        context.read<UserWorkoutProvider>().updateSessionId(widget.session.id);
+        context.push('/userWorkoutPlanSession');
       },
       child: Card(
         elevation: 4,
-        child: BlocConsumer<WorkoutSessionBloc, WorkoutSessionState>(
+        child: BlocConsumer<UserWorkoutSessionBloc, UserWorkoutSessionState>(
           listener: (context, state) {},
           builder: (context, state) {
             return ListTile(

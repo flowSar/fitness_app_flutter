@@ -13,6 +13,7 @@ class AuthRepositoryImpl extends AuthRepository {
       final result = await authRemoteDatasource.login(email, password);
       return Result.success(result['data']['token']);
     } catch (e) {
+      print('log in failed: ${e.toString()}');
       return Result.failure('error');
     }
   }
