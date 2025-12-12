@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:w_allfit/components/count_down_card.dart';
-import 'package:w_allfit/components/reps_count_card.dart';
+import 'package:go_router/go_router.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -13,71 +9,113 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
-  late Timer _timer;
-  late int count = 10;
-  late double _progress = 1;
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-    startCountDown();
-  }
-
-  void startCountDown() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        // if (count > 0) {
-        count--;
-        // }
-        _progress = count / 10;
-        // if (count == 4) {
-        //   playCountDown();
-        // }
-        if (count <= 0) {
-          _timer?.cancel();
-        }
-      });
-    });
-  }
+  late bool disyplayOverlayScreen = false;
 
   @override
   Widget build(BuildContext context) {
-    void showSnackBar() {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("data loded"),
-        duration: Duration(seconds: 3),
-      ));
-    }
-
-    return SafeArea(
-        child: Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: SingleChildScrollView(
-            child: Column(
-          children: [
-            RepsCountCard(
-              next: () {},
-              previous: () {},
-              complete: () {},
-              name: '',
-              reps: 10,
+    return PopScope(
+      child: Stack(
+        children: [
+          PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, _) {
+              setState(() {
+                disyplayOverlayScreen = true;
+              });
+            },
+            child: SafeArea(
+              child: Scaffold(
+                appBar: AppBar(),
+                body: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: SafeArea(
+                      child: Scaffold(
+                    body: Column(
+                      children: [
+                        TextField(),
+                        Switch(value: true, onChanged: (value) {}),
+                        Expanded(
+                            child: ListView.builder(
+                          itemCount: 6,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              height: 120,
+                              child: Text('Hello wolrd'),
+                            );
+                          },
+                        )),
+                        TextButton(
+                            onPressed: () {}, child: Text('dd exercise')),
+                        TextButton(onPressed: () {}, child: Text('save plan')),
+                      ],
+                    ),
+                  )),
+                ),
+              ),
             ),
-            CountDownCard(
-              next: () {},
-              duration: 10,
-              onCount: (int count) {},
-            )
-          ],
-        )),
+          ),
+          if (disyplayOverlayScreen)
+            _overlayScreen(context, () {
+              setState(() {
+                disyplayOverlayScreen = false;
+              });
+            })
+        ],
       ),
-    ));
+    );
   }
+}
+
+Widget _overlayScreen(BuildContext context, VoidCallback fn) {
+  final width = MediaQuery.sizeOf(context).width * 0.90;
+  return Positioned.fill(
+      child: SafeArea(
+          child: Scaffold(
+    appBar: AppBar(
+      backgroundColor: Color.fromRGBO(62, 61, 66, 0.699),
+    ),
+    backgroundColor: Color.fromRGBO(62, 61, 66, 0.699),
+    body: SizedBox(
+      width: MediaQuery.sizeOf(context).width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TextButton(
+            onPressed: () {
+              context.pop();
+            },
+            style: TextButton.styleFrom(
+                fixedSize: Size(width, 60),
+                backgroundColor: Colors.blueGrey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                )),
+            child: Text(
+              'quit',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextButton(
+            onPressed: () {
+              fn();
+            },
+            style: TextButton.styleFrom(
+                fixedSize: Size(width, 60),
+                backgroundColor: Colors.blueGrey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                )),
+            child: Text(
+              'Resume',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+        ],
+      ),
+    ),
+  )));
 }

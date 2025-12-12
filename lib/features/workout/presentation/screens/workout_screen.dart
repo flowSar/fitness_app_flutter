@@ -6,6 +6,7 @@ import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_event.dart';
+import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_state.dart';
 import 'package:w_allfit/features/user_workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plan_event.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plan_state.dart';
@@ -27,6 +28,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     context.read<UserPlansBloc>().add(LoadUserPlans());
 
     context.read<WorkoutPlansBloc>().add(LoadWorkoutPlans());
+    final state = context.read<WorkoutPlansBloc>().state;
+
+    if (state is WorkoutPlansLoaded) {
+      context
+          .read<QuickStartWorkoutBloc>()
+          .add(LoadQuickStartWorkoutPlans(workoutPlans: state.workoutPlans));
+    }
 
     // context
     //     .read<PopularPlansBloc>()

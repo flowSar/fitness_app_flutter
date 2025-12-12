@@ -1,4 +1,4 @@
-import 'package:w_allfit/features/workout/domain/entities/exercise_entity.dart';
+import 'package:w_allfit/core/domain/entities/exercise_entity.dart';
 
 class UserExerciseModel extends ExerciseEntity {
   UserExerciseModel({

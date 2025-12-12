@@ -1,6 +1,4 @@
-// event
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/core/services/database/FakeDatabase.dart';
 import 'package:w_allfit/features/explore/data/models/plan_model.dart';
 
 abstract class QuickStartWorkoutEvent {}

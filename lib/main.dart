@@ -7,6 +7,7 @@ import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/exercises/exercises_bloc.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/plan_sessions/user_plan_sessions_bloc.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plans_bloc.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_bloc.dart';
@@ -47,6 +48,7 @@ void main() {
       BlocProvider(
         create: (_) => sl<UserPlanSessionsBloc>(),
       ),
+      BlocProvider(create: (_) => sl<ExercisesBloc>()),
       BlocProvider(create: (_) => sl<WorkoutPlansBloc>()),
       BlocProvider(create: (_) => sl<WorkoutSessionBloc>()),
       ChangeNotifierProvider(

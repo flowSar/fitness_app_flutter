@@ -1,6 +1,4 @@
-import 'package:w_allfit/features/explore/data/models/plan_model.dart';
-import 'package:w_allfit/features/workout/data/models/exercise_model.dart';
-import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
+import 'package:w_allfit/core/data/models/exercise_model.dart';
 
 abstract class WorkoutSessionEvent {}
 

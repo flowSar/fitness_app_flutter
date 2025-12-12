@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
-import 'package:w_allfit/features/workout/data/models/exercise_model.dart';
+import 'package:w_allfit/core/data/models/exercise_model.dart';
 import 'package:w_allfit/features/workout/domain/usecases/get_plan_session_exercises_usecase.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';

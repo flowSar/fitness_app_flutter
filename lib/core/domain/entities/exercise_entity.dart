@@ -1,5 +1,3 @@
-import 'package:w_allfit/core/constants/plansType.dart';
-
 class ExerciseEntity {
   final String id;
   final String name;

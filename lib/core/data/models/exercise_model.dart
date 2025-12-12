@@ -1,4 +1,4 @@
-import 'package:w_allfit/features/workout/domain/entities/exercise_entity.dart';
+import 'package:w_allfit/core/domain/entities/exercise_entity.dart';
 
 class ExerciseModel extends ExerciseEntity {
   ExerciseModel({
@@ -17,16 +17,16 @@ class ExerciseModel extends ExerciseEntity {
   // ---------- FACTORIES ----------
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
     return ExerciseModel(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      sets: json['sets'],
-      reps: json['reps'],
-      duration: json['duration'],
-      notes: json['notes'],
-      level: json['level'],
-      image: json['image'],
-      video: json['video'],
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      sets: json['sets'] ?? 1,
+      reps: json['reps'] ?? 1,
+      duration: json['duration'] ?? 0,
+      notes: json['notes'] ?? '',
+      level: json['level'] ?? '',
+      image: json['image'] ?? '',
+      video: json['video'] ?? '',
     );
   }
 

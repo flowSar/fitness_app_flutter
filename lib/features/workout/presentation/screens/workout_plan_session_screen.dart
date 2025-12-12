@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/explore/data/models/plan_model.dart';
-import 'package:w_allfit/features/workout/data/models/exercise_model.dart';
+import 'package:w_allfit/core/data/models/exercise_model.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
@@ -167,11 +167,13 @@ class _WorkoutPlanState extends State<WorkoutPlanSessionScreen> {
                   );
                 }
                 if (state is WorkoutSessionLoading) {
-                  return Center(
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: CircularProgressIndicator(),
+                  return Expanded(
+                    child: Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
                   );
                 }

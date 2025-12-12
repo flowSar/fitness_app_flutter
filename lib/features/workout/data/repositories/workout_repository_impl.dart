@@ -1,7 +1,7 @@
 import 'package:w_allfit/core/result.dart';
 import 'package:w_allfit/features/workout/data/datasources/remote/workout_remote_datasource.dart';
-import 'package:w_allfit/features/workout/data/models/exercise_model.dart';
-import 'package:w_allfit/features/workout/domain/entities/exercise_entity.dart';
+import 'package:w_allfit/core/data/models/exercise_model.dart';
+import 'package:w_allfit/core/domain/entities/exercise_entity.dart';
 import 'package:w_allfit/features/workout/domain/repositories/workout_repository.dart';
 
 class WorkoutRepositoryImpl implements WorkoutRepository {

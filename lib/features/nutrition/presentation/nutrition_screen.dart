@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/core/services/database/FakeDatabase.dart';
-import 'package:w_allfit/features/settings/presentation/components/languages_dialog.dart';
+
 
 class NutritionScreen extends StatelessWidget {
   const NutritionScreen({super.key});
@@ -186,12 +186,12 @@ class NutritionScreen extends StatelessWidget {
               //   },
               //   child: Text('open Modal'),
               // ),
-              // TextButton(
-              //   onPressed: () {
-              //     context.push("/testPage");
-              //   },
-              //   child: Text('test page'),
-              // ),
+              TextButton(
+                onPressed: () {
+                  context.push("/testPage");
+                },
+                child: Text('test page'),
+              ),
             ],
           ),
         ),

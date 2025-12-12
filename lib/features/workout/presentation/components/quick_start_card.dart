@@ -47,7 +47,7 @@ class _QuickStartCardState extends State<QuickStartCard> {
                     : widget.plan.name,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Text('20 min . Burn fast'),
+              Text('${widget.plan.duration} min . Burn fast'),
             ],
           ),
         ),

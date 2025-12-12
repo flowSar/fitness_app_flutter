@@ -10,9 +10,6 @@ import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_se
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_state.dart';
 import 'package:w_allfit/features/user_workout/presentation/provider/user_workout_provider.dart';
 import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_event.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 
 class UserWorkoutExerciseScreen extends StatefulWidget {
   const UserWorkoutExerciseScreen({super.key});
@@ -189,21 +186,20 @@ class _WorkoutExerciseScreenState extends State<UserWorkoutExerciseScreen> {
                                   TextStyle(color: Colors.white, fontSize: 20),
                             )),
                         TextButton(
-                            onPressed: () {
-                              context.read<UserWorkoutSessionBloc>().add(
-                                  NextUserWorkoutExercise(
-                                      plan:
-                                          PlanModel.fromUserPlanModel(plan!)));
-                              context.push('/userWorkoutRest');
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.grey,
-                                fixedSize: Size(120, 45)),
-                            child: Text(
-                              "Next",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            )),
+                          onPressed: () {
+                            context.read<UserWorkoutSessionBloc>().add(
+                                NextUserWorkoutExercise(
+                                    plan: PlanModel.fromUserPlanModel(plan!)));
+                            context.push('/userWorkoutRest');
+                          },
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.grey,
+                              fixedSize: Size(120, 45)),
+                          child: Text(
+                            "Next",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
                       ],
                     )
                   ],

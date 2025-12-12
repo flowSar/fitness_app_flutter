@@ -1,4 +1,4 @@
-import 'package:w_allfit/features/workout/data/models/exercise_model.dart';
+import 'package:w_allfit/core/data/models/exercise_model.dart';
 import 'package:w_allfit/features/workout/domain/entities/session_exercise_entity.dart';
 
 class SessionExerciseModel extends SessionExerciseEntity {

@@ -113,4 +113,19 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     final data = jsonDecode(response.body)['data'];
     return data;
   }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAllExercises(String token) async {
+    final url = Uri.parse('$serverApiUrl/exercises');
+    final response = await http.get(url, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode != 200) {
+      throw Exception('loadig exercises failed: ${jsonDecode(response.body)}');
+    }
+    final data = jsonDecode(response.body)['data'];
+    return List<Map<String, dynamic>>.from(data);
+  }
 }

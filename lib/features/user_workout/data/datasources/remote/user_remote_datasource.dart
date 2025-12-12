@@ -13,4 +13,6 @@ abstract class UserRemoteDataSource {
 
   Future<Map<String, dynamic>> markUserPlansessionComplete(
       String token, String sessionId);
+
+  Future<List<Map<String, dynamic>>> getAllExercises(String token);
 }

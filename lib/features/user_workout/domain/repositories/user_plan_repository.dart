@@ -1,3 +1,4 @@
+import 'package:w_allfit/core/domain/entities/exercise_entity.dart';
 import 'package:w_allfit/core/result.dart';
 import 'package:w_allfit/core/domain/entities/plan_entity.dart';
 import 'package:w_allfit/features/workout/domain/entities/session_entity.dart';
@@ -18,4 +19,6 @@ abstract class UserPlanRepository {
       String token, String sessionExerciseId);
   Future<Result<SessionEntity>> markUserPlansessionComplete(
       String token, String sessionId);
+
+  Future<Result<List<ExerciseEntity>>> getAllExercises(String token);
 }

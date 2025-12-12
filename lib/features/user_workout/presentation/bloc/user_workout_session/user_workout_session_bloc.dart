@@ -35,7 +35,6 @@ class UserWorkoutSessionBloc
     final nextIndex = (state as UserWorkoutExerciseInProgress).index + 1;
     // get sessionId
     final workoutPlan = (state as UserWorkoutExerciseInProgress).workoutPlan;
-    final currentPlan = event.plan;
 
     _markSessionComplete(workoutPlan[nextIndex - 1].id);
 

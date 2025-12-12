@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 
 class WorkoutLinearCard extends StatelessWidget {
   final Map<String, Object> plan;

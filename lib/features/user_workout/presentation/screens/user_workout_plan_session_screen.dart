@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:w_allfit/features/user_workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_bloc.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_event.dart';
+import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_state.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session_plan/user_workout_session_plan_bloc.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session_plan/user_workout_session_plan_event.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session_plan/user_workout_session_plan_state.dart';
 import 'package:w_allfit/features/workout/data/models/session_exercise_model.dart';
-import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_state.dart';
 import '../provider/user_workout_provider.dart';
 
 class UserWorkoutPlanSessionScreen extends StatefulWidget {
@@ -137,13 +137,28 @@ class _WorkoutPlanState extends State<UserWorkoutPlanSessionScreen> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              workoutPlan[index].exercise.name,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.blueGrey,
-                                  fontWeight: FontWeight.bold),
+                            SizedBox(
+                              height: 4,
                             ),
+                            RichText(
+                                text: TextSpan(
+                                    text: workoutPlan[index].exercise.name,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.bold),
+                                    children: [
+                                  TextSpan(
+                                    text: workoutPlan[index]
+                                                .exercise
+                                                .duration !=
+                                            0
+                                        ? ' (${workoutPlan[index].exercise.duration}s)'
+                                        : ' (x${workoutPlan[index].exercise.reps})',
+                                    style: TextStyle(
+                                        color: Colors.redAccent, fontSize: 16),
+                                  )
+                                ])),
                             SizedBox(
                               height: 10,
                             ),
@@ -161,13 +176,6 @@ class _WorkoutPlanState extends State<UserWorkoutPlanSessionScreen> {
                                     fit: BoxFit.cover,
                                     alignment: Alignment.center,
                                   ),
-                                  Text(
-                                    '${workoutPlan[index].exercise.duration} s',
-                                    style: TextStyle(
-                                        color: Colors.orange,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
                                 ]),
                           ],
                         );
@@ -175,14 +183,16 @@ class _WorkoutPlanState extends State<UserWorkoutPlanSessionScreen> {
                     ),
                   );
                 }
-                if (state is WorkoutSessionLoading) {
-                  return SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: CircularProgressIndicator(),
+                if (state is UserWorkoutSessionLoading) {
+                  return Center(
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: CircularProgressIndicator(),
+                    ),
                   );
                 }
-                return Text("test");
+                return SizedBox.shrink();
               },
             )
           ],

@@ -1,5 +1,5 @@
 import 'package:w_allfit/core/result.dart';
-import 'package:w_allfit/features/workout/domain/entities/exercise_entity.dart';
+import 'package:w_allfit/core/domain/entities/exercise_entity.dart';
 import 'package:w_allfit/features/workout/domain/repositories/workout_repository.dart';
 
 class GetPlanSessionExercisesUsecase {

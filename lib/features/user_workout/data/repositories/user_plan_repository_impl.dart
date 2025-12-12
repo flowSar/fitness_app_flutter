@@ -1,3 +1,5 @@
+import 'package:w_allfit/core/data/models/exercise_model.dart';
+import 'package:w_allfit/core/domain/entities/exercise_entity.dart';
 import 'package:w_allfit/core/result.dart';
 import 'package:w_allfit/features/user_workout/data/datasources/remote/user_remote_datasource.dart';
 import 'package:w_allfit/features/user_workout/data/models/user_plan_model.dart';
@@ -94,6 +96,20 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
       return Result.success(plan);
     } catch (e) {
       print('add User plan failed $token ${e.toString()}');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<List<ExerciseEntity>>> getAllExercises(String token) async {
+    try {
+      final data = await userRemoteDataSource.getAllExercises(token);
+      final exercises = data
+          .map((exerciseJson) => ExerciseModel.fromJson(exerciseJson))
+          .toList();
+      return Result.success(exercises);
+    } catch (e) {
+      print('loading exercise failed ${e.toString()}');
       return Result.failure(e.toString());
     }
   }
