@@ -18,10 +18,10 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
     try {
       final List<Map<String, dynamic>> data =
           await userRemoteDataSource.getUserWorkoutPlans(token);
-      print('data: $data');
+      print('user plans data: $data');
       final List<UserPlanModel> plans =
           data.map((elem) => UserPlanModel.fromJson(elem)).toList();
-      print('data: $plans');
+
       return Result.success(plans);
     } catch (e) {
       print('loding user plans failed ${e.toString()}');
@@ -90,7 +90,7 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
   Future<Result<PlanEntity>> adduserPlan(String token, String planId) async {
     try {
       final data = await userRemoteDataSource.addUserPlan(token, planId);
-      print('userr created plan $data');
+
       final plan = UserPlanModel.fromJson(data);
 
       return Result.success(plan);
@@ -110,6 +110,25 @@ class UserPlanRepositoryImpl extends UserPlanRepository {
       return Result.success(exercises);
     } catch (e) {
       print('loading exercise failed ${e.toString()}');
+      return Result.failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Result<PlanEntity>> createUserPlan(String token, String planName,
+      bool visibility, List<ExerciseEntity> exercises) async {
+    try {
+      final data = await userRemoteDataSource.createUserPlan(
+          token,
+          planName,
+          visibility,
+          exercises
+              .map((exercise) => ExerciseModel.fromEntity(exercise))
+              .toList());
+      final plan = UserPlanModel.fromJson(data);
+      return Result.success(plan);
+    } catch (e) {
+      print('create user plan failed ${e.toString()}');
       return Result.failure(e.toString());
     }
   }

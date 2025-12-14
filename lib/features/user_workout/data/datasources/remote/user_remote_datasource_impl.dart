@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:w_allfit/core/constants/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:w_allfit/core/data/models/exercise_model.dart';
 import 'package:w_allfit/features/user_workout/data/datasources/remote/user_remote_datasource.dart';
 
 class UserRemoteDataSourceImpl extends UserRemoteDataSource {
@@ -127,5 +128,31 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     }
     final data = jsonDecode(response.body)['data'];
     return List<Map<String, dynamic>>.from(data);
+  }
+
+  @override
+  Future<Map<String, dynamic>> createUserPlan(String token, String planName,
+      bool visibility, List<ExerciseModel> exercises) async {
+    final url = Uri.parse('$serverApiUrl/user/plans/');
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'name': planName,
+        'visibility': visibility,
+        'exercises': exercises,
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception(
+          'user plan creation failed, status ${response.statusCode}: ${response.body}');
+    }
+    final data = jsonDecode(response.body)['data'];
+    return data;
   }
 }

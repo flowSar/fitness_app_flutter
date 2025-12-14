@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:w_allfit/components/add_workout_plan_card.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
@@ -11,9 +13,9 @@ import 'package:w_allfit/features/user_workout/data/models/user_plan_model.dart'
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plan_event.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plan_state.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user_plans_bloc.dart';
+import 'package:w_allfit/features/user_workout/presentation/components/workout_plan_card.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
-import 'package:w_allfit/features/workout/presentation/components/workout_plan_card.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -51,39 +53,46 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
 
-    late List<Widget> wokroutPlancrdStack = [];
-    return SafeArea(
-        child: Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is Authenticated) {
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Hello, ${state.user?.name}!',
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
                           ),
+                          const SizedBox(height: 4),
                           Text(
-                            'let\'s workout today',
-                            style: TextStyle(color: Colors.grey[500]),
+                            'Let\'s workout today',
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color:
+                                  theme.colorScheme.onSurface.withOpacity(0.6),
+                            ),
                           ),
                         ],
                       );
                     }
-
-                    return Text('Guest');
+                    return Text(
+                      'Guest',
+                      style: theme.textTheme.headlineMedium,
+                    );
                   },
                 ),
               ),
@@ -91,20 +100,37 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Your Plans',
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.grey[800],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
+                    Intl.message('Your Plans', locale: 'ar'),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                   InkWell(
-                    onTap: () {},
-                    child: Row(
-                      spacing: 2,
-                      children: [
-                        Text('View All'),
-                        Icon(Icons.view_list),
-                      ],
+                    onTap: () {
+                      context.go('/listUserPlans');
+                    },
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(
+                            'View All',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -118,18 +144,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   builder: (context, state) {
                     if (state is UserPlansLoaded) {
                       final List<UserPlanModel> plans = state.userPlans;
-                      wokroutPlancrdStack = [];
+
                       return CarouselSlider.builder(
                         itemCount: plans.length + 1,
                         itemBuilder: (context, index, realIndex) {
-                          if (index >= plans.length) {
-                            wokroutPlancrdStack.add(AddWorkoutPlanCard());
-                          } else {
-                            wokroutPlancrdStack.add(WorkoutPlanCard(
-                              plan: plans[index],
-                            ));
+                          if (index == plans.length) {
+                            return const AddWorkoutPlanCard();
                           }
-                          return wokroutPlancrdStack[index];
+
+                          return WorkoutPlanCard(
+                            plan: plans[index],
+                          );
                         },
                         options: CarouselOptions(
                           height: 200,
@@ -154,17 +179,15 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 ),
               ),
               // quick start workout
-              SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Text(
                     'Quick Start',
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.grey[800],
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                 ],
               ),
@@ -197,27 +220,40 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   return SizedBox();
                 },
               ),
-              SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Popular Workouts',
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.grey[800],
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Row(
-                      spacing: 2,
-                      children: [
-                        Text('View More'),
-                        Icon(Icons.view_list),
-                      ],
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(
+                            'View More',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -251,27 +287,40 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               //     },
               //   ),
               // ),
-              SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'beginner Plans',
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.grey[800],
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
+                    'Beginner Plans',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Row(
-                      spacing: 2,
-                      children: [
-                        Text('View More'),
-                        Icon(Icons.view_list),
-                      ],
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(
+                            'View More',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -306,24 +355,40 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               //     },
               //   ),
               // ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Advanced Plans',
-                    style: TextStyle(
-                        color: isDark ? Colors.white : Colors.grey[800],
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Row(
-                      spacing: 2,
-                      children: [
-                        Text('View More'),
-                        Icon(Icons.view_list),
-                      ],
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(
+                            'View More',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -362,6 +427,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           ),
         ),
       ),
-    ));
+    );
   }
 }

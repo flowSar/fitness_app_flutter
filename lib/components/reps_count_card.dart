@@ -43,7 +43,7 @@ class RepsCountCard extends StatelessWidget {
                     fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
-                      text: '${reps}',
+                      text: '$reps',
                       style: TextStyle(color: Colors.blueGrey, fontSize: 36)),
                 ]),
           ),

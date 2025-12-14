@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timeline_tile/timeline_tile.dart';
+import 'package:w_allfit/core/data/models/exercise_model.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -10,58 +12,69 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   late bool disyplayOverlayScreen = false;
+  late List<ExerciseModel> selectedExercise = [];
+
+  late int _currentStep = 0;
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      child: Stack(
-        children: [
-          PopScope(
-            canPop: false,
-            onPopInvokedWithResult: (didPop, _) {
-              setState(() {
-                disyplayOverlayScreen = true;
-              });
-            },
-            child: SafeArea(
-              child: Scaffold(
-                appBar: AppBar(),
-                body: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: SafeArea(
-                      child: Scaffold(
-                    body: Column(
-                      children: [
-                        TextField(),
-                        Switch(value: true, onChanged: (value) {}),
-                        Expanded(
-                            child: ListView.builder(
-                          itemCount: 6,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              height: 120,
-                              child: Text('Hello wolrd'),
-                            );
-                          },
-                        )),
-                        TextButton(
-                            onPressed: () {}, child: Text('dd exercise')),
-                        TextButton(onPressed: () {}, child: Text('save plan')),
-                      ],
-                    ),
-                  )),
-                ),
+    return Stack(
+      children: [
+        PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (didPop, _) {
+            setState(() {
+              disyplayOverlayScreen = true;
+            });
+          },
+          child: SafeArea(
+            child: Scaffold(
+              appBar: AppBar(),
+              body: Padding(
+                padding: EdgeInsets.all(10),
+                child: SafeArea(
+                    child: Scaffold(
+                  body: Column(
+                    children: [
+                      TimelineTile(
+                        isFirst: true,
+                        endChild: Container(
+                          height: 200,
+                          padding: EdgeInsets.all(10),
+                          child: Text('hello'),
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TimelineTile(
+                        isFirst: false,
+                        isLast: false,
+                        endChild: Container(
+                          height: 200,
+                          padding: EdgeInsets.all(10),
+                          child: Text('hello'),
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                      TimelineTile(
+                        isLast: true,
+                        endChild: Container(
+                          height: 200,
+                          padding: EdgeInsets.all(10),
+                          child: Text('hello'),
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
               ),
             ),
           ),
-          if (disyplayOverlayScreen)
-            _overlayScreen(context, () {
-              setState(() {
-                disyplayOverlayScreen = false;
-              });
-            })
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -118,4 +131,147 @@ Widget _overlayScreen(BuildContext context, VoidCallback fn) {
       ),
     ),
   )));
+}
+
+class ExerciseCardTest extends StatefulWidget {
+  final ExerciseModel exercise;
+  final Function(ExerciseModel exercise)? onUpdate;
+  const ExerciseCardTest(
+      {super.key, required this.exercise, required this.onUpdate});
+
+  @override
+  State<ExerciseCardTest> createState() => _ExerciseCardTestState();
+}
+
+class _ExerciseCardTestState extends State<ExerciseCardTest> {
+  void _showDialog() {
+    late int reps = widget.exercise.reps;
+    late int sets = widget.exercise.sets;
+    late int duration = widget.exercise.duration;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setDialogState) {
+          return AlertDialog(
+            title: Text(
+              'Edit Exercise ${widget.exercise.name}',
+              style: TextStyle(fontSize: 16),
+            ),
+            content: SizedBox(
+              height: 200,
+              child: Column(
+                children: [
+                  _buildDialogField((value) {
+                    setDialogState(() {
+                      reps = value;
+                    });
+                  }, reps),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _buildDialogField((value) {
+                    setDialogState(() {
+                      sets = value;
+                    });
+                  }, sets),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _buildDialogField((value) {
+                    setDialogState(() {
+                      duration = value;
+                    });
+                  }, duration)
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: Text('cancel')),
+              TextButton(
+                  onPressed: () {
+                    widget.onUpdate!(widget.exercise
+                        .copyWith(sets: sets, reps: reps, duration: duration));
+                    context.pop();
+                  },
+                  child: Text('Save'))
+            ],
+          );
+        });
+      },
+    );
+  }
+
+  Widget _buildDialogField(
+    Function(int) onChanged,
+    int value,
+  ) {
+    late int minValue = value;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        TextButton(
+            onPressed: () {
+              onChanged(minValue + 1);
+            },
+            child: Text(
+              '+',
+              style: TextStyle(fontSize: 30),
+            )),
+        Text(
+          '$minValue',
+        ),
+        TextButton(
+            onPressed: () {
+              if (minValue > 1) {
+                onChanged(minValue - 1);
+              }
+            },
+            child: Text(
+              '-',
+              style: TextStyle(fontSize: 30),
+            ))
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(widget.exercise.name),
+              IconButton(
+                icon: Icon(
+                  Icons.edit,
+                  size: 20,
+                  color: Colors.white70,
+                ),
+                onPressed: _showDialog,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
+            ],
+          ),
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 6,
+            children: [
+              Text('reps: ${widget.exercise.reps}'),
+              Text('sets: ${widget.exercise.sets}'),
+              Text('duration: ${widget.exercise.duration}'),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }

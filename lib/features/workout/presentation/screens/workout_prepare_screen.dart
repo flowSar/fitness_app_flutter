@@ -119,7 +119,7 @@ class _WorkoutGetReadyScreenState extends State<WorkoutPrepareScreen> {
                       height: 10,
                     ),
                     Text(
-                      "00:${count < 10 ? '0${count}' : '${count}'}",
+                      "00:${count < 10 ? '0$count' : '$count'}",
                       style: TextStyle(
                           color: Colors.blueGrey,
                           fontSize: 30,

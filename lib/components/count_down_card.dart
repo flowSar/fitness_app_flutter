@@ -49,7 +49,7 @@ class _MyWidgetState extends State<CountDownCard> {
           playCountDown();
         }
         if (count <= 0) {
-          _timer?.cancel();
+          _timer.cancel();
         }
       });
     });
@@ -97,8 +97,8 @@ class _MyWidgetState extends State<CountDownCard> {
             TextButton(
                 onPressed: () {
                   setState(() {
-                    if (_timer!.isActive) {
-                      _timer?.cancel();
+                    if (_timer.isActive) {
+                      _timer.cancel();
                       player.pause();
                     } else {
                       startCountDown();
@@ -108,10 +108,10 @@ class _MyWidgetState extends State<CountDownCard> {
                 },
                 style: TextButton.styleFrom(
                     backgroundColor:
-                        _timer!.isActive ? Colors.red : Colors.green,
+                        _timer.isActive ? Colors.red : Colors.green,
                     fixedSize: Size(120, 45)),
                 child: Text(
-                  _timer!.isActive ? "Pause" : "Resume",
+                  _timer.isActive ? "Pause" : "Resume",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 )),
             TextButton(

@@ -31,31 +31,55 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Text('Explore More Plans'),
+        title: Text(
+          'Explore More Plans',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.3,
+          ),
+        ),
+        elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
             SearchBar(
               hintText: 'Search Workouts',
-              shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              )),
-              trailing: [Icon(Icons.search)],
+              hintStyle: WidgetStatePropertyAll(
+                TextStyle(
+                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                ),
+              ),
+              backgroundColor: WidgetStatePropertyAll(
+                isDark ? Colors.grey.shade800 : Colors.grey.shade100,
+              ),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              elevation: WidgetStatePropertyAll(0),
+              trailing: [
+                Icon(
+                  Icons.search,
+                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'Workout Programs',
                   style: TextStyle(
-                      color: isDark ? Colors.white : Colors.grey[800],
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
+                    color: isDark ? Colors.white : Colors.black87,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.3,
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -64,12 +88,33 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       'plantype': PlanType.program
                     });
                   },
-                  child: Row(
-                    spacing: 2,
-                    children: [
-                      Text('View All'),
-                      Icon(Icons.list),
-                    ],
+                  borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'View All',
+                          style: TextStyle(
+                            color: isDark
+                                ? Colors.blue.shade300
+                                : Colors.blue.shade700,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
+                          color: isDark
+                              ? Colors.blue.shade300
+                              : Colors.blue.shade700,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -110,19 +155,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 24),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               'Workout Plans',
                               style: TextStyle(
-                                  color:
-                                      isDark ? Colors.white : Colors.grey[800],
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
+                                color: isDark ? Colors.white : Colors.black87,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: -0.3,
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -131,20 +176,42 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   'plantype': PlanType.quick
                                 });
                               },
-                              child: Row(
-                                spacing: 2,
-                                children: [
-                                  Text('View All'),
-                                  Icon(Icons.list),
-                                ],
+                              borderRadius: BorderRadius.circular(8),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'View All',
+                                      style: TextStyle(
+                                        color: isDark
+                                            ? Colors.blue.shade300
+                                            : Colors.blue.shade700,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 14,
+                                      color: isDark
+                                          ? Colors.blue.shade300
+                                          : Colors.blue.shade700,
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           ],
                         ),
+                        const SizedBox(height: 12),
                         Expanded(
                           child: ListView.builder(
                             itemCount: plans.length,
-                            // shrinkWrap: true,
+                            padding: const EdgeInsets.only(bottom: 8),
                             itemBuilder: (context, index) {
                               return WorkoutPlanExploreCard(
                                 plan: plans[index],
@@ -161,7 +228,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       child: SizedBox(
                         width: 60,
                         height: 60,
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: isDark ? Colors.white70 : Colors.blue.shade700,
+                        ),
                       ),
                     );
                   }

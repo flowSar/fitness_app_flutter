@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:w_allfit/core/di/auth_injector.dart';
 import 'package:w_allfit/core/router/routes.dart';
@@ -91,6 +92,16 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       routerConfig: appRoutes,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', 'US'), // English
+        Locale('ar', 'AE'), // Arabic
+      ],
+      locale: Locale('ar', 'AE'),
     );
   }
 }

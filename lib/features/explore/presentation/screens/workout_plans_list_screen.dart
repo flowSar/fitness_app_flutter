@@ -148,32 +148,6 @@ class _MyWidgetState extends State<WorkoutPlansListScreen> {
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         )),
         if (processing) _loadingOverlay(context),
-        // Container(
-        //   color: Color.fromRGBO(44, 38, 38, 0.8),
-        //   child: Center(
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       children: [
-        //         SizedBox(
-        //           width: 100,
-        //           height: 100,
-        //           child: CircularProgressIndicator(),
-        //         ),
-        //         SizedBox(
-        //           height: 10,
-        //         ),
-        //         Text('preparing plan',
-        //             style: TextStyle(
-        //                 color: Colors.white,
-        //                 fontSize: 18,
-        //                 decoration: TextDecoration.none,
-        //                 fontWeight: FontWeight.w500,
-        //                 fontFamily: 'roboto'))
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }

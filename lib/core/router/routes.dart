@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/b_navigation_bar.dart';
@@ -13,6 +11,7 @@ import 'package:w_allfit/features/auth/presentation/screens/sign_up_screen.dart'
 import 'package:w_allfit/features/nutrition/presentation/view_more_nutrition.dart';
 import 'package:w_allfit/features/user_workout/presentation/screens/create_workout_plan_screen.dart';
 import 'package:w_allfit/features/user_workout/presentation/screens/exercises_screen.dart';
+import 'package:w_allfit/features/user_workout/presentation/screens/list_user_plans.dart';
 import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_complete_screen.dart';
 import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_exercise_screen.dart';
 import 'package:w_allfit/features/user_workout/presentation/screens/user_workout_plan_session_screen.dart';
@@ -32,7 +31,8 @@ final GoRouter appRoutes = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => WelcomeScreen(),
+      // builder: (context, state) => WelcomeScreen(),
+      builder: (context, state) => BNavigationBar(),
       // builder: (context, state) => FutureBuilder<bool>(
       //   future: hasSeenWelcomeScreen(), // Check if welcome screen is needed
       //   builder: (context, snapshot) {
@@ -150,6 +150,9 @@ final GoRouter appRoutes = GoRouter(
           path: '/exercisesScreen',
           builder: (context, state) => ExercisesScreen(),
         ),
+        GoRoute(
+            path: '/listUserPlans',
+            builder: (context, state) => ListUserPlans()),
       ],
     ),
   ],

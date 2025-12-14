@@ -16,6 +16,7 @@ class UserPlanProgressLoaded extends UserPlansState {
 }
 
 class UserPlansLoaded extends UserPlansState {
+  @override
   final List<UserPlanModel> userPlans;
 
   UserPlansLoaded({required this.userPlans});
@@ -33,4 +34,13 @@ class UserPlanAddedSuccess extends UserPlansState {}
 class UserPlanAddedFailure extends UserPlansState {
   final String error;
   UserPlanAddedFailure(this.error);
+}
+
+class CreateUserPlanLoading extends UserPlansState {}
+
+class CreateUserPlanSuccess extends UserPlansState {}
+
+class CreateUserPlanFailed extends UserPlansState {
+  final String error;
+  CreateUserPlanFailed(this.error);
 }

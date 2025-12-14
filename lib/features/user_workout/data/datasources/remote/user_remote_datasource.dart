@@ -1,3 +1,5 @@
+import 'package:w_allfit/core/data/models/exercise_model.dart';
+
 abstract class UserRemoteDataSource {
   Future<List<Map<String, dynamic>>> getUserWorkoutPlans(String token);
   Future<Map<String, dynamic>> addUserPlan(String token, String planId);
@@ -15,4 +17,7 @@ abstract class UserRemoteDataSource {
       String token, String sessionId);
 
   Future<List<Map<String, dynamic>>> getAllExercises(String token);
+
+  Future<Map<String, dynamic>> createUserPlan(String token, String planName,
+      bool visibility, List<ExerciseModel> exercises);
 }

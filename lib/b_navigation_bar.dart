@@ -28,7 +28,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: screenIndex,
           onTap: (index) {
-            print('index: ${index}');
+            print('index: $index');
             setState(() {
               screenIndex = index;
             });

@@ -43,13 +43,13 @@ class _WorkoutSessionsState extends State<UserWorkoutPlanSessions> {
                 listener: (context, state) {
                   if (state is UserPlanSessionsLoaded) {
                     final List<SessionModel> sessions = state.planSessions;
-                    if (sessions.length == 1) {
-                      final String sessionId = sessions[0].id;
-                      context
-                          .read<UserWorkoutProvider>()
-                          .updateSessionId(sessionId);
-                      context.push('/userWorkoutPlanSession');
-                    }
+                    // if (sessions.length == 1) {
+                    final String sessionId = sessions[0].id;
+                    context
+                        .read<UserWorkoutProvider>()
+                        .updateSessionId(sessionId);
+                    //   context.push('/userWorkoutPlanSession');
+                    // }
                   }
                 },
                 builder: (context, state) {

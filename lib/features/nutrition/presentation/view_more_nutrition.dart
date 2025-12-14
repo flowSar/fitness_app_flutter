@@ -7,74 +7,105 @@ class ViewMoreNutrition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, Object>>? lunches =
+    final theme = Theme.of(context);
+    final List<Map<String, Object>>? items =
         FakeDatabase.nutritionPlans[category];
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                category,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.9,
-                height: MediaQuery.sizeOf(context).height,
-                child: ListView.builder(
-                  itemCount: lunches?.length,
-                  itemBuilder: (context, index) {
-                    final String name = lunches?[index]['name'] as String;
-                    final String description =
-                        lunches?[index]['description'] as String;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        spacing: 10,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 180,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage("${lunches?[index]['image']}"),
-                                  fit: BoxFit.cover),
-                            ),
+
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: Text(
+          category,
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: theme.scaffoldBackgroundColor,
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
+      ),
+      body: items == null
+          ? const Center(child: Text("No items found"))
+          : ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final String name = items[index]['name'] as String;
+                final String description =
+                    items[index]['description'] as String;
+                final String imagePath = items[index]['image'] as String;
+
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Image Section
+                        SizedBox(
+                          width: 120,
+                          height: 120,
+                          child: Image.asset(
+                            imagePath,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color:
+                                    theme.colorScheme.surfaceContainerHighest,
+                                child: Icon(Icons.broken_image,
+                                    color: theme.colorScheme.onSurfaceVariant),
+                              );
+                            },
                           ),
-                          Expanded(
+                        ),
+                        // Text Section
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  name.length > 16
-                                      ? '${name.substring(0, 16)}...'
-                                      : name,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                  softWrap: true,
+                                  name,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
+                                const SizedBox(height: 6),
                                 Text(
-                                  description.length > 20
-                                      ? '${description.substring(0, 20)}...'
-                                      : description,
-                                  style: TextStyle(fontSize: 14),
-                                  softWrap: true,
-                                )
+                                  description,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: theme.colorScheme.onSurface
+                                        .withOpacity(0.7),
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                    );
-                    ;
-                  },
-                ),
-              ),
-            )));
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+    );
   }
 }

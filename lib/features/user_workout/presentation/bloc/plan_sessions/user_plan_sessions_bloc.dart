@@ -32,7 +32,7 @@ class UserPlanSessionsBloc
           final planSessions = result.data!
               .map((elem) => SessionModel.fromEntity(elem))
               .toList();
-          print('session loaded---------------------${planSessions}');
+          print('session loaded---------------------$planSessions');
           emit(UserPlanSessionsLoaded(planSessions: planSessions));
         }
       }

@@ -15,7 +15,7 @@ class WorkoutPlansRepositoryImpl extends WorkoutPlansRepository {
       final data = await workoutPlansRemoteDataSource.getAllWorkoutPlans(query);
       final List<PlanModel> workoutPlans =
           data.map((jsonPlan) => PlanModel.fromJson(jsonPlan)).toList();
-      print('workoutPlans not user: ${workoutPlans}');
+      print('workoutPlans not user: $workoutPlans');
       return Result.success(workoutPlans);
     } catch (e) {
       print('loading workout plans failed: ${e.toString()}');

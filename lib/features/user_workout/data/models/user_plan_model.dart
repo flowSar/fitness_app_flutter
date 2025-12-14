@@ -16,6 +16,35 @@ class UserPlanModel extends PlanEntity {
     required super.type,
   });
 
+  // copyWith function to create a new instance with some properties changed
+  UserPlanModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? level,
+    String? image,
+    String? video,
+    int? duration,
+    int? sessionsNumber,
+    bool? complete,
+    double? progress,
+    String? type,
+  }) {
+    return UserPlanModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      level: level ?? this.level,
+      image: image ?? this.image,
+      video: video ?? this.video,
+      duration: duration ?? this.duration,
+      sessionsNumber: sessionsNumber ?? this.sessionsNumber,
+      complete: complete ?? this.complete,
+      progress: progress ?? this.progress,
+      type: type ?? this.type,
+    );
+  }
+
   factory UserPlanModel.fromEntity(PlanEntity plan) {
     return UserPlanModel(
       id: plan.id,
@@ -40,7 +69,7 @@ class UserPlanModel extends PlanEntity {
       image: json['image'] ?? '',
       video: json['video'] ?? '',
       duration: json['duration'] ?? 0,
-      sessionsNumber: json['sessions_number'] ?? 1,
+      sessionsNumber: json['sessionsNumber'] ?? 1,
       complete: json['complete'] ?? false,
       progress: (json['progress'] as num).toDouble(),
       type: json['type'] ?? '',

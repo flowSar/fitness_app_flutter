@@ -18,7 +18,7 @@ class WorkoutPlansRemoteDataSourceImpl extends WorkoutPlansRemoteDataSource {
       throw Exception('loading plans failed: $errroMesage');
     }
     final data = jsonDecode(result.body)['data'];
-    print('url---------------${url} $data');
+    print('url---------------$url $data');
     return List<Map<String, dynamic>>.from(data);
   }
 }

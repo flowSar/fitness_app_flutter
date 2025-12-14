@@ -18,8 +18,8 @@ class WorkoutLinearCard extends StatelessWidget {
         context.read<UserWorkoutProvider>().updateSessionId(sessionId);
       },
       child: Container(
-        width: this.w ?? MediaQuery.sizeOf(context).width * 0.4,
-        height: this.h ?? 100,
+        width: w ?? MediaQuery.sizeOf(context).width * 0.4,
+        height: h ?? 100,
         margin: const EdgeInsets.all(4),
         clipBehavior: Clip.hardEdge, // ensures borderRadius clips children
         decoration: BoxDecoration(

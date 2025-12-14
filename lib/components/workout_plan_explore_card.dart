@@ -48,11 +48,18 @@ class _WorkoutPlanExploreCardState extends State<WorkoutPlanExploreCard> {
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        height: 160,
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        clipBehavior: Clip.hardEdge, // ensures borderRadius clips children
+        height: 220, // Increased height for better aspect ratio
+        margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20), // More rounded corners
+          boxShadow: [
+            const BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.15),
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
         child: Stack(
           children: [
@@ -61,51 +68,111 @@ class _WorkoutPlanExploreCardState extends State<WorkoutPlanExploreCard> {
               child: Image.network(
                 widget.plan.image,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey.shade300,
+                  child: const Center(
+                      child: Icon(Icons.image_not_supported,
+                          size: 50, color: Colors.grey)),
+                ),
               ),
             ),
 
-            // --- Gradient Overlay ---
-
+            // --- Gradient Overlay (Improved visibility) ---
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.topRight,
-                    colors: [
-                      Colors.orange,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: const [
                       Colors.transparent,
+                      Color.fromRGBO(0, 0, 0, 0.0),
+                      Color.fromRGBO(0, 0, 0, 0.4),
+                      Color.fromRGBO(0, 0, 0, 0.8),
                     ],
+                    stops: const [0.0, 0.5, 0.8, 1.0],
                   ),
                 ),
               ),
             ),
 
-            // --- Text & Button ---
+            // --- Level Badge ---
+            Positioned(
+              top: 16,
+              left: 16,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(0, 0, 0, 0.6),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white24, width: 0.5),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.fitness_center,
+                        color: Colors.orangeAccent, size: 14),
+                    const SizedBox(width: 6),
+                    Text(
+                      widget.plan.level.toUpperCase(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // --- Content ---
             Positioned(
               left: 20,
               right: 20,
-              bottom: 10,
-              child: Column(
+              bottom: 20,
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    widget.plan.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(2, 2),
-                          blurRadius: 4,
-                          color: Colors.black54,
+                  // Text Info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.plan.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.5,
+                            height: 1.1,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            const Icon(Icons.timer_outlined,
+                                color: Colors.white70, size: 14),
+                            const SizedBox(width: 4),
+                            Text(
+                              "${widget.plan.sessionsNumber} Sessions",
+                              style: const TextStyle(
+                                  color: Colors.white70, fontSize: 13),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(width: 16),
+                  // Action Button
                   Button(
                     onPressed: () {
                       if (widget.screenType == ScreenType.select) {

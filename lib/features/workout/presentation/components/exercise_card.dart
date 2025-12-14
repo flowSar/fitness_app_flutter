@@ -6,6 +6,7 @@ class ExerciseCard extends StatefulWidget {
   final Function(ExerciseModel)? onUpdate;
 
   const ExerciseCard({
+    super.key,
     required this.exercise,
     this.onUpdate,
   });

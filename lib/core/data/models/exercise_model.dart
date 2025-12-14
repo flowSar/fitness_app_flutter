@@ -13,6 +13,31 @@ class ExerciseModel extends ExerciseEntity {
     required super.image,
     super.video,
   });
+  ExerciseModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    int? sets,
+    int? reps,
+    int? duration,
+    String? notes,
+    String? level,
+    String? image,
+    String? video,
+  }) {
+    return ExerciseModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      sets: sets ?? this.sets,
+      reps: reps ?? this.reps,
+      duration: duration ?? this.duration,
+      notes: notes ?? this.notes,
+      level: level ?? this.level,
+      image: image ?? this.image,
+      video: video ?? this.video,
+    );
+  }
 
   // ---------- FACTORIES ----------
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {

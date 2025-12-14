@@ -6,6 +6,7 @@ import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/settings/presentation/components/languages_dialog.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
+// ...existing code...
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -18,78 +19,108 @@ class _SettingsScreenState extends State<SettingsScreen> {
   late bool darkMode = true;
   late bool workoutReminder = true;
   late bool waterReminder = true;
+
+  TextStyle get sectionTitleStyle =>
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+
+  Widget sectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Text(title, style: sectionTitleStyle),
+    );
+  }
+
+  Card sectionCard({required Widget child}) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: Padding(padding: const EdgeInsets.all(8.0), child: child),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final accent = Theme.of(context).colorScheme.primary;
     return SafeArea(
-        child: Scaffold(
-      // backgroundColor: darkMode ? Colors.black87 : Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Settings'),
+          centerTitle: true,
+          elevation: 1,
+        ),
+        body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Settings",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                Text(
                   'Customize your app',
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Account",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                BlocConsumer<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    if (state is Authenticated) {
-                      if (state.isAuthenticated) {
-                        return ListTile(
-                          title: Text('${state.user?.name}'),
-                          subtitle: Text('${state.user?.email}'),
-                          trailing: TextButton(
+                SizedBox(height: 16),
+
+                // Account
+                sectionTitle('Account'),
+                sectionCard(
+                  child: BlocConsumer<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is Authenticated) {
+                        if (state.isAuthenticated) {
+                          return ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: CircleAvatar(
+                              backgroundColor: accent.withOpacity(0.12),
+                              child: Icon(Icons.person, color: accent),
+                            ),
+                            title: Text('${state.user?.name}',
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                            subtitle: Text('${state.user?.email}'),
+                            trailing: TextButton(
                               onPressed: () {
                                 context.read<AuthBloc>().add(LogOutEvent());
                               },
-                              child: Text('Log Out')),
-                        );
-                      } else {
-                        return TextButton(
-                            onPressed: () {}, child: Text('Log In'));
+                              child: Text('Log Out'),
+                            ),
+                          );
+                        } else {
+                          return Align(
+                              alignment: Alignment.centerLeft,
+                              child: TextButton(
+                                  onPressed: () {}, child: Text('Log In')));
+                        }
                       }
-                    }
-                    return Text('Loding user account..');
-                  },
-                  listener: (context, state) {
-                    if (state is LogOutSuccess) {
-                      context.go('/workoutScreen');
-                    }
-                  },
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text('Loading user account...'),
+                      );
+                    },
+                    listener: (context, state) {
+                      if (state is LogOutSuccess) {
+                        context.go('/workoutScreen');
+                      }
+                    },
+                  ),
                 ),
-                Text(
-                  "Appearance",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+
+                // Appearance
+                sectionTitle('Appearance'),
+                sectionCard(
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.dark_mode),
-                        title: Text(
-                          'Dark Mode',
-                          style: TextStyle(),
+                        contentPadding: EdgeInsets.zero,
+                        leading: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.all(10),
+                          child: Icon(Icons.dark_mode, color: Colors.grey[800]),
                         ),
-                        subtitle: Text(
-                          'Easier on the eyes',
-                          style: TextStyle(color: Colors.grey.shade400),
-                        ),
+                        title: Text('Dark Mode'),
+                        subtitle: Text('Easier on the eyes',
+                            style: TextStyle(color: Colors.grey.shade500)),
                         trailing: Switch(
                           value: darkMode,
                           onChanged: (value) {
@@ -97,6 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
+                      Divider(),
                       InkWell(
                         onTap: () {
                           showDialog(
@@ -107,42 +139,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           );
                         },
                         child: ListTile(
-                          leading: Icon(Icons.language),
-                          title: Text(
-                            'Languages',
-                            style: TextStyle(),
+                          contentPadding: EdgeInsets.zero,
+                          leading: Container(
+                            decoration: BoxDecoration(
+                                color: accent.withOpacity(0.08),
+                                borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.all(10),
+                            child: Icon(Icons.language, color: accent),
                           ),
-                          subtitle: Text(
-                            'English',
-                            style: TextStyle(color: Colors.grey.shade400),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20,
-                          ),
+                          title: Text('Languages'),
+                          subtitle: Text('English',
+                              style: TextStyle(color: Colors.grey.shade500)),
+                          trailing: Icon(Icons.arrow_forward_ios, size: 18),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Text(
-                  "Notifications",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+
+                // Notifications
+                sectionTitle('Notifications'),
+                sectionCard(
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.warning),
-                        title: Text(
-                          'Workout Reminders',
-                          style: TextStyle(),
-                        ),
-                        subtitle: Text(
-                          'Daily at 9:00 AM',
-                          style: TextStyle(color: Colors.grey.shade400),
-                        ),
+                        contentPadding: EdgeInsets.zero,
+                        leading:
+                            Icon(Icons.warning, color: Colors.orangeAccent),
+                        title: Text('Workout Reminders'),
+                        subtitle: Text('Daily at 9:00 AM',
+                            style: TextStyle(color: Colors.grey.shade500)),
                         trailing: Switch(
                           activeColor: Colors.pinkAccent,
                           value: workoutReminder,
@@ -153,148 +179,90 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
-                      InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.water_drop,
-                            color: Colors.blue,
-                          ),
-                          title: Text(
-                            'Water Reminders',
-                            style: TextStyle(),
-                          ),
-                          subtitle: Text(
-                            'Every 2 hours',
-                            style: TextStyle(color: Colors.grey.shade400),
-                          ),
-                          trailing: Switch(
-                            activeColor: Colors.green,
-                            value: waterReminder,
-                            onChanged: (value) {
-                              setState(() {
-                                waterReminder = !waterReminder;
-                              });
-                            },
-                          ),
+                      Divider(),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Icon(Icons.water_drop, color: Colors.blue),
+                        title: Text('Water Reminders'),
+                        subtitle: Text('Every 2 hours',
+                            style: TextStyle(color: Colors.grey.shade500)),
+                        trailing: Switch(
+                          activeColor: Colors.green,
+                          value: waterReminder,
+                          onChanged: (value) {
+                            setState(() {
+                              waterReminder = !waterReminder;
+                            });
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
-                Text(
-                  "Support",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.help_outline,
-                            color: Colors.red,
-                          ),
-                          title: Text(
-                            'Help & FAQ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.contact_mail,
-                            color: Colors.blue,
-                          ),
-                          title: Text(
-                            'Contact Us',
-                            style: TextStyle(),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          title: Text(
-                            'Rate Us',
-                            style: TextStyle(),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.policy,
-                            color: Colors.grey,
-                          ),
-                          title: Text(
-                            'Privacy Policy',
-                            style: TextStyle(),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  "Support",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+
+                // Support
+                sectionTitle('Support'),
+                sectionCard(
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(
-                          Icons.info_rounded,
-                          color: Colors.blue,
-                        ),
-                        title: Text(
-                          'App Version',
-                          style: TextStyle(),
-                        ),
-                        subtitle: Text(
-                          '1.0.0',
-                          style: TextStyle(color: Colors.grey.shade400),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20,
-                        ),
+                        contentPadding: EdgeInsets.zero,
+                        leading:
+                            Icon(Icons.help_outline, color: Colors.deepPurple),
+                        title: Text('Help & FAQ',
+                            style: TextStyle(fontWeight: FontWeight.w600)),
+                        trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                        onTap: () {},
+                      ),
+                      Divider(),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Icon(Icons.contact_mail, color: Colors.blue),
+                        title: Text('Contact Us'),
+                        trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                        onTap: () {},
+                      ),
+                      Divider(),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Icon(Icons.star, color: Colors.amber),
+                        title: Text('Rate Us'),
+                        trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                        onTap: () {},
+                      ),
+                      Divider(),
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: Icon(Icons.policy, color: Colors.grey),
+                        title: Text('Privacy Policy'),
+                        trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                        onTap: () {},
                       ),
                     ],
                   ),
                 ),
+
+                // App Info
+                sectionTitle('About'),
+                sectionCard(
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.info_rounded, color: Colors.blue),
+                    title: Text('App Version'),
+                    subtitle:
+                        Text('1.0.0', style: TextStyle(color: Colors.grey)),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                    onTap: () {},
+                  ),
+                ),
+
+                SizedBox(height: 24),
               ],
             ),
           ),
         ),
       ),
-    ));
+    );
   }
 }
+// ...existing code...

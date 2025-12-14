@@ -7,6 +7,9 @@ import 'package:w_allfit/features/workout/domain/entities/session_exercise_entit
 abstract class UserPlanRepository {
   Future<Result<PlanEntity>> adduserPlan(String token, String planId);
 
+  Future<Result<PlanEntity>> createUserPlan(String token, String planName,
+      bool visibility, List<ExerciseEntity> exercises);
+
   Future<Result<List<PlanEntity>>> getUserPlans(String token);
 
   Future<Result<List<SessionEntity>>> getUserPlanSessions(

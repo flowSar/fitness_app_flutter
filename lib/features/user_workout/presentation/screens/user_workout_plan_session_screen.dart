@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 import 'package:w_allfit/features/user_workout/data/models/user_plan_model.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_bloc.dart';
 import 'package:w_allfit/features/user_workout/presentation/bloc/user_workout_session/user_workout_session_event.dart';
@@ -26,7 +27,7 @@ class _WorkoutPlanState extends State<UserWorkoutPlanSessionScreen> {
   @override
   void initState() {
     final sessionId = context.read<UserWorkoutProvider>().sessionId;
-    print('session id => $sessionId');
+
     context
         .read<UserWorkoutSessionPlanBloc>()
         .add(LoadUserSessionWorkoutPlan(sessionId: sessionId));
@@ -45,7 +46,7 @@ class _WorkoutPlanState extends State<UserWorkoutPlanSessionScreen> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.sizeOf(context).height * 0.24,
+              height: MediaQuery.sizeOf(context).height * 0.20,
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -134,50 +135,61 @@ class _WorkoutPlanState extends State<UserWorkoutPlanSessionScreen> {
                     child: ListView.builder(
                       itemCount: workoutPlan.length,
                       itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 4,
+                        return TimelineTile(
+                          indicatorStyle: IndicatorStyle(
+                            width: 25,
+                            color: Colors.redAccent,
+                            iconStyle: IconStyle(
+                              color: Colors.white,
+                              iconData: Icons.check,
                             ),
-                            RichText(
-                                text: TextSpan(
-                                    text: workoutPlan[index].exercise.name,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.blueGrey,
-                                        fontWeight: FontWeight.bold),
-                                    children: [
-                                  TextSpan(
-                                    text: workoutPlan[index]
-                                                .exercise
-                                                .duration !=
-                                            0
-                                        ? ' (${workoutPlan[index].exercise.duration}s)'
-                                        : ' (x${workoutPlan[index].exercise.reps})',
-                                    style: TextStyle(
-                                        color: Colors.redAccent, fontSize: 16),
-                                  )
-                                ])),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Image.network(
-                                    workoutPlan[index]
-                                        .exercise
-                                        .image
-                                        .replaceAll('mp4', 'gif'),
-                                    height: 150,
-                                    width: 200,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.center,
-                                  ),
-                                ]),
-                          ],
+                          ),
+                          endChild: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 4,
+                              ),
+                              RichText(
+                                  text: TextSpan(
+                                      text: workoutPlan[index].exercise.name,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold),
+                                      children: [
+                                    TextSpan(
+                                      text: workoutPlan[index]
+                                                  .exercise
+                                                  .duration !=
+                                              0
+                                          ? ' (${workoutPlan[index].exercise.duration}s)'
+                                          : ' (x${workoutPlan[index].exercise.reps})',
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 16),
+                                    )
+                                  ])),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Image.network(
+                                      workoutPlan[index]
+                                          .exercise
+                                          .image
+                                          .replaceAll('mp4', 'gif'),
+                                      height: 150,
+                                      width: 200,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ]),
+                            ],
+                          ),
                         );
                       },
                     ),

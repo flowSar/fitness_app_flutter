@@ -14,7 +14,7 @@ abstract class AuthRemoteDatasource {
 class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
   @override
   Future<Map<String, dynamic>> login(String email, String password) async {
-    final url = Uri.parse('${serverApiUrl}/login');
+    final url = Uri.parse('$serverApiUrl/login');
     final response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
 
   @override
   Future<Map<String, dynamic>> logout(String token) async {
-    final url = Uri.parse('${serverApiUrl}/logout');
+    final url = Uri.parse('$serverApiUrl/logout');
     final result = await http.post(
       url,
       headers: {
@@ -43,13 +43,13 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       throw Exception('logout failed');
     }
     final Map<String, dynamic> data = jsonDecode(result.body)['data'];
-    print('logout data: ${data}');
+    print('logout data: $data');
     return data;
   }
 
   @override
   Future<Map<String, dynamic>> register(UserModel user) async {
-    final url = Uri.parse('${serverApiUrl}/register');
+    final url = Uri.parse('$serverApiUrl/register');
     final response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -64,13 +64,13 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
       throw Exception('Register failed ${response.body}');
     }
     final data = jsonDecode(response.body)['data'];
-    print('register data: ${data}');
+    print('register data: $data');
     return data;
   }
 
   @override
   Future<Map<String, dynamic>> isUserAuthenticated(String token) async {
-    final url = Uri.parse('${serverApiUrl}/validate-token');
+    final url = Uri.parse('$serverApiUrl/validate-token');
     final response = await http.post(url, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
