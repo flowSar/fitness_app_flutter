@@ -18,7 +18,6 @@ class _QuickStartCardState extends State<QuickStartCard> {
     return InkWell(
       onTap: () {
         context.read<WorkoutProvider>().updateSelectedPlan(widget.plan);
-
         context.push('/workoutPlanSession');
       },
       child: Material(

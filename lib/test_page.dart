@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timeline_tile/timeline_tile.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:w_allfit/core/data/models/exercise_model.dart';
+import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -12,16 +14,40 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   late bool disyplayOverlayScreen = false;
-  late List<ExerciseModel> selectedExercise = [];
 
-  late int _currentStep = 0;
+  String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  DateTime? _startDate;
+  DateTime? _endDate;
+  DateTime? _selectedDay;
+  DateTime _focusedDay = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    getUserLogsdates();
+  }
+
+  Future<void> getUserLogsdates() async {
+    final List<String> dates = await userLogDates();
+    print('dates $dates');
+    _startDate = DateFormat('yyyy-MM-dd').parse(dates[0]);
+    _endDate = DateFormat('yyyy-MM-dd').parse(dates[1]);
+  }
+
+  void _onDaySelected(selectedDay, focusDay) {
+    if (!isSameDay(selectedDay, _selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         PopScope(
-          canPop: true,
+          canPop: false,
           onPopInvokedWithResult: (didPop, _) {
             setState(() {
               disyplayOverlayScreen = true;
@@ -36,36 +62,17 @@ class _TestPageState extends State<TestPage> {
                     child: Scaffold(
                   body: Column(
                     children: [
-                      TimelineTile(
-                        isFirst: true,
-                        endChild: Container(
-                          height: 200,
-                          padding: EdgeInsets.all(10),
-                          child: Text('hello'),
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TimelineTile(
-                        isFirst: false,
-                        isLast: false,
-                        endChild: Container(
-                          height: 200,
-                          padding: EdgeInsets.all(10),
-                          child: Text('hello'),
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                      TimelineTile(
-                        isLast: true,
-                        endChild: Container(
-                          height: 200,
-                          padding: EdgeInsets.all(10),
-                          child: Text('hello'),
-                          color: Colors.redAccent,
-                        ),
+                      Text('$currentDate'),
+                      TableCalendar(
+                        firstDay: DateTime(2020),
+                        lastDay: DateTime(2035),
+                        focusedDay: _focusedDay,
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        rangeStartDay: _startDate,
+                        rangeEndDay: _endDate,
+                        selectedDayPredicate: (day) =>
+                            isSameDay(_selectedDay, day),
+                        onDaySelected: _onDaySelected,
                       ),
                     ],
                   ),
@@ -74,6 +81,12 @@ class _TestPageState extends State<TestPage> {
             ),
           ),
         ),
+        if (disyplayOverlayScreen)
+          _overlayScreen(context, () {
+            setState(() {
+              disyplayOverlayScreen = false;
+            });
+          }),
       ],
     );
   }

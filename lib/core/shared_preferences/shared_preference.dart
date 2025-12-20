@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> hasSeenWelcomeScreen() async {
@@ -23,4 +24,18 @@ void setToken(String token) async {
 Future<bool> clearToken() async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.remove('usertoken');
+}
+
+Future<List<String>> userLogDates() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getStringList('userLogDates') ?? [];
+}
+
+Future<void> setUserLogDates() async {
+  final prefs = await SharedPreferences.getInstance();
+  final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  List<String> dates = await userLogDates();
+  if (!dates.contains(currentDate)) {
+    await prefs.setStringList('userLogDates', [...dates, currentDate]);
+  }
 }

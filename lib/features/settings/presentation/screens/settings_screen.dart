@@ -104,6 +104,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
 
+                // Analytics
+                sectionTitle('Analytics'),
+                sectionCard(
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.purple.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(8)),
+                        padding: EdgeInsets.all(10),
+                        child: Icon(Icons.bar_chart, color: Colors.purple)),
+                    title: Text('Reports',
+                        style: TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: Text('View workout history',
+                        style: TextStyle(color: Colors.grey.shade500)),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                    onTap: () {
+                      context.push('/reportsScreen');
+                    },
+                  ),
+                ),
+
                 // Appearance
                 sectionTitle('Appearance'),
                 sectionCard(

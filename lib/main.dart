@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:w_allfit/core/di/auth_injector.dart';
 import 'package:w_allfit/core/router/routes.dart';
+import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.dart';
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     context.read<AuthBloc>().add(CheckAuthState());
+    setUserLogDates();
     super.initState();
   }
 
@@ -101,7 +103,7 @@ class _MyAppState extends State<MyApp> {
         Locale('en', 'US'), // English
         Locale('ar', 'AE'), // Arabic
       ],
-      locale: Locale('ar', 'AE'),
+      locale: Locale('en', 'US'),
     );
   }
 }

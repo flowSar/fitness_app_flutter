@@ -23,8 +23,8 @@ import 'package:w_allfit/features/workout/presentation/screens/workout_exercise_
 import 'package:w_allfit/features/workout/presentation/screens/workout_plan_session_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_prepare_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_rest_screen.dart';
+import 'package:w_allfit/features/settings/presentation/screens/reports_screen.dart';
 import 'package:w_allfit/test_page.dart';
-import 'package:w_allfit/welcome_screen.dart';
 
 final GoRouter appRoutes = GoRouter(
   initialLocation: '/',
@@ -153,6 +153,9 @@ final GoRouter appRoutes = GoRouter(
         GoRoute(
             path: '/listUserPlans',
             builder: (context, state) => ListUserPlans()),
+        GoRoute(
+            path: '/reportsScreen',
+            builder: (context, state) => ReportsScreen())
       ],
     ),
   ],
