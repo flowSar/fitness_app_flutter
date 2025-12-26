@@ -76,7 +76,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // final themeMode = context.watch<SettingsProvider>().themeMode;
   @override
   void initState() {
     context.read<AuthBloc>().add(CheckAuthState());
