@@ -10,6 +10,7 @@ import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_bloc.d
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_event.dart';
 import 'package:w_allfit/features/explore/presentation/bloc/workout_plans_state.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -32,7 +33,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Scaffold(
       appBar: AppBar(
         title: Text(
-          'Explore More Plans',
+          AppLocalizations.of(context)!.exploreMorePlans,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             letterSpacing: -0.3,
@@ -45,7 +46,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           children: [
             SearchBar(
-              hintText: 'Search Workouts',
+              hintText: AppLocalizations.of(context)!.searchWorkouts,
               hintStyle: WidgetStatePropertyAll(
                 TextStyle(
                   color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
@@ -73,10 +74,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Workout Programs',
+                  AppLocalizations.of(context)!.workoutPrograms,
                   style: TextStyle(
                     color: isDark ? Colors.white : Colors.black87,
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     letterSpacing: -0.3,
                   ),
@@ -96,7 +97,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'View All',
+                          AppLocalizations.of(context)!.viewAll,
                           style: TextStyle(
                             color: isDark
                                 ? Colors.blue.shade300
@@ -161,7 +162,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Workout Plans',
+                              AppLocalizations.of(context)!.workoutPlans,
                               style: TextStyle(
                                 color: isDark ? Colors.white : Colors.black87,
                                 fontSize: 22,
@@ -184,7 +185,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      'View All',
+                                      AppLocalizations.of(context)!.viewAll,
                                       style: TextStyle(
                                         color: isDark
                                             ? Colors.blue.shade300

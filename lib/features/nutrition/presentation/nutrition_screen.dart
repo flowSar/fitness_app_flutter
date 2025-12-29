@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:w_allfit/core/services/database/FakeDatabase.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NutritionScreen extends StatelessWidget {
   const NutritionScreen({super.key});
@@ -25,7 +26,7 @@ class NutritionScreen extends StatelessWidget {
               const SizedBox(height: 10),
               // Header Section
               Text(
-                "Nutrition",
+                AppLocalizations.of(context)!.nutrition,
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: theme.colorScheme.onSurface,
@@ -33,7 +34,7 @@ class NutritionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Tips & healthy recipes',
+                AppLocalizations.of(context)!.tipsAndHealthyRecipes,
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.onSurface.withOpacity(0.6),
                   fontWeight: FontWeight.w400,
@@ -72,7 +73,7 @@ class NutritionScreen extends StatelessWidget {
                             color: Colors.white, size: 24),
                         const SizedBox(width: 8),
                         Text(
-                          "Tip of the Day",
+                          AppLocalizations.of(context)!.tipOfTheDay,
                           style: theme.textTheme.titleLarge?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -92,7 +93,8 @@ class NutritionScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              _buildSectionHeader(context, "Breakfasts", () {
+              _buildSectionHeader(
+                  context, AppLocalizations.of(context)!.breakfasts, () {
                 context.push('/viewMoreNutrition', extra: "breakfasts");
               }),
               const SizedBox(height: 16),
@@ -135,7 +137,8 @@ class NutritionScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              _buildSectionHeader(context, "Lunches", () {
+              _buildSectionHeader(
+                  context, AppLocalizations.of(context)!.lunches, () {
                 context.push('/viewMoreNutrition', extra: "lunches");
               }),
               const SizedBox(height: 16),
@@ -210,7 +213,7 @@ class NutritionScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style: theme.textTheme.titleLarge?.copyWith(
+          style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.onSurface,
           ),
@@ -223,7 +226,7 @@ class NutritionScreen extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  "View more",
+                  AppLocalizations.of(context)!.viewMore,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,

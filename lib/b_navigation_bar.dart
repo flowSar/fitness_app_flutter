@@ -3,6 +3,7 @@ import 'package:w_allfit/features/explore/presentation/screens/explore_screen.da
 import 'package:w_allfit/features/nutrition/presentation/nutrition_screen.dart';
 import 'package:w_allfit/features/settings/presentation/screens/settings_screen.dart';
 import 'package:w_allfit/features/workout/presentation/screens/workout_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BNavigationBar extends StatefulWidget {
   const BNavigationBar({super.key});
@@ -28,7 +29,6 @@ class _BNavigationBarState extends State<BNavigationBar> {
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: screenIndex,
           onTap: (index) {
-            print('index: $index');
             setState(() {
               screenIndex = index;
             });
@@ -37,13 +37,18 @@ class _BNavigationBarState extends State<BNavigationBar> {
           unselectedItemColor: isDark ? Colors.grey : Colors.deepPurple,
           showUnselectedLabels: true,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Training'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.explore), label: 'Explore'),
+                icon: Icon(Icons.home),
+                label: AppLocalizations.of(context)!.training),
             BottomNavigationBarItem(
-                icon: Icon(Icons.food_bank), label: 'nutrition'),
+                icon: Icon(Icons.explore),
+                label: AppLocalizations.of(context)!.explore),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "Settings"),
+                icon: Icon(Icons.food_bank),
+                label: AppLocalizations.of(context)!.nutrition),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: AppLocalizations.of(context)!.settings),
           ]),
     ));
   }

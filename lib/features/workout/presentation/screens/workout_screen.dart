@@ -16,6 +16,7 @@ import 'package:w_allfit/features/user_workout/presentation/bloc/user_plans/user
 import 'package:w_allfit/features/user_workout/presentation/components/workout_plan_card.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/components/quick_start_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -90,7 +91,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       );
                     }
                     return Text(
-                      'Guest',
+                      AppLocalizations.of(context)!.guest,
                       style: theme.textTheme.headlineMedium,
                     );
                   },
@@ -100,8 +101,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    Intl.message('Your Plans', locale: 'ar'),
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    AppLocalizations.of(context)!.yourPlans,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
@@ -117,7 +118,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'View All',
+                            AppLocalizations.of(context)!.viewAll,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -183,8 +184,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               Row(
                 children: [
                   Text(
-                    'Quick Start',
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    AppLocalizations.of(context)!.quickStart,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
@@ -225,8 +226,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Popular Workouts',
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    AppLocalizations.of(context)!.popularWorkouts,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
@@ -240,7 +241,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'View More',
+                            AppLocalizations.of(context)!.viewMore,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -292,8 +293,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Beginner Plans',
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    AppLocalizations.of(context)!.beginnerPlans,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
@@ -307,7 +308,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'View More',
+                            AppLocalizations.of(context)!.viewMore,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -360,8 +361,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Advanced Plans',
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    AppLocalizations.of(context)!.advancedPlans,
+                    style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
@@ -375,7 +376,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'View More',
+                            AppLocalizations.of(context)!.viewMore,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.w600,

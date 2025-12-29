@@ -39,3 +39,13 @@ Future<void> setUserLogDates() async {
     await prefs.setStringList('userLogDates', [...dates, currentDate]);
   }
 }
+
+Future<void> setLocale(String languageCode) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('languageCode', languageCode);
+}
+
+Future<String> getLocale() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('languageCode') ?? 'en';
+}

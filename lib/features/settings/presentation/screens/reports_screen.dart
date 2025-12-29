@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:w_allfit/core/shared_preferences/shared_preference.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
@@ -59,8 +60,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
               focusedDay: _focusedDay,
               calendarBuilders: CalendarBuilders(
                 markerBuilder: (context, day, events) {
-                  print(
-                      '--------------------------${day.day}-------------------------------');
                   if (isLoginDay(day)) {
                     // return Positioned(
                     //   right: 1,

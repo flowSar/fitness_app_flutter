@@ -6,6 +6,7 @@ import 'package:w_allfit/features/auth/presentation/bloc/auth_event.dart';
 import 'package:w_allfit/features/auth/presentation/bloc/auth_state.dart';
 import 'package:w_allfit/features/settings/presentation/components/languages_dialog.dart';
 import 'package:w_allfit/features/settings/presentation/provider/settings_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ...existing code...
 
 class SettingsScreen extends StatefulWidget {
@@ -42,10 +43,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final accent = Theme.of(context).colorScheme.primary;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: Text(AppLocalizations.of(context)!.settings),
           centerTitle: true,
           elevation: 1,
         ),
@@ -56,13 +58,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Customize your app',
+                  AppLocalizations.of(context)!.customizeYourApp,
                   style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
                 SizedBox(height: 16),
 
                 // Account
-                sectionTitle('Account'),
+                sectionTitle(AppLocalizations.of(context)!.account),
                 sectionCard(
                   child: BlocConsumer<AuthBloc, AuthState>(
                     builder: (context, state) {
@@ -81,19 +83,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               onPressed: () {
                                 context.read<AuthBloc>().add(LogOutEvent());
                               },
-                              child: Text('Log Out'),
+                              child: Text(AppLocalizations.of(context)!.logOut),
                             ),
                           );
                         } else {
                           return Align(
                               alignment: Alignment.centerLeft,
                               child: TextButton(
-                                  onPressed: () {}, child: Text('Log In')));
+                                  onPressed: () {},
+                                  child: Text(
+                                      AppLocalizations.of(context)!.logIn)));
                         }
                       }
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text('Loading user account...'),
+                      return SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                              AppLocalizations.of(context)!.loadingUserAccount),
+                        ),
                       );
                     },
                     listener: (context, state) {
@@ -105,7 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // Analytics
-                sectionTitle('Analytics'),
+                sectionTitle(AppLocalizations.of(context)!.analytics),
                 sectionCard(
                   child: ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -115,9 +123,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             borderRadius: BorderRadius.circular(8)),
                         padding: EdgeInsets.all(10),
                         child: Icon(Icons.bar_chart, color: Colors.purple)),
-                    title: Text('Reports',
+                    title: Text(AppLocalizations.of(context)!.reports,
                         style: TextStyle(fontWeight: FontWeight.w600)),
-                    subtitle: Text('View workout history',
+                    subtitle: Text(
+                        AppLocalizations.of(context)!.viewWorkoutHistory,
                         style: TextStyle(color: Colors.grey.shade500)),
                     trailing: Icon(Icons.arrow_forward_ios, size: 18),
                     onTap: () {
@@ -127,7 +136,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // Appearance
-                sectionTitle('Appearance'),
+                sectionTitle(AppLocalizations.of(context)!.appearance),
                 sectionCard(
                   child: Column(
                     children: [
@@ -140,8 +149,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           padding: EdgeInsets.all(10),
                           child: Icon(Icons.dark_mode, color: Colors.grey[800]),
                         ),
-                        title: Text('Dark Mode'),
-                        subtitle: Text('Easier on the eyes',
+                        title: Text(AppLocalizations.of(context)!.darkMode),
+                        subtitle: Text(
+                            AppLocalizations.of(context)!.easierOnEyes,
                             style: TextStyle(color: Colors.grey.shade500)),
                         trailing: Switch(
                           value: darkMode,
@@ -169,8 +179,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             padding: EdgeInsets.all(10),
                             child: Icon(Icons.language, color: accent),
                           ),
-                          title: Text('Languages'),
-                          subtitle: Text('English',
+                          title: Text(AppLocalizations.of(context)!.languages),
+                          subtitle: Text(AppLocalizations.of(context)!.english,
                               style: TextStyle(color: Colors.grey.shade500)),
                           trailing: Icon(Icons.arrow_forward_ios, size: 18),
                         ),
@@ -180,7 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // Notifications
-                sectionTitle('Notifications'),
+                sectionTitle(AppLocalizations.of(context)!.notifications),
                 sectionCard(
                   child: Column(
                     children: [
@@ -188,8 +198,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding: EdgeInsets.zero,
                         leading:
                             Icon(Icons.warning, color: Colors.orangeAccent),
-                        title: Text('Workout Reminders'),
-                        subtitle: Text('Daily at 9:00 AM',
+                        title: Text(
+                            AppLocalizations.of(context)!.workoutReminders),
+                        subtitle: Text(
+                            AppLocalizations.of(context)!.workoutReminderTime,
                             style: TextStyle(color: Colors.grey.shade500)),
                         trailing: Switch(
                           activeColor: Colors.pinkAccent,
@@ -205,8 +217,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: Icon(Icons.water_drop, color: Colors.blue),
-                        title: Text('Water Reminders'),
-                        subtitle: Text('Every 2 hours',
+                        title:
+                            Text(AppLocalizations.of(context)!.waterReminders),
+                        subtitle: Text(
+                            AppLocalizations.of(context)!.waterReminderTime,
                             style: TextStyle(color: Colors.grey.shade500)),
                         trailing: Switch(
                           activeColor: Colors.green,
@@ -223,7 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // Support
-                sectionTitle('Support'),
+                sectionTitle(AppLocalizations.of(context)!.support),
                 sectionCard(
                   child: Column(
                     children: [
@@ -231,7 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding: EdgeInsets.zero,
                         leading:
                             Icon(Icons.help_outline, color: Colors.deepPurple),
-                        title: Text('Help & FAQ',
+                        title: Text(AppLocalizations.of(context)!.helpFaq,
                             style: TextStyle(fontWeight: FontWeight.w600)),
                         trailing: Icon(Icons.arrow_forward_ios, size: 18),
                         onTap: () {},
@@ -240,7 +254,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: Icon(Icons.contact_mail, color: Colors.blue),
-                        title: Text('Contact Us'),
+                        title: Text(AppLocalizations.of(context)!.contactUs),
                         trailing: Icon(Icons.arrow_forward_ios, size: 18),
                         onTap: () {},
                       ),
@@ -248,7 +262,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: Icon(Icons.star, color: Colors.amber),
-                        title: Text('Rate Us'),
+                        title: Text(AppLocalizations.of(context)!.rateUs),
                         trailing: Icon(Icons.arrow_forward_ios, size: 18),
                         onTap: () {},
                       ),
@@ -256,7 +270,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: Icon(Icons.policy, color: Colors.grey),
-                        title: Text('Privacy Policy'),
+                        title:
+                            Text(AppLocalizations.of(context)!.privacyPolicy),
                         trailing: Icon(Icons.arrow_forward_ios, size: 18),
                         onTap: () {},
                       ),
@@ -265,12 +280,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
 
                 // App Info
-                sectionTitle('About'),
+                sectionTitle(AppLocalizations.of(context)!.about),
                 sectionCard(
                   child: ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: Icon(Icons.info_rounded, color: Colors.blue),
-                    title: Text('App Version'),
+                    title: Text(AppLocalizations.of(context)!.appVersion),
                     subtitle:
                         Text('1.0.0', style: TextStyle(color: Colors.grey)),
                     trailing: Icon(Icons.arrow_forward_ios, size: 18),

@@ -21,6 +21,8 @@ import 'package:w_allfit/features/workout/presentation/bloc/home/plans/popular_p
 import 'package:w_allfit/features/workout/presentation/bloc/home/quick_start/quick_start_workout_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/bloc/workout_session/workout_session_bloc.dart';
 import 'package:w_allfit/features/workout/presentation/provider/workout_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   initializeDependencies();
@@ -97,12 +99,14 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.delegate,
       ],
       supportedLocales: [
-        Locale('en', 'US'), // English
-        Locale('ar', 'AE'), // Arabic
+        Locale('en'), // English
+        Locale('ar'), // Arabic
+        Locale('fr'), //frensh
       ],
-      locale: Locale('en', 'US'),
+      locale: settings.local,
     );
   }
 }

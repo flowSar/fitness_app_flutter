@@ -1,0 +1,76 @@
+{
+  "settings": "Settings",
+  "customizeYourApp": "Customize your app",
+
+  "account": "Account",
+  "logOut": "Log Out",
+  "logIn": "Log In",
+  "loadingUserAccount": "Loading user account...",
+
+  "analytics": "Analytics",
+  "reports": "Reports",
+  "viewWorkoutHistory": "View workout history",
+
+  "appearance": "Appearance",
+  "darkMode": "Dark Mode",
+  "easierOnEyes": "Easier on the eyes",
+  "languages": "Languages",
+  "english": "English",
+
+  "notifications": "Notifications",
+  "workoutReminders": "Workout Reminders",
+  "workoutReminderTime": "Daily at 9:00 AM",
+  "waterReminders": "Water Reminders",
+  "waterReminderTime": "Every 2 hours",
+
+  "support": "Support",
+  "helpFaq": "Help & FAQ",
+  "contactUs": "Contact Us",
+  "rateUs": "Rate Us",
+  "privacyPolicy": "Privacy Policy",
+
+  "about": "About",
+  "appVersion": "App Version",
+   "helloUser": "Hello, {name}!",
+  "letsWorkoutToday": "Let's workout today",
+  "guest": "Guest",
+
+  "yourPlans": "Your Plans",
+  "viewAll": "View All",
+
+  "quickStart": "Quick Start",
+
+  "popularWorkouts": "Popular Workouts",
+  "beginnerPlans": "Beginner Plans",
+  "advancedPlans": "Advanced Plans",
+
+  "viewMore": "View More",
+
+  "loading": "Loading",
+  "empty": "Empty",
+  "exploreMorePlans": "Explore More Plans",
+  "searchWorkouts": "Search Workouts",
+
+  "workoutPrograms": "Workout Programs",
+  "workoutPlans": "Workout Plans",
+
+  "viewAll": "View All",
+
+  "loading": "Loading",
+   "nutrition": "Nutrition",
+  "tipsAndHealthyRecipes": "Tips & healthy recipes",
+
+  "tipOfTheDay": "Tip of the Day",
+  "tipOfTheDayContent": "Drink a glass of water before each meal. It helps with digestion and can prevent overeating.",
+
+  "breakfasts": "Breakfasts",
+  "lunches": "Lunches",
+
+  "viewMore": "View more",
+
+  "goToTestPage": "Go to Test Page",
+    "training": "Training",
+  "explore": "Explore",
+  "nutrition": "Nutrition",
+  "settings": "Settings"
+}

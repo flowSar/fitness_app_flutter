@@ -1,0 +1,76 @@
+{
+  "settings": "الإعدادات",
+  "customizeYourApp": "خصّص تطبيقك",
+
+  "account": "الحساب",
+  "logOut": "تسجيل الخروج",
+  "logIn": "تسجيل الدخول",
+  "loadingUserAccount": "جاري تحميل حساب المستخدم...",
+
+  "analytics": "التحليلات",
+  "reports": "التقارير",
+  "viewWorkoutHistory": "عرض سجل التمارين",
+
+  "appearance": "المظهر",
+  "darkMode": "الوضع الليلي",
+  "easierOnEyes": "أكثر راحة للعين",
+  "languages": "اللغات",
+  "english": "الإنجليزية",
+
+  "notifications": "الإشعارات",
+  "workoutReminders": "تذكير التمارين",
+  "workoutReminderTime": "يوميًا الساعة 9:00 صباحًا",
+  "waterReminders": "تذكير شرب الماء",
+  "waterReminderTime": "كل ساعتين",
+
+  "support": "الدعم",
+  "helpFaq": "المساعدة والأسئلة الشائعة",
+  "contactUs": "اتصل بنا",
+  "rateUs": "قيّمنا",
+  "privacyPolicy": "سياسة الخصوصية",
+
+  "about": "حول",
+  "appVersion": "إصدار التطبيق",
+   "helloUser": "مرحبًا، {name}!",
+  "letsWorkoutToday": "هيا نتمرن اليوم",
+  "guest": "زائر",
+
+  "yourPlans": "برامجك",
+  "viewAll": "عرض الكل",
+
+  "quickStart": "بدء سريع",
+
+  "popularWorkouts": "التمارين الشائعة",
+  "beginnerPlans": "خطط المبتدئين",
+  "advancedPlans": "الخطط المتقدمة",
+
+  "viewMore": "عرض المزيد",
+
+  "loading": "جارٍ التحميل",
+  "empty": "فارغ",
+    "exploreMorePlans": "استكشاف المزيد من البرامج",
+  "searchWorkouts": "البحث عن التمارين",
+
+  "workoutPrograms": "برامج التمارين",
+  "workoutPlans": "خطط التمارين",
+
+  "viewAll": "عرض الكل",
+
+  "loading": "جارٍ التحميل",
+   "nutrition": "التغذية",
+  "tipsAndHealthyRecipes": "نصائح ووصفات صحية",
+
+  "tipOfTheDay": "نصيحة اليوم",
+  "tipOfTheDayContent": "اشرب كوبًا من الماء قبل كل وجبة، فهو يساعد على الهضم ويمكن أن يمنع الإفراط في تناول الطعام.",
+
+  "breakfasts": "وجبات الإفطار",
+  "lunches": "وجبات الغداء",
+
+  "viewMore": "عرض المزيد",
+
+  "goToTestPage": "الانتقال إلى صفحة الاختبار",
+    "training": "التمرين",
+  "explore": "استكشاف",
+  "nutrition": "التغذية",
+  "settings": "الإعدادات"
+}

@@ -1,0 +1,76 @@
+{
+  "settings": "Paramètres",
+  "customizeYourApp": "Personnalisez votre application",
+
+  "account": "Compte",
+  "logOut": "Se déconnecter",
+  "logIn": "Se connecter",
+  "loadingUserAccount": "Chargement du compte utilisateur...",
+
+  "analytics": "Analyses",
+  "reports": "Rapports",
+  "viewWorkoutHistory": "Voir l’historique des entraînements",
+
+  "appearance": "Apparence",
+  "darkMode": "Mode sombre",
+  "easierOnEyes": "Plus confortable pour les yeux",
+  "languages": "Langues",
+  "english": "Anglais",
+
+  "notifications": "Notifications",
+  "workoutReminders": "Rappels d’entraînement",
+  "workoutReminderTime": "Tous les jours à 9h00",
+  "waterReminders": "Rappels d’hydratation",
+  "waterReminderTime": "Toutes les 2 heures",
+
+  "support": "Support",
+  "helpFaq": "Aide & FAQ",
+  "contactUs": "Nous contacter",
+  "rateUs": "Évaluez-nous",
+  "privacyPolicy": "Politique de confidentialité",
+
+  "about": "À propos",
+  "appVersion": "Version de l’application",
+   "helloUser": "Bonjour, {name} !",
+  "letsWorkoutToday": "Entraînons-nous aujourd’hui",
+  "guest": "Invité",
+
+  "yourPlans": "Vos programmes",
+  "viewAll": "Voir tout",
+
+  "quickStart": "Démarrage rapide",
+
+  "popularWorkouts": "Entraînements populaires",
+  "beginnerPlans": "Programmes débutants",
+  "advancedPlans": "Programmes avancés",
+
+  "viewMore": "Voir plus",
+
+  "loading": "Chargement",
+  "empty": "Vide",
+   "exploreMorePlans": "Explorer plus de programmes",
+  "searchWorkouts": "Rechercher des entraînements",
+
+  "workoutPrograms": "Programmes d'entraînement",
+  "workoutPlans": "Plans d'entraînement",
+
+  "viewAll": "Voir tout",
+
+  "loading": "Chargement",
+    "nutrition": "Nutrition",
+  "tipsAndHealthyRecipes": "Conseils et recettes saines",
+
+  "tipOfTheDay": "Astuce du jour",
+  "tipOfTheDayContent": "Buvez un verre d’eau avant chaque repas. Cela aide à la digestion et peut éviter de trop manger.",
+
+  "breakfasts": "Petits-déjeuners",
+  "lunches": "Déjeuners",
+
+  "viewMore": "Voir plus",
+
+  "goToTestPage": "Aller à la page de test",
+    "training": "Entraînement",
+  "explore": "Explorer",
+  "nutrition": "Nutrition",
+  "settings": "Paramètres"
+}
